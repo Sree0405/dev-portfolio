@@ -2,12 +2,12 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export default function ParticleField() {
+export default function ParticleField({ count = 2000 }: { count?: number }) {
   const pointsRef = useRef<THREE.Points>(null);
   const mousePos = useRef({ x: 0, y: 0 });
 
   // Create particle positions
-  const particleCount = 2000;
+  const particleCount = count;
   const { positions, velocities } = useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
     const vel = new Float32Array(particleCount * 3);
@@ -23,7 +23,7 @@ export default function ParticleField() {
     }
     
     return { positions: pos, velocities: vel };
-  }, []);
+  }, [particleCount]);
 
   // Cursor interaction
   useMemo(() => {
