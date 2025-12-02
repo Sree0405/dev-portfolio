@@ -3,8 +3,9 @@ import ImmersiveScene from '@/components/ImmersiveScene';
 
 const ImmersivePage = () => {
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-background">
-      <Navigation />
+    <div className="relative w-full min-h-screen overflow-y-auto overflow-x-hidden bg-background">
+      {/* Navigation hidden for immersive experience */}
+      {/* <Navigation /> */}
       <ImmersiveScene />
     </div>
   );

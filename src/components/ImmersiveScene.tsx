@@ -47,6 +47,9 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
         window.removeEventListener('touchmove', handleTouchMove);
       };
     } else {
+      // Set initial camera position
+      gsap.set(cameraRef.current.position, { x: 0, y: 0, z: 20 });
+      
       // Scroll-based navigation for desktop
       const timeline = gsap.timeline({
         scrollTrigger: {
@@ -54,14 +57,23 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
           start: 'top top',
           end: 'bottom bottom',
           scrub: 1.5,
+          markers: false,
         },
       });
 
-      // Zone 1: About (Entry)
+      // Start: Initial view of About zone
+      timeline.from(cameraRef.current.position, {
+        x: 0,
+        y: 0,
+        z: 20,
+        duration: 0.5,
+      });
+
+      // Zone 1: About (Entry - move closer)
       timeline.to(cameraRef.current.position, {
         x: 0,
         y: 2,
-        z: 15,
+        z: 12,
         duration: 1,
       });
 
@@ -133,9 +145,16 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
   }, [touchProgress, isMobile]);
 
   useFrame(() => {
-    // Smooth camera look-at with lerp
-    const target = new THREE.Vector3(0, cameraRef.current.position.y - 5, 0);
-    cameraRef.current.lookAt(target);
+    // Smooth camera look-at with lerp - look towards origin
+    const targetY = cameraRef.current.position.y * 0.3; // Look slightly below camera height
+    const target = new THREE.Vector3(0, targetY, 0);
+    
+    // Smoothly interpolate the camera's look direction
+    const currentLookAt = new THREE.Vector3();
+    cameraRef.current.getWorldDirection(currentLookAt);
+    currentLookAt.multiplyScalar(10).add(cameraRef.current.position);
+    currentLookAt.lerp(target, 0.05);
+    cameraRef.current.lookAt(currentLookAt);
   });
 
   return null;
@@ -181,7 +200,7 @@ function CursorLight() {
 function VolumetricFog() {
   return (
     <>
-      <fog attach="fog" args={['#050505', 10, 80]} />
+      <fog attach="fog" args={['#0d0d0d', 20, 100]} />
       <color attach="background" args={['#0d0d0d']} />
     </>
   );
@@ -191,12 +210,12 @@ export default function ImmersiveScene() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full min-h-screen">
       {/* Scroll container for GSAP ScrollTrigger */}
-      <div className="scroll-container h-[500vh]" />
+      <div className="scroll-container h-[500vh] w-full pointer-events-none" />
 
       {/* Fixed WebGL Canvas */}
-      <div className="fixed inset-0 w-full h-screen">
+      <div className="fixed inset-0 w-full h-screen pointer-events-auto">
         <Canvas
           shadows={!isMobile}
           gl={{ 
@@ -205,21 +224,31 @@ export default function ImmersiveScene() {
             powerPreference: isMobile ? 'low-power' : 'high-performance',
           }}
           dpr={isMobile ? [1, 1.5] : [1, 2]}
+          camera={{ position: [0, 0, 20], fov: isMobile ? 75 : 65 }}
         >
-          <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={isMobile ? 75 : 65} />
+          <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={isMobile ? 75 : 65} near={0.1} far={1000} />
           
           <VolumetricFog />
           
-          {/* Global lighting */}
-          <ambientLight intensity={isMobile ? 0.5 : 0.3} />
-          <directionalLight position={[10, 20, 5]} intensity={isMobile ? 0.3 : 0.5} color="#ffffff" />
+          {/* Global lighting - increased for visibility */}
+          <ambientLight intensity={isMobile ? 0.8 : 0.6} />
+          <directionalLight position={[10, 20, 5]} intensity={isMobile ? 0.6 : 0.8} color="#ffffff" />
+          <directionalLight position={[-10, 10, -5]} intensity={0.3} color="#7f5af0" />
           
           {/* Accent lights - reduced for mobile */}
           {!isMobile && (
             <>
-              <pointLight position={[10, 10, 10]} intensity={1.5} color="#7f5af0" distance={30} />
-              <pointLight position={[-10, 5, 5]} intensity={1.2} color="#00eaff" distance={25} />
-              <pointLight position={[0, 30, 0]} intensity={1} color="#ff00ff" distance={40} />
+              <pointLight position={[10, 10, 10]} intensity={2} color="#7f5af0" distance={40} />
+              <pointLight position={[-10, 5, 5]} intensity={1.5} color="#00eaff" distance={30} />
+              <pointLight position={[0, 30, 0]} intensity={1.5} color="#ff00ff" distance={50} />
+            </>
+          )}
+          
+          {/* Mobile lights */}
+          {isMobile && (
+            <>
+              <pointLight position={[5, 5, 5]} intensity={1.5} color="#7f5af0" distance={30} />
+              <pointLight position={[-5, 2, 2]} intensity={1} color="#00eaff" distance={20} />
             </>
           )}
           
@@ -228,6 +257,17 @@ export default function ImmersiveScene() {
           
           {/* Background particles */}
           <ParticleField count={isMobile ? 500 : 1000} />
+          
+          {/* Test sphere to verify rendering */}
+          <mesh position={[0, 0, 0]}>
+            <sphereGeometry args={[2, 32, 32]} />
+            <meshStandardMaterial 
+              color="#7f5af0" 
+              emissive="#7f5af0"
+              emissiveIntensity={0.5}
+              wireframe 
+            />
+          </mesh>
           
           {/* Zone sections */}
           <AboutZone position={[0, 0, 0]} />
