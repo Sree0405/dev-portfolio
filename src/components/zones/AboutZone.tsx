@@ -48,7 +48,6 @@ function HologramName() {
     <group ref={textRef}>
       <Text
         fontSize={1.5}
-        font="/fonts/JetBrainsMono-Bold.woff"
         color="#7f5af0"
         anchorX="center"
         anchorY="middle"

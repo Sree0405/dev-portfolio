@@ -1,14 +1,11 @@
-import Navigation from '@/components/Navigation';
+/**
+ * IMMERSIVE PAGE
+ * - Self-contained 3D portfolio experience
+ * - No side effects on other routes
+ */
+
 import ImmersiveScene from '@/components/ImmersiveScene';
 
-const ImmersivePage = () => {
-  return (
-    <div className="relative w-full min-h-screen overflow-y-auto overflow-x-hidden bg-background">
-      {/* Navigation hidden for immersive experience */}
-      {/* <Navigation /> */}
-      <ImmersiveScene />
-    </div>
-  );
-};
-
-export default ImmersivePage;
+export default function ImmersivePage() {
+  return <ImmersiveScene />;
+}
