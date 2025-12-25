@@ -1,10 +1,9 @@
 /**
  * IMMERSIVE PAGE
- * - Self-contained 3D portfolio experience
- * - No side effects on other routes
+ * Entry point for the /immersive route
  */
 
-import ImmersiveScene from '@/components/ImmersiveScene';
+import { ImmersiveScene } from '@/components/immersive';
 
 export default function ImmersivePage() {
   return <ImmersiveScene />;
