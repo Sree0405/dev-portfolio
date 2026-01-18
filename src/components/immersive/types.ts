@@ -30,7 +30,7 @@ export const SECTIONS: Section[] = [
     id: 'about',
     title: 'ABOUT',
     subtitle: 'Who I Am',
-    camera: { position: [8, 2, 8], lookAt: [0, 2, 0] },
+    camera: { position: [10, 7, 9], lookAt: [0, 4, 0] },
   },
   {
     id: 'skills',

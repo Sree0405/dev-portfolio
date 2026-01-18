@@ -61,7 +61,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© 2024 Sreekanth. All rights reserved.</p>
+          <p>© 2025 Sreekanth. All rights reserved.</p>
           <p className="flex items-center gap-1">
             Made with <Heart className="w-4 h-4 text-primary animate-pulse" /> using React & Three.js
           </p>

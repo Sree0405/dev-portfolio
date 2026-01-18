@@ -1,18 +1,6 @@
-# Welcome to your Lovable project
+This portfolio is a high-performance, immersive web experience built with Three.js and React (Vite), combining modern frontend engineering with interactive 3D visuals. It showcases project documentation, technical architecture, and professional work in a visually engaging and structured format.
 
-## Project info
-
-**URL**: https://lovable.dev/projects/1547ba16-d25d-4185-a606-b9401b4ecce3
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/1547ba16-d25d-4185-a606-b9401b4ecce3) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
+Designed as both a personal identity platform and a professional product showcase, the site delivers smooth animations, clean UI patterns, and responsive layouts powered by TypeScript, shadcn-ui, and Tailwind CSS. The experience blends immersive screens, interactive storytelling, and clear documentation to present projects from concept to implementation with clarity and depth.
 
 **Use your preferred IDE**
 
@@ -59,15 +47,3 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/1547ba16-d25d-4185-a606-b9401b4ecce3) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)

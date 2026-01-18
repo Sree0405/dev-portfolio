@@ -11,6 +11,9 @@ const projects = [
     tech: ['WordPress', 'PHP', 'Blocksy Theme', 'MySQL'],
     image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     color: '#667eea',
+    url: 'https://fieldstack.onrender.com/',
+    gitHub:'https://github.com/Sree0405/fieldstack',
+    Docs:'/project/fieldstack'
   },
   {
     title: 'Student Database Management System',
@@ -72,6 +75,7 @@ export default function Projects() {
                     <Button
                       size="sm"
                       variant="outline"
+                      onClick={() => window.open(project.url, '_blank')}
                       className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
@@ -84,6 +88,15 @@ export default function Projects() {
                     >
                       <Github className="w-4 h-4 mr-2" />
                       Code
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => window.open(project.Docs, '_blank')}
+                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Docs
                     </Button>
                   </div>
 

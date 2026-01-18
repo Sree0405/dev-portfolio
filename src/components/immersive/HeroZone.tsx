@@ -74,7 +74,7 @@ export function HeroZone() {
 
       {/* Name */}
       <Text
-        position={[0, -3.5, 0]}
+        position={[0, -2.5, 0]}
         fontSize={0.8}
         color="#ffffff"
         anchorX="center"
@@ -85,7 +85,7 @@ export function HeroZone() {
       </Text>
 
       <Text
-        position={[0, -4.3, 0]}
+        position={[0, -3.3, 0]}
         fontSize={0.25}
         color="#888888"
         anchorX="center"

@@ -40,7 +40,7 @@ export default function Navigation() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              SK
+              Sree
             </motion.div>
           </Link>
 
@@ -78,7 +78,7 @@ export default function Navigation() {
               whileTap={{ scale: 0.95 }}
               title="Enter Immersive Experience"
             >
-              SK
+              Sree
               <Sparkles className="w-4 h-4 text-primary opacity-60" />
             </motion.div>
           </Link>
@@ -88,7 +88,7 @@ export default function Navigation() {
             {navItems.map((item, index) => (
               <Link to={item.href} key={item.name}>
                 <motion.div
-                  className={`relative px-3 py-2 md:px-4 md:py-2 group cursor-pointer ${
+                  className={`relative flex flex-col items-center px-3 py-2 md:px-4 md:py-2 group cursor-pointer ${
                     location.pathname === item.href ? 'text-primary' : ''
                   }`}
                   initial={{ opacity: 0, y: -20 }}

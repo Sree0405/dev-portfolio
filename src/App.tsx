@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import ProjectDocumentation from "./pages/apiDocs";
 // Layouts
 import NormalLayout from "./layouts/NormalLayout";
 import ImmersiveLayout from "./layouts/ImmersiveLayout";
@@ -38,6 +38,7 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/experience" element={<ExperiencePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/project/fieldstack" element={<ProjectDocumentation />} />
             <Route path="/skills" element={<SkillsPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Route>

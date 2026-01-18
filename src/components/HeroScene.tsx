@@ -92,6 +92,8 @@ export default function HeroScene() {
         gl={{ antialias: true, alpha: true }}
       >
         <ambientLight intensity={0.3} />
+        <pointLight position={[10, 20, 10]} intensity={1} color="#6e00ff" />
+
         <pointLight position={[10, 10, 10]} intensity={1} color="#6e00ff" />
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="#7a2cff" />
         <spotLight
