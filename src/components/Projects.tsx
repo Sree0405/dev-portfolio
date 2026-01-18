@@ -75,7 +75,7 @@ export default function Projects() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => window.open(project.url, '_blank')}
+                      onClick={() => window.open(project.url)}
                       className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
@@ -92,7 +92,7 @@ export default function Projects() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => window.open(project.Docs, '_blank')}
+                      onClick={() => window.open(project.Docs)}
                       className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
