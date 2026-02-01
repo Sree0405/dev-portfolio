@@ -2,6 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const projects = [
   {
@@ -89,15 +90,13 @@ export default function Projects() {
                       <Github className="w-4 h-4 mr-2" />
                       Code
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => window.open(project.Docs)}
+                    <Link
+                      to={project.Docs}
                       className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Docs
-                    </Button>
+                    </Link>
                   </div>
 
                   {/* Scan Effect */}
