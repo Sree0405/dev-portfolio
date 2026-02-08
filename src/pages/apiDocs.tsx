@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Home, Users, Database, Shield, Settings, Image, Code, Lock, Cloud, Layers, FileText, Zap } from 'lucide-react';
 import AuthFlow from "@/assets/AuthFlow.png";
 import ReqFlow from '@/assets/ReqFlow.png';
-import login from '@/assets/login.png';
+import login from '@/assets/Login.png';
 import register from '@/assets/signup.png';
 import Dashboard from '@/assets/Dashboard.png';
 // Image Placeholder Component
