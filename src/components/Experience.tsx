@@ -5,25 +5,70 @@ import { Building2, Calendar, MapPin } from 'lucide-react';
 const experiences = [
   {
     company: 'EWall Solutions Pvt Ltd',
-    role: 'Junior Programmer Trainee',
-    duration: '2024 - Present',
+    role: 'Junior Developer',
+    duration: '2025 - Present',
     location: 'India',
     description:
-      'Working on backend PHP development, WordPress systems, API integrations, and scalable architecture patterns. Contributing to multiple client projects and internal tools.',
+      'Working on full-stack web development with a strong focus on backend systems, automation, and scalable architecture. Actively involved in building and maintaining React-based platforms, REST APIs, and third-party integrations. Contributing to deployment workflows, automation processes, and AI-assisted features across multiple client and internal projects.',
     color: '#8c4bff',
-    technologies: ['PHP', 'WordPress', 'MySQL', 'REST APIs', 'Git'],
+    technologies: [
+      'React',
+      'JavaScript',
+      'TypeScript',
+      'Next.js',
+      'PHP',
+      'MySQL',
+      'REST APIs',
+      'Java Spring Boot',
+      'Directus',
+      'Zapier',
+      'AI Integration',
+      'Automation',
+      'Deployment',
+      'Git'
+    ],
   },
   {
     company: 'Freelance',
     role: 'Frontend Developer',
-    duration: '2022 - 2024',
+    duration: '2024 - 2025',
     location: 'Remote',
     description:
-      'Designed and developed custom websites, landing pages, and performance-optimized interfaces for various clients. Specialized in creating unique, aesthetic designs.',
+      'Designed and developed modern, performance-optimized web interfaces for clients across various domains. Focused on creating responsive, visually appealing UIs using React and JavaScript, while integrating APIs, automating workflows, and ensuring smooth deployment to production environments.',
     color: '#5e00d4',
-    technologies: ['React', 'HTML/CSS', 'JavaScript', 'Responsive Design', 'Animations'],
+    technologies: [
+      'React',
+      'JavaScript',
+      'TypeScript',
+      'HTML',
+      'CSS',
+      'Responsive Design',
+      'UI Animations',
+      'API Integration',
+      'Automation',
+      'Deployment'
+    ],
   },
+  {
+    company: 'SA College Of Arts & Science',
+    role: 'Bachelor of Science in Computer Science',
+    duration: '2024 - 2025',
+    location: 'Chennai',
+    description:
+      'Completed a Bachelor’s degree in Computer Science with a strong foundation in software engineering principles, data structures, and algorithms. Gained hands-on experience through academic projects involving AI concepts, backend development, automation, and problem-solving using multiple programming languages.',
+    color: '#5e00d4',
+    technologies: [
+      'Java',
+      'Python',
+      'Data Structures & Algorithms',
+      'Java Spring Boot',
+      'AI',
+      'Automation',
+      'Database Fundamentals'
+    ],
+  },  
 ];
+
 
 export default function Experience() {
   const ref = useRef(null);

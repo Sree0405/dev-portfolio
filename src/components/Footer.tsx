@@ -12,10 +12,10 @@ export default function Footer() {
               className="text-2xl font-bold neon-text mb-2"
               whileHover={{ scale: 1.05 }}
             >
-              SK
+              Sree
             </motion.h3>
             <p className="text-sm text-muted-foreground">
-              Frontend Developer crafting immersive digital experiences
+              Frontend Engineer crafting immersive digital experiences with system Designing
             </p>
           </div>
 

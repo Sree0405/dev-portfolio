@@ -11,7 +11,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
   { name: 'Home', icon: Home, href: '/' },
-  { name: 'About', icon: User, href: '/about' },
   { name: 'Experience', icon: Briefcase, href: '/experience' },
   { name: 'Projects', icon: Folder, href: '/projects' },
   { name: 'Skills', icon: Code, href: '/skills' },

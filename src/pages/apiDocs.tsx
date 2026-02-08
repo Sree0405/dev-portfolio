@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Home, Users, Database, Shield, Settings, Image, Code, Lock, Cloud, Layers, FileText, Zap } from 'lucide-react';
-import AuthFlow from '../../public/AuthFlow.png';
-import ReqFlow from '../../public/ReqFlow.png';
+import AuthFlow from "@/assets/AuthFlow.png";
+import ReqFlow from '@/assets/ReqFlow.png';
+import login from '@/assets/login.png';
+import register from '@/assets/signup.png';
+import Dashboard from '@/assets/Dashboard.png';
 // Image Placeholder Component
-const ImagePlaceholder = ({ label, img = "", onClick }) => {
+const ImagePlaceholder = ({ label, img = "", onClick ,css=""}) => {
   const hasImage = Boolean(img);
 
   return (
@@ -18,7 +21,7 @@ const ImagePlaceholder = ({ label, img = "", onClick }) => {
         /* IMAGE + CONTENT STACK */
         <div className="flex flex-col gap-4">
           {/* Image */}
-          <div className="w-full min-h-[350px] !max-h-[40px] rounded-md overflow-hidden">
+          <div className={` ${css} w-full min-h-[350px] !max-h-[40px] rounded-md overflow-hidden`}>
             <img
               src={img}
               alt={label}
@@ -203,9 +206,10 @@ const AuthenticationSection = ({ onImageClick }) => (
         hashed using bcrypt with 12 salt rounds. Role-based access control (RBAC) enforces permissions at both the API and UI levels.
       </p>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <ImagePlaceholder 
           label="Login Page" 
+          img={login}
           onClick={() => onImageClick(
             'Login Interface',
             'Clean login form with email/password inputs. Shows default credentials for testing (admin@fieldstack.local). Validates inputs client-side before sending to /auth/login endpoint. Stores JWT tokens in localStorage and redirects to dashboard on success.'
@@ -213,20 +217,23 @@ const AuthenticationSection = ({ onImageClick }) => (
         />
         <ImagePlaceholder 
           label="Signup Page (Disabled)" 
+            img={register}
           onClick={() => onImageClick(
             'User Registration',
             'Public signup is disabled by default for security. New users must be created by administrators through the User Management interface. This prevents unauthorized account creation and ensures proper role assignment.'
           )}
         />
+      </div>
+      <div className="grid grid-cols-2  mb-6 gap-6">
         <ImagePlaceholder 
           label="Authentication Flow Diagram" 
+           img={AuthFlow}
+
           onClick={() => onImageClick(
             'Auth Flow',
             'Login → Credentials sent to backend → Password verified with bcrypt → JWT tokens generated → Tokens returned to frontend → Stored in memory/localStorage → Subsequent requests include Bearer token in Authorization header → Backend validates token signature and expiry → User context extracted from payload.'
           )}
         />
-      </div>
-
       <div className="bg-purple-900/10 border border-purple-500/20 rounded-lg p-6">
         <h4 className="font-semibold text-purple-400 mb-3">Security Features</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300 text-sm">
@@ -250,6 +257,7 @@ const AuthenticationSection = ({ onImageClick }) => (
           </div>
         </div>
       </div>
+      </div>
     </div>
   </section>
 );
@@ -270,6 +278,8 @@ const DashboardSection = ({ onImageClick }) => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ImagePlaceholder 
           label="Dashboard Main View" 
+          img={Dashboard}
+          css="!max-h-[300px]"
           onClick={() => onImageClick(
             'Dashboard Overview',
             'Main dashboard displays: (1) System statistics cards (total collections, users, recent activity), (2) Quick action buttons for creating collections/users, (3) Recent content updates timeline, (4) System health indicators. Sidebar navigation provides access to all modules.'

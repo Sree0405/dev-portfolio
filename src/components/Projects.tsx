@@ -1,155 +1,246 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { ExternalLink, Github } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { ExternalLink, Github, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
+/* Assets */
+import FlixifyImg from "@/assets/Screenshot 2026-02-01 125107.png";
+import My3DUIVideo from "@/assets/videos/my3dui.mp4";
+import Netflixvideo from "@/assets/videos/netflix.mp4";
+import fieldstackvideo from "@/assets/videos/fieldstack.mp4";
+/* Project Data */
 const projects = [
   {
-    title: 'Flixify - Netflix-Style Streaming Platform',
+    title: "Flixify — Backend Framework Dashboard",
     description:
-      'A fully customized streaming platform theme with dark UI, smooth animations, and optimized for real-world content creators.',
-    tech: ['WordPress', 'PHP', 'Blocksy Theme', 'MySQL'],
-    image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    color: '#667eea',
-    url: 'https://fieldstack.onrender.com/',
-    gitHub:'https://github.com/Sree0405/fieldstack',
-    Docs:'/project/fieldstack'
+      "FieldStack is a production-ready, self-hosted headless CMS framework inspired by Directus. it provides a complete solution for managing dynamic content through an intuitive admin interface and auto-generated REST APIs.",
+    highlights: [
+      "JWT Authentication",
+      "Users and Roles Management",
+      "Api Generator",
+      "Scalable Backend",
+    ],
+    tech: ["React", "Next.js", "Node.js", "PostgreSQL", "Prisma"],
+    video: fieldstackvideo,
+    url: "https://fieldstack.onrender.com/",
+    gitHub: "https://github.com/Sree0405/fieldstack",
+    docs: "/project/fieldstack",
   },
+
   {
-    title: 'Student Database Management System',
+    title: "My3DUI — 3D Component Library",
     description:
-      'Complete full-stack system to manage student records with secure backend and clean dashboard UI.',
-    tech: ['HTML', 'CSS', 'JS', 'Core Java', 'MySQL'],
-    image: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    color: '#f5576c',
+      "An open-source 3D UI system built with React and Three.js. Enables developers to build immersive interfaces with reusable components.",
+    highlights: [
+      "React Three Fiber",
+      "TypeScript First",
+      "Tree-Shakable Build",
+      "Component Playground",
+    ],
+    tech: ["Next Js","React", "TypeScript", "Three.js", "Tailwind", "Vite"],
+    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+    url: "https://my3dui.vercel.app/",
+    video: My3DUIVideo,
+    gitHub: "https://github.com/Sree0405/my3dui",
+    docs: "/project/my3dui",
   },
+
   {
-    title: '5 Star Interior Work & Design Website',
+    title: "Netflix Clone — Full Stack App",
     description:
-      'A modern showcase website for an interior design business with smooth animations and gallery sections.',
-    tech: ['HTML', 'CSS', 'JS', 'PHP'],
-    image: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    color: '#4facfe',
+      "A complete Netflix clone with authentication, browsing, and backend integration.",
+    highlights: [
+      "User Auth",
+      "Dynamic Content",
+      "Responsive UI",
+      "REST APIs",
+    ],
+    tech: ["JavaScript", "React", "Redux Toolkit", "SSR", "NextJs"],
+    video: Netflixvideo,
+    warning: "This features require VPN connectivity",
+    url: "https://sree-netlix-clone.vercel.app/browse",
+    gitHub: "https://github.com/Sree0405/netflix-clone",
+    docs: "/project/netflix-clone",
   },
 ];
 
 export default function Projects() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projects" ref={ref} className="relative py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 particle-bg opacity-20" />
+    <section
+      id="projects"
+      ref={ref}
+      className="relative py-32 px-6 bg-slate-950"
+    >
+      <div className="max-w-7xl mx-auto">
 
-      <div className="relative max-w-7xl mx-auto">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-24"
         >
-          <h2 className="text-4xl md:text-6xl font-bold neon-text mb-4">Featured Projects</h2>
-          <p className="text-xl text-muted-foreground font-mono">Building the Future, One Project at a Time</p>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-glow mx-auto mt-4" />
+          <h2 className="text-3xl md:text-4xl font-bold neon-text mb-4">
+            Featured Projects
+          </h2>
+
+          <p className="text-muted-foreground text-l font-mono">
+            Real Products • Real Engineering • Real Impact
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 50, rotateX: 45 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 50, rotateX: 45 }}
-              transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
-              className="group perspective-1000"
-            >
-              <div className="glass-panel rounded-2xl overflow-hidden hover-scale h-full flex flex-col">
-                {/* Project Image/Preview */}
-                <div
-                  className="relative h-48 overflow-hidden"
-                  style={{ background: project.image }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                  
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-background/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => window.open(project.url)}
-                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Demo
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                    >
-                      <Github className="w-4 h-4 mr-2" />
-                      Code
-                    </Button>
-                    <Link
-                      to={project.Docs}
-                      className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Docs
-                    </Link>
+        {/* Projects */}
+        <div className="space-y-32">
+
+          {projects.map((project, i) => {
+            const reverse = i % 2 !== 0;
+
+            return (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className={`grid lg:grid-cols-2 gap-16 items-center ${reverse ? "lg:flex-row-reverse" : ""
+                  }`}
+              >
+
+                {/* Preview */}
+                <div className="relative group">
+
+                  <div className="relative rounded-2xl overflow-hidden border border-primary/20 shadow-xl">
+                    {project.video ? (
+                      <video
+                        src={project.video}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-[320px] object-cover"
+                      />
+                    ) :
+
+                      typeof project.image === "string" &&
+                        project.image.startsWith("linear") ? (
+                        <div
+                          className="w-full h-[320px]"
+                          style={{ background: project.image }}
+                        />
+                      ) : (
+                        <img
+                          src={project.image}
+                          className="w-full h-[320px] object-cover"
+                          alt={project.title}
+                        />
+                      )
+                    }
+
+                    {/* Image / Video */}
+
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
+
+                      <Button
+                        size="sm"
+                        onClick={() => window.open(project.url)}
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Live
+                      </Button>
+
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => window.open(project.gitHub)}
+                      >
+                        <Github className="w-4 h-4 mr-2" />
+                        Code
+                      </Button>
+
+                    </div>
+
                   </div>
 
-                  {/* Scan Effect */}
-                  <motion.div
-                    className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"
-                    initial={{ y: 0 }}
-                    animate={{ y: [0, 192, 0] }}
-                    transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-                  />
                 </div>
 
                 {/* Content */}
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
+                <div className="space-y-6">
+
+                  <h3 className="text-2xl font-bold text-foreground">
                     {project.title}
                   </h3>
-                  
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
+
+                  <p className="text-muted-foreground leading-relaxed text-lg">
                     {project.description}
                   </p>
 
+                  {/* Warning */}
+                  {project.warning && (
+                    <div className="flex items-center gap-2 text-yellow-400 bg-yellow-400/10 px-4 py-2 rounded-lg w-fit">
+                      <AlertTriangle className="w-4 h-4" />
+                      <span className="text-sm">
+                        {project.warning}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Highlights */}
+                  <div>
+                    <h4 className="font-semibold mb-2">
+                      Key Features
+                    </h4>
+
+                    <ul className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+                      {project.highlights.map((item) => (
+                        <li key={item}>• {item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
                   {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pt-2">
+
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 text-xs font-mono rounded-full border border-primary/30 bg-primary/10 text-primary"
+                        className="px-3 py-1 rounded-full text-xs font-mono bg-primary/10 text-primary border border-primary/30"
                       >
                         {tech}
                       </span>
                     ))}
+
                   </div>
+
+                  {/* CTA */}
+                  <div className="flex gap-4 pt-4">
+
+                    <Button
+                      onClick={() => window.open(project.url)}
+                    >
+                      View Live
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      onClick={() => window.open(project.docs)}
+                    >
+                      Documentation
+                    </Button>
+
+                  </div>
+
                 </div>
-              </div>
-            </motion.div>
-          ))}
+
+              </motion.div>
+            );
+          })}
+
         </div>
 
-        {/* View All Projects Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-12"
-        >
-          <Button
-            size="lg"
-            className="bg-primary hover:bg-primary-glow text-primary-foreground font-mono uppercase tracking-wider px-8 shadow-neon hover-scale"
-          >
-            View All Projects
-            <ExternalLink className="ml-2 w-5 h-5" />
-          </Button>
-        </motion.div>
       </div>
     </section>
   );

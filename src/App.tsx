@@ -10,7 +10,6 @@ import ImmersiveLayout from "./layouts/ImmersiveLayout";
 
 // Pages
 import Home from "./pages/Home";
-import AboutPage from "./pages/AboutPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import SkillsPage from "./pages/SkillsPage";
 import ContactPage from "./pages/ContactPage";
@@ -35,7 +34,6 @@ const App = () => (
           {/* Normal Layout - Standard pages with full navigation */}
           <Route element={<NormalLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<AboutPage />} />
             <Route path="/experience" element={<ExperiencePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/project/fieldstack" element={<ProjectDocumentation />} />

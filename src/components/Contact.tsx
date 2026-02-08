@@ -10,20 +10,19 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'sreekanth@example.com',
-    href: 'mailto:sreekanth@example.com',
+    value: 'sreekanth04052005@gmail.com',
+    href: 'mailto:sreekanth04052005@gmail.com',
   },
   {
     icon: Phone,
     label: 'Phone',
-    value: '+91-0000000000',
-    href: 'tel:+910000000000',
+    value: '+91-9363965927',
+    href: 'tel:+9363965927',
   },
   {
     icon: MapPin,
     label: 'Location',
     value: 'India',
-    href: '#',
   },
 ];
 
@@ -60,8 +59,8 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-bold neon-text mb-4">Contact Terminal</h2>
-          <p className="text-xl text-muted-foreground font-mono">Establish Connection</p>
+          <h2 className="text-3xl md:text-4xl font-bold neon-text mb-4">Contact Terminal</h2>
+          <p className="text-l text-muted-foreground font-mono">Establish Connection</p>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-glow mx-auto mt-4" />
         </motion.div>
 
