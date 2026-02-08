@@ -86,7 +86,7 @@ export default function Experience() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-bold neon-text mb-4">Experience</h2>
+          <h2 className="text-2xl md:text-4xl font-bold neon-text mb-4">Experience</h2>
           <p className="text-xl text-muted-foreground font-mono">My Professional Journey</p>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-glow mx-auto mt-4" />
         </motion.div>

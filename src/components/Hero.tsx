@@ -1,101 +1,160 @@
-import { motion } from 'framer-motion';
-import { ArrowDown, Download, Github, Linkedin, Mail } from 'lucide-react';
-import HeroScene from './HeroScene';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
+import {
+  ArrowDown,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  Sparkles,
+} from "lucide-react";
+
+import HeroScene from "./HeroScene";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
-
-
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* 3D Background Scene */}
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
+    >
+      {/* 3D Background */}
       <HeroScene />
-      
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
-      
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/70 to-background pointer-events-none" />
+
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="space-y-6"
+          transition={{ duration: 1 }}
+          className="text-center space-y-10"
         >
-          {/* Greeting */}
-          <motion.p
-            className="font-mono text-primary text-sm md:text-base uppercase tracking-widest"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
-            ← Welcome to My Universe →
-          </motion.p>
 
-          {/* Main Title */}
-          <motion.h1
-            className="text-3xl md:text-4xl lg:text-5xl font-bold neon-text"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-          >
-            Hi, I'm <span className="text-primary">Sreekanth</span>
-          </motion.h1>
-
-          {/* Subtitle */}
+          {/* Status Badge */}
           <motion.div
-            className="space-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/40 text-primary font-mono text-sm"
           >
-            <p className="text-xl md:text-2xl lg:text-3xl font-light text-muted-foreground">
-              Junior Developer • React Dev
-            </p>
-            <p className="text-lg md:text-xl text-primary-glow font-mono">
-              Full-Stack Engineer
-            </p>
+            <Sparkles size={16} />
+            Building Scalable Web Systems
           </motion.div>
 
-          {/* Description */}
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-xl md:text-2xl lg:text-4xl font-bold leading-tight neon-text"
+          >
+            Hi, I’m{" "}
+            <span className="text-primary">Sreekanth</span>
+            <br />
+            <span className="text-muted-foreground text-xl md:text-xl lg:text-2xl font-normal">
+              Frontend Engineer & UI Architect
+            </span>
+          </motion.h1>
+
+          {/* Sub Headline */}
           <motion.p
-            className="max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.3 }}
+            transition={{ delay: 0.7 }}
+            className="max-w-3xl mx-auto text-lg md:text-l text-muted-foreground leading-relaxed"
           >
-            I build modern, aesthetic, and performant web experiences. 
-            Passionate about 3D interfaces, animations, and creating immersive digital ecosystems.
+            I design and engineer modern web platforms using React,
+            TypeScript, and 3D technologies — focused on performance,
+            scalability, and user experience.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Focus Strip */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+            className="flex flex-wrap justify-center gap-3"
+          >
+            {[
+              "React",
+              "TypeScript",
+              "System Design",
+              "3D UI",
+              "Full-Stack",
+            ].map((item) => (
+              <span
+                key={item}
+                className="px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-primary text-sm font-mono"
+              >
+                {item}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
+            transition={{ delay: 1.1 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center pt-6"
           >
+
             <Link
               to="/projects"
-              className="bg-primary flex rounded-lg hover:bg-primary-glow text-primary-foreground font-mono uppercase tracking-wider px-6 py-3 text-base shadow-neon hover-scale"
+              className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-7 py-3 rounded-xl font-mono uppercase tracking-wide shadow-neon hover:bg-primary-glow hover-scale transition"
             >
-              View My Work
-              <ArrowDown className="ml-2 pt-1 w-5 h-5 animate-bounce" />
+              View Projects
+              <ArrowDown className="w-4 h-4 animate-bounce" />
             </Link>
-            
+
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono uppercase tracking-wider px-8 py-6 text-base neon-border hover-scale"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono uppercase tracking-wide px-8 hover-scale"
             >
-              <Download className="mr-2 w-5 h-5" />
+              <Download className="w-4 h-4 mr-2" />
               Resume
             </Button>
+
           </motion.div>
 
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.3 }}
+            className="flex justify-center gap-6 pt-6 text-muted-foreground"
+          >
+            <a
+              href="https://github.com/Sree0405"
+              target="_blank"
+              className="hover:text-primary transition"
+            >
+              <Github />
+            </a>
+
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              className="hover:text-primary transition"
+            >
+              <Linkedin />
+            </a>
+
+            <a
+              href="mailto:yourmail@gmail.com"
+              className="hover:text-primary transition"
+            >
+              <Mail />
+            </a>
+          </motion.div>
 
         </motion.div>
+
       </div>
     </section>
   );
