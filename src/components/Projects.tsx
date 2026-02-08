@@ -42,7 +42,7 @@ const projects = [
     url: "https://my3dui.vercel.app/",
     video: My3DUIVideo,
     gitHub: "https://github.com/Sree0405/my3dui",
-    docs: "/project/my3dui",
+    docs: "https://my3dui.vercel.app/docs",
   },
 
   {
