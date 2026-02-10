@@ -18,7 +18,7 @@ import fieldstackimg from "@/assets/Dashboard.png";
 import fieldstackvideo from "@/assets/videos/fieldstack.mp4";
 
 import EVPortalPic from "@/assets/evpic.png";
-import EVPortalVideo from "@/assets/videos/evportal.mp4";
+import EVPortalVideo from "@/assets/videos/evPortal.mp4";
 /* Project Data */
 const projects = [
   {
