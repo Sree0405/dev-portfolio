@@ -80,7 +80,7 @@ export default function About() {
             Building modern systems • crafting meaningful experiences
           </p>
 
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-glow mx-auto mt-5" />
+          <div className="w-24 h-1   mx-auto mt-5" />
         </motion.div>
 <div className="flex gap-16 flex-col items-center">
 

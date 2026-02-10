@@ -75,7 +75,7 @@ export function ContactZone() {
         anchorX="center"
         anchorY="middle"
       >
-        hello@sreekanth.dev
+        sreekanth04052005@gmail.com
       </Text>
 
       <Text

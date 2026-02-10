@@ -49,7 +49,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={ref} className="relative py-32 px-6 overflow-hidden">
+    <section id="contact" ref={ref} className="relative bg-slate-950 py-32 px-6 overflow-hidden">
       <div className="absolute inset-0 particle-bg opacity-20" />
 
       <div className="relative max-w-6xl mx-auto">

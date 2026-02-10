@@ -1,71 +1,122 @@
-import { motion } from 'framer-motion';
-import { Heart, Github, Linkedin, Twitter } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Heart, Github, Linkedin, Twitter, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative py-12 px-6 border-t border-border">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {/* Branding */}
-          <div>
+    <footer className="relative  border-border bg-slate-950 backdrop-blur py-16 px-6">
+
+      {/* Subtle background effect */}
+      <div className="pointer-events-none absolute inset-0 " />
+
+      <div className="relative max-w-7xl mx-auto">
+
+        {/* Top */}
+        <div className="grid gap-12 md:grid-cols-3 mb-16">
+
+          {/* Brand */}
+          <div className="space-y-4">
+
             <motion.h3
-              className="text-2xl font-bold neon-text mb-2"
               whileHover={{ scale: 1.05 }}
+              className="text-3xl font-bold neon-text tracking-tight"
             >
-              Sree
+              Sreekanth
             </motion.h3>
-            <p className="text-sm text-muted-foreground">
-              Frontend Engineer crafting immersive digital experiences with system Designing
+
+            <p className="text-sm leading-relaxed text-muted-foreground max-w-sm">
+              Frontend Engineer specializing in high-performance web apps,
+              interactive UI systems, and modern product experiences.
             </p>
+
+            <a
+              href="mailto:sreekanth04052005@gmail.com"
+              className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+            >
+              <Mail className="w-4 h-4" />
+              Let’s work together
+            </a>
+
           </div>
 
-          {/* Quick Links */}
+          {/* Links */}
           <div>
-            <h4 className="font-semibold mb-4 text-foreground">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
-              {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+
+            <h4 className="mb-5 text-sm font-semibold uppercase tracking-wider text-foreground">
+              Navigation
+            </h4>
+
+            <ul className="space-y-3 text-sm">
+
+              {["About", "Experience", "Projects", "Skills", "Contact"].map(
+                (item) => (
+                  <li key={item}>
+                    <a
+                      href={`#${item.toLowerCase()}`}
+                      className="text-muted-foreground hover:text-foreground transition"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                )
+              )}
+
             </ul>
+
           </div>
 
           {/* Social */}
           <div>
-            <h4 className="font-semibold mb-4 text-foreground">Connect</h4>
-            <div className="flex gap-3">
+
+            <h4 className="mb-5 text-sm font-semibold uppercase tracking-wider text-foreground">
+              Connect
+            </h4>
+
+            <div className="flex gap-4">
+
               {[
-                { icon: Github, href: '#' },
-                { icon: Linkedin, href: '#' },
-                { icon: Twitter, href: '#' },
-              ].map((social, index) => (
+                {
+                  icon: Github,
+                  href: "https://github.com/Sree0405",
+                },
+                {
+                  icon: Linkedin,
+                  href: "https://in.linkedin.com/in/sreekanth04052005",
+                },
+              ].map((social, i) => (
                 <motion.a
-                  key={index}
+                  key={i}
                   href={social.href}
-                  className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center hover:border-primary hover:bg-primary/20 transition-all"
-                  whileHover={{ scale: 1.1, y: -2 }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -3, scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-muted/40 hover:bg-accent/10 hover:border-accent transition"
                 >
-                  <social.icon className="w-5 h-5 text-muted-foreground hover:text-primary" />
+                  <social.icon className="h-5 w-5 text-muted-foreground hover:text-accent" />
                 </motion.a>
               ))}
+
             </div>
+
           </div>
+
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© 2025 Sreekanth. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Made with <Heart className="w-4 h-4 text-primary animate-pulse" /> using React & Three.js
+        <div className="flex flex-col gap-4 border-t border-border pt-8 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+
+          <p>
+            © {new Date().getFullYear()} Sreekanth. All rights reserved.
           </p>
+
+          <p className="flex items-center gap-2">
+            Crafted with
+            <Heart className="h-4 w-4 text-primary animate-pulse" />
+            using React & Three.js
+          </p>
+
         </div>
+
       </div>
     </footer>
   );

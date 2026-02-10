@@ -9,7 +9,7 @@ import Navigation from '@/components/Navigation';
 
 export default function NormalLayout() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-950">
       <Navigation />
       <main className="pt-20">
         <Outlet />
