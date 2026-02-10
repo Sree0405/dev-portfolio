@@ -4,7 +4,7 @@
  */
 
 
-import myuipic from "@/assets/3dui.png";
+import myuipic from "@/assets/3dUi.png";
 import My3DUIVideo from "@/assets/videos/my3dui.mp4";
 
 import NetflixImg from "@/assets/netflixImg.png"

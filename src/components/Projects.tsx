@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 /* Assets */
 import FlixifyImg from "@/assets/Screenshot 2026-02-01 125107.png";
 
-import myuipic from "@/assets/3dui.png";
+import myuipic from "@/assets/3dUi.png";
 import My3DUIVideo from "@/assets/videos/my3dui.mp4";
 import Netflixvideo from "@/assets/videos/netflix.mp4";
 
