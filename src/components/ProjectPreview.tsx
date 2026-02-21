@@ -4,7 +4,7 @@ export function ProjectPreview({ project }) {
   const [ready, setReady] = useState(false);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-primary/20 shadow-xl">
+    <div className="relative h-[320px] rounded-2xl overflow-hidden border border-primary/20 shadow-xl">
 
       {/* IMAGE PLACEHOLDER */}
       {!ready && project.image && (
@@ -32,7 +32,7 @@ export function ProjectPreview({ project }) {
       )}
 
       {/* Hover Overlay */}
-      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
+      <div className="absolute h-[320px] inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
         {/* buttons */}
       </div>
 

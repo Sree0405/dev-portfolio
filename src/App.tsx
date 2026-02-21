@@ -17,6 +17,8 @@ import ExperiencePage from "./pages/ExperiencePage";
 import ImmersivePage from "./pages/ImmersivePage";
 import NotFound from "./pages/NotFound";
 
+import FinanceDocs from "./pages/Financetrackerdocs"
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -37,6 +39,8 @@ const App = () => (
             <Route path="/experience" element={<ExperiencePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/project/fieldstack" element={<ProjectDocumentation />} />
+            <Route path="/project/financetracker" element={<FinanceDocs />} />
+            
             <Route path="/skills" element={<SkillsPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Route>
