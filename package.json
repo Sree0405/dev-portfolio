@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "lint:docs": "node -e \"const fs=require('fs');const p='src/components/projects/documents';try{const jsx=fs.readdirSync(p).filter(f=>f.endsWith('.jsx'));if(jsx.length)throw new Error('JSX files not allowed in documents: '+jsx.join(', '));}catch(e){console.error(e.message);process.exit(1);}\"",
     "preview": "vite preview"
   },
   "dependencies": {

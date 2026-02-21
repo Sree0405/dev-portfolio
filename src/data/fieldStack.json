@@ -1,0 +1,442 @@
+{
+  "slug": "apidocs",
+  "projectName": "FieldStack",
+  "tagline": "Production-Ready Backend Framework Dashboard",
+  "description": "FieldStack is a production-ready, self-hosted headless CMS framework inspired by Directus. Built with modern technologies (NestJS, Prisma, PostgreSQL, React), it provides a complete solution for managing dynamic content through an intuitive admin interface and auto-generated REST APIs.",
+  "platform": ["Web", "Self-Hosted"],
+  "techStack": ["NestJS", "Prisma", "PostgreSQL", "React", "TypeScript", "Docker"],
+  "status": "Production",
+  "demoUrl": "https://fieldstack.onrender.com/",
+
+  "overview": {
+    "purpose": "FieldStack is a fully self-contained headless CMS giving you complete control over your data and infrastructure. The system features automatic database bootstrapping, JWT authentication, role-based access control, and a metadata-driven architecture that generates CRUD operations on-the-fly.",
+    "targetUsers": [
+      "Developers building content-driven applications",
+      "Teams needing a self-hosted alternative to cloud CMS platforms",
+      "Projects requiring fine-grained access control and custom schemas",
+      "Engineers who want auto-generated REST APIs without writing boilerplate"
+    ],
+    "benefits": [
+      "Zero Dependencies: No external cloud services required. Deploy anywhere.",
+      "Auto-Generated APIs: REST endpoints created dynamically for each collection.",
+      "Type-Safe: TypeScript + Prisma ensures compile-time safety.",
+      "Security by Default: JWT authentication, RBAC, input validation, and SQL injection protection out of the box.",
+      "Production-Ready: Docker containerization, environment-based configuration, health checks, and logging included."
+    ]
+  },
+
+  "problem": {
+    "summary": "Most headless CMS platforms either lock you into a cloud vendor, charge per API call, or require extensive configuration before your first endpoint is live. Developers waste hours wiring up auth, permissions, and CRUD boilerplate that should be automatic.",
+    "painPoints": [
+      "Vendor Lock-In: Cloud-based CMS platforms make data portability difficult and cost unpredictable at scale.",
+      "Manual Boilerplate: Writing REST endpoints, auth guards, and permission checks for every content type is repetitive and error-prone.",
+      "Schema Rigidity: Traditional CMS systems require database migrations for every schema change, slowing iteration speed.",
+      "Access Control Gaps: Role-based permissions at the collection and field level are rarely included out of the box.",
+      "Infrastructure Complexity: Deploying a production-ready CMS typically requires significant DevOps effort."
+    ]
+  },
+
+  "features": [
+    {
+      "title": "Auto-Generated REST APIs",
+      "description": "Every collection automatically gets a full CRUD REST API without writing a single controller.",
+      "points": [
+        "GET /api/:collection — paginated list with filtering and sorting",
+        "POST /api/:collection — create with DTO validation",
+        "PATCH /api/:collection/:id — partial update",
+        "DELETE /api/:collection/:id — soft or hard delete",
+        "JWT authentication enforced on all endpoints"
+      ]
+    },
+    {
+      "title": "Visual Collection Builder",
+      "description": "Define content schemas through a drag-and-drop interface. No migrations required.",
+      "points": [
+        "Supported field types: TEXT, NUMBER, BOOLEAN, DATETIME, FILE, RELATION",
+        "Visual field ordering with drag-and-drop reordering",
+        "Validation rules, default values, and UI component selection per field",
+        "Relationship fields with target collection and display field configuration",
+        "SQL schema preview before saving"
+      ]
+    },
+    {
+      "title": "JWT Authentication & RBAC",
+      "description": "Enterprise-grade authentication with short-lived access tokens and role-based permission matrices.",
+      "points": [
+        "Access token: 15 minutes (configurable)",
+        "Refresh token: 7 days (configurable)",
+        "Bcrypt password hashing with 12 salt rounds",
+        "Permission matrix per collection and action (READ/CREATE/UPDATE/DELETE)",
+        "Conditional access rules stored as JSON"
+      ]
+    },
+    {
+      "title": "Media Library & File Manager",
+      "description": "Centralized file management with UUID generation, thumbnail preview, and URL copy.",
+      "points": [
+        "Drag-and-drop upload interface",
+        "Multiple file selection up to 100MB per file (configurable)",
+        "Automatic UUID generation for unique filenames",
+        "MIME type validation and thumbnail generation for images",
+        "One-click URL copy to clipboard"
+      ]
+    },
+    {
+      "title": "Metadata-Driven Architecture",
+      "description": "Collections and fields stored as metadata enabling runtime schema evolution without migrations.",
+      "points": [
+        "Schema changes apply without database downtime",
+        "Field definitions include type, validation, UI component, and relationship config",
+        "Collections can be archived without data loss",
+        "Metadata stored separately from content for clean separation"
+      ]
+    },
+    {
+      "title": "Docker & Production Deployment",
+      "description": "Multi-stage Docker build with environment-based configuration and health checks.",
+      "points": [
+        "Single-domain deployment — frontend and backend on the same domain",
+        "Backend APIs at /api prefix, frontend handles all other routes",
+        "Environment variables injected at runtime",
+        "Database migrations run automatically on startup",
+        "Health checks ensure services are ready before accepting traffic"
+      ]
+    }
+  ],
+
+  "modules": [
+    {
+      "name": "Admin Dashboard",
+      "purpose": "Centralized view of system status, recent activity, and quick access to common tasks.",
+      "features": [
+        "System statistics cards: total collections, users, recent activity",
+        "Quick action buttons for creating collections and users",
+        "Recent content updates timeline",
+        "System health indicators",
+        "Sidebar navigation to all modules"
+      ],
+      "summary": "The dashboard acts as the control center. Built with React and shadcn/ui, it offers a modern responsive interface with instant visibility into system state."
+    },
+    {
+      "name": "Collections System",
+      "purpose": "Core abstraction representing content types that map to database tables.",
+      "features": [
+        "Card or table view of all collections with Name, Display Name, Field Count, Record Count",
+        "Status tracking: ACTIVE or ARCHIVED",
+        "Click to view collection schema and manage content",
+        "Relationship mapping between collections",
+        "API endpoint reference per collection"
+      ],
+      "summary": "Collections are the foundation of FieldStack. Metadata-driven design enables dynamic schema evolution without migrations."
+    },
+    {
+      "name": "Collection Builder",
+      "purpose": "Visual interface for defining content schemas without writing code.",
+      "features": [
+        "Split-screen: field list on left, configuration panel on right",
+        "Drag-and-drop field reordering",
+        "SQL schema preview at bottom",
+        "Add Field modal with full type and validation configuration",
+        "Save triggers automatic database table creation"
+      ],
+      "summary": "The builder eliminates schema boilerplate. Define fields, configure validations, and the system generates database tables and API endpoints automatically."
+    },
+    {
+      "name": "Authentication",
+      "purpose": "JWT-based authentication with access and refresh token lifecycle management.",
+      "features": [
+        "Login form with email and password validation",
+        "JWT access token (15min) and refresh token (7 days)",
+        "Bcrypt password hashing with 12 salt rounds",
+        "Public signup disabled by default for security",
+        "Tokens stored in memory with localStorage fallback"
+      ],
+      "summary": "Multi-layered auth system combining stateless JWT tokens with bcrypt hashing and configurable expiry for production security."
+    },
+    {
+      "name": "User Management",
+      "purpose": "Complete user lifecycle with CRUD operations and role assignment.",
+      "features": [
+        "Paginated user table: Email, Display Name, Roles, Status, Created Date",
+        "Edit modal: avatar upload, role checkboxes, status toggle",
+        "Password reset with email notification or temporary password",
+        "Bulk actions and CSV export",
+        "Search and filter capabilities"
+      ],
+      "summary": "Full user administration with role assignment and secure password management. Supports bulk operations for efficient team management."
+    },
+    {
+      "name": "Role & Permission Management",
+      "purpose": "Granular access control per collection and action with conditional rules.",
+      "features": [
+        "Four built-in roles: ADMIN, EDITOR, VIEWER, CUSTOM",
+        "Permission matrix: collections as rows, actions (READ/CREATE/UPDATE/DELETE) as columns",
+        "Conditional rules support (e.g., own records only) via JSON",
+        "Bulk permission apply across collections",
+        "User count and last modified date per role"
+      ],
+      "summary": "Fine-grained RBAC that scales from simple read-only access to complex conditional permission rules stored as flexible JSON."
+    },
+    {
+      "name": "Media Library",
+      "purpose": "Centralized file management for all uploads with metadata tracking.",
+      "features": [
+        "Grid view with image thumbnails and file type icons",
+        "Hover quick actions: View, Copy URL, Delete",
+        "File detail panel: filename, size, MIME type, upload date, public URL",
+        "References list showing content using each file",
+        "Pagination for large libraries"
+      ],
+      "summary": "Production-ready media management with UUID-based storage, MIME validation, thumbnail generation, and one-click URL copying."
+    },
+    {
+      "name": "Site Settings",
+      "purpose": "Global site configuration propagating across the application in real time.",
+      "features": [
+        "Site Information: name, title, description, URL",
+        "Contact Details: email and phone",
+        "Branding: logo and favicon upload with live preview",
+        "Social Links via JSON editor",
+        "Save and Reset actions"
+      ],
+      "summary": "Centralized settings panel where changes reflect immediately across both the admin interface and public-facing APIs."
+    }
+  ],
+
+  "workflow": [
+    {
+      "step": 1,
+      "title": "Define a Collection",
+      "description": "Open the Collection Builder. Enter a name, display label, and add fields using the Add Field modal. Configure types, validations, and relationships. Save to generate the database table."
+    },
+    {
+      "step": 2,
+      "title": "API Endpoints Auto-Generated",
+      "description": "On save, FieldStack automatically registers REST endpoints for the collection: GET (list), POST (create), GET /:id (read), PATCH /:id (update), DELETE /:id (delete)."
+    },
+    {
+      "step": 3,
+      "title": "Assign Permissions",
+      "description": "Navigate to Role Management. Open the permissions matrix for the target role. Toggle READ, CREATE, UPDATE, DELETE access per collection. Apply conditional rules if needed."
+    },
+    {
+      "step": 4,
+      "title": "Authenticate",
+      "description": "POST to /auth/login with email and password. Receive accessToken (15min) and refreshToken (7 days). Include the Bearer token in the Authorization header for all subsequent API requests."
+    },
+    {
+      "step": 5,
+      "title": "Consume the API",
+      "description": "Use the auto-generated REST endpoints to create, read, update, and delete content. All requests are validated against the collection schema and user permissions automatically."
+    },
+    {
+      "step": 6,
+      "title": "Manage Content",
+      "description": "Use the Admin Dashboard to create, edit, and delete records through the UI. Upload files to the Media Library and reference them in collection fields."
+    },
+    {
+      "step": 7,
+      "title": "Deploy",
+      "description": "Build with Docker multi-stage build. Configure .env for production. Run database migrations automatically on container startup. Health checks confirm readiness before traffic routing."
+    }
+  ],
+
+  "analytics": {
+    "metrics": [
+      "Total Collections: Count of active and archived collections in the system",
+      "Total Users: Count of all registered users by role",
+      "Recent Activity: Timeline of content create, update, and delete operations",
+      "Record Count per Collection: Live count of records in each content table",
+      "API Endpoint Count: Total auto-generated endpoints available"
+    ],
+    "visuals": [
+      "Statistics cards on the admin dashboard for collections, users, and activity",
+      "Recent content updates timeline with user attribution",
+      "System health status indicators (database, API, storage)",
+      "API Explorer listing all endpoints grouped by collection with method color coding"
+    ],
+    "logic": "Dashboard statistics are computed server-side via NestJS service layer and returned as aggregated counts. Real-time updates are triggered on navigation. The API Explorer reads collection metadata to dynamically list all registered endpoints."
+  },
+
+  "architecture": {
+    "frontend": "React with Vite — single-page application at localhost:3000 in development. shadcn/ui component library with Tailwind CSS. Lucide React for icons. React Router for client-side routing.",
+    "backend": "NestJS at localhost:4000 with modular architecture: AuthModule, CollectionsModule, CRUDModule, PermissionsModule, BootstrapModule, FilesModule, SiteModule. Dependency injection for testability.",
+    "state": "React Context for auth state and theme. React Query for server state caching. No Redux — complexity kept minimal with NestJS handling business logic server-side.",
+    "storage": "PostgreSQL single database storing both metadata (collections, fields, users, roles, permissions) and dynamic content tables. Prisma ORM for type-safe queries and schema management.",
+    "api": "RESTful APIs with JWT Bearer authentication. Auto-generated CRUD endpoints per collection. /auth/login and /auth/refresh as public endpoints. All others protected by JwtAuthGuard and PermissionsGuard."
+  },
+
+  "security": {
+    "authentication": "JWT-based stateless authentication. Access token expires in 15 minutes. Refresh token valid for 7 days. Tokens signed with configurable JWT_SECRET. Backend validates signature and expiry on every request.",
+    "encryption": "Passwords hashed with bcrypt at 12 salt rounds. No plain-text credential storage. Prisma ORM prevents SQL injection through parameterized queries. Input validated with class-validator DTOs at controller level.",
+    "privacy": "Environment-based secrets via .env files. CORS configured per environment. HTTPS enforced in production. Rate limiting planned for Phase 2. Public signup disabled by default to prevent unauthorized account creation."
+  },
+
+  "design": {
+    "themes": ["Dark"],
+    "principles": [
+      "Sidebar navigation with purple accent for active route — consistent orientation across all modules",
+      "Card-based content display with border and background gradients for depth",
+      "Responsive layout collapsing sidebar to mobile-friendly bottom or drawer navigation",
+      "Consistent icon usage from Lucide React library throughout the interface",
+      "Color-coded HTTP method badges: GET green, POST yellow, PATCH blue, DELETE red"
+    ],
+    "patterns": [
+      "DataTable: paginated table with search, filter, bulk select, and row actions",
+      "DetailModal: overlay panel for viewing and editing records",
+      "PermissionMatrix: grid of checkboxes for role and collection access control",
+      "FieldConfigPanel: split-screen form for collection schema definition",
+      "APIExplorer: endpoint listing with method badge, path, and description",
+      "MediaGrid: thumbnail grid with hover actions and file detail sidebar",
+      "StatCard: metric display with icon, value, and trend indicator"
+    ]
+  },
+
+  "future": {
+    "features": [
+      "Phase 2 (Q2 2026): GraphQL API layer alongside REST, full-text search via Elasticsearch, webhook system for external integrations, email notification system",
+      "Phase 2 (Q2 2026): WebSocket support for real-time content updates in the admin interface",
+      "Phase 3 (Q3 2026): Plugin marketplace with NPM-based plugins and standardized hook API",
+      "Phase 3 (Q3 2026): Two-factor authentication, comprehensive audit logging, multi-language admin interface",
+      "Scaling: Load balancer with multiple NestJS instances, PostgreSQL read replicas, Redis cluster for caching, Kubernetes orchestration"
+    ],
+    "roadmap": "FieldStack v2 establishes the metadata-driven foundation. Phase 2 expands the API surface with GraphQL and real-time capabilities. Phase 3 opens the platform to community extensions via a plugin system. The scaling strategy moves from single-server to distributed architecture using Nginx, Redis, and Kubernetes."
+  },
+
+  "codeExamples": [
+    {
+      "title": "Login Request",
+      "language": "http",
+      "code": "POST /auth/login\nContent-Type: application/json\n\n{\n  \"email\": \"admin@fieldstack.local\",\n  \"password\": \"fieldstack@Admin123!\"\n}\n\n// Response\n{\n  \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n  \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n  \"user\": {\n    \"id\": \"uuid\",\n    \"email\": \"admin@fieldstack.local\",\n    \"roles\": [\"ADMIN\"]\n  }\n}"
+    },
+    {
+      "title": "List Records (Paginated)",
+      "language": "http",
+      "code": "GET /api/posts?page=1&limit=25\nAuthorization: Bearer {accessToken}\n\n// Response\n{\n  \"collection\": \"posts\",\n  \"data\": [\n    {\n      \"id\": \"uuid-1\",\n      \"title\": \"First Post\",\n      \"content\": \"Post content...\",\n      \"status\": \"published\",\n      \"createdAt\": \"2026-01-18T10:00:00Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 25,\n    \"total\": 245,\n    \"totalPages\": 10\n  }\n}"
+    },
+    {
+      "title": "Create Record",
+      "language": "http",
+      "code": "POST /api/posts\nAuthorization: Bearer {accessToken}\nContent-Type: application/json\n\n{\n  \"title\": \"New Post\",\n  \"content\": \"Post content here...\",\n  \"status\": \"draft\"\n}\n\n// Response\n{\n  \"id\": \"uuid-new\",\n  \"title\": \"New Post\",\n  \"content\": \"Post content here...\",\n  \"status\": \"draft\",\n  \"createdAt\": \"2026-01-18T12:00:00Z\"\n}"
+    },
+    {
+      "title": "Update Record",
+      "language": "http",
+      "code": "PATCH /api/posts/uuid-1\nAuthorization: Bearer {accessToken}\nContent-Type: application/json\n\n{\n  \"status\": \"published\"\n}\n\n// Response\n{\n  \"id\": \"uuid-1\",\n  \"title\": \"First Post\",\n  \"status\": \"published\",\n  \"updatedAt\": \"2026-01-18T13:00:00Z\"\n}"
+    }
+  ],
+"gallery": [
+  {
+    "id": "auth-flow",
+    "title": "Authentication Workflow",
+    "description": "JWT-based authentication flow showing login, credential validation, token generation, and role-based access control.",
+    "src": "/assets/AuthFlow.png",
+    "alt": "FieldStack authentication workflow diagram",
+    "category": "Architecture"
+  },
+  {
+    "id": "dashboard",
+    "title": "Admin Dashboard",
+    "description": "Main admin dashboard showing collections, fields, users, and quick actions.",
+    "src": "/assets/Dashboard.png",
+    "alt": "FieldStack admin dashboard interface",
+    "category": "UI"
+  },
+  {
+    "id": "login",
+    "title": "Login Screen",
+    "description": "Secure login interface with JWT authentication and API endpoint integration.",
+    "src": "/assets/Login.png",
+    "alt": "FieldStack login page",
+    "category": "Authentication"
+  },
+  {
+    "id": "request-flow",
+    "title": "Request & Response Flow",
+    "description": "API request lifecycle showing validation, business logic processing, and database interaction.",
+    "src": "/assets/ReqFlow.png",
+    "alt": "API request and response flow diagram",
+    "category": "Architecture"
+  },
+  {
+    "id": "scaling",
+    "title": "Scalability Architecture",
+    "description": "Horizontal scaling strategy with load balancer, multiple instances, and database replication.",
+    "src": "/assets/ScalingArch.png",
+    "alt": "System scaling architecture diagram",
+    "category": "Infrastructure"
+  },
+  {
+    "id": "signup",
+    "title": "User Registration",
+    "description": "User registration screen with role selection and validation support.",
+    "src": "/assets/signup.png",
+    "alt": "FieldStack signup screen",
+    "category": "Authentication"
+  },
+  {
+    "id": "system-architecture",
+    "title": "System Architecture",
+    "description": "Complete system overview showing frontend, backend modules, Prisma ORM, and database layer.",
+    "src": "/assets/SystemArchitecture.png",
+    "alt": "FieldStack system architecture diagram",
+    "category": "Architecture"
+  },
+  {
+    "id": "collection-builder",
+    "title": "Collection Builder",
+    "description": "Visual interface for creating collections and managing dynamic fields.",
+    "src": "/assets/CollectionBuilder.png",
+    "alt": "FieldStack collection builder screen",
+    "category": "Builder"
+  },
+  {
+    "id": "api-explorer",
+    "title": "API Explorer",
+    "description": "Interactive API explorer for testing and browsing REST endpoints.",
+    "src": "/assets/APIExplorer.png",
+    "alt": "FieldStack API explorer interface",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "roles-permissions",
+    "title": "Roles & Permissions",
+    "description": "Role management system with permission controls and access levels.",
+    "src": "/assets/RolesPermissions.png",
+    "alt": "FieldStack roles and permissions management",
+    "category": "Security"
+  },
+  {
+    "id": "media-library",
+    "title": "Media Library",
+    "description": "Centralized file manager for uploading, previewing, and managing media assets.",
+    "src": "/assets/MediaLibrary.png",
+    "alt": "FieldStack media library interface",
+    "category": "Media"
+  },
+  {
+    "id": "notifications",
+    "title": "Notifications Center",
+    "description": "Activity feed displaying system and user notifications in real time.",
+    "src": "/assets/Notifications.png",
+    "alt": "FieldStack notifications screen",
+    "category": "System"
+  },
+  {
+    "id": "profile",
+    "title": "User Profile",
+    "description": "User profile management page with account information and security controls.",
+    "src": "/assets/Profile.png",
+    "alt": "FieldStack user profile page",
+    "category": "User"
+  },
+  {
+    "id": "settings",
+    "title": "Site Settings",
+    "description": "Global site configuration panel for branding, metadata, and URLs.",
+    "src": "/assets/Settings.png",
+    "alt": "FieldStack site settings page",
+    "category": "Configuration"
+  }
+]
+}

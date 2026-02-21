@@ -116,8 +116,8 @@ export default function Contact() {
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
               <div className="text-primary space-y-1">
-                <p>$ <span className="text-muted-foreground">status --availability</span></p>
-                <p className="text-green-400">● Available for work</p>
+                {/* <p>$ <span className="text-muted-foreground">status --availability</span></p>
+                <p className="text-green-400">● Available for work</p> */}
                 <p>$ <span className="text-muted-foreground">location --current</span></p>
                 <p className="text-foreground">📍 India</p>
                 <p>$ <span className="text-muted-foreground">response --time</span></p>

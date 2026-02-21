@@ -16,122 +16,189 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
+      className="
+        relative
+        min-h-screen
+        w-full
+        overflow-hidden
+        bg-slate-950
+      "
     >
-      {/* 3D Background */}
-      <HeroScene />
+      {/* Background Scene (Right Side) */}
+      <div className="absolute right-0 top-0 h-full w-1/2">
+        <HeroScene />
+        <div className="absolute inset-0 bg-gradient-to-l from-black/70 to-transparent" />
+      </div>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 particle-bg opacity-30" />
-
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-
+      {/* Content Grid */}
+      <div
+        className="
+          relative
+          z-10
+          max-w-7xl
+          mx-auto
+          px-6
+          min-h-screen
+          grid
+          grid-cols-1
+          lg:grid-cols-2
+          items-center
+        "
+      >
+        {/* LEFT CONTENT */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-center space-y-10"
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="
+            max-w-xl
+            space-y-7
+            py-20
+          "
         >
-
-          {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/40 text-primary font-mono text-sm"
+          {/* Badge */}
+          <div
+            className="
+              inline-flex
+              items-center
+              gap-2
+              px-4
+              py-1.5
+              rounded-full
+              bg-primary/10
+              border
+              border-primary/40
+              text-primary
+              font-mono
+              text-sm
+            "
           >
-            <Sparkles size={16} />
+            <Sparkles size={14} />
             Building Scalable Web Systems
-          </motion.div>
+          </div>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-xl md:text-2xl lg:text-4xl font-bold leading-tight neon-text"
+          {/* Name */}
+          <h1
+            className="
+              text-4xl
+              md:text-5xl
+              lg:text-6xl
+              font-bold
+              tracking-tight
+              leading-tight
+            "
           >
             Hi, I’m{" "}
             <span className="text-primary">Sreekanth</span>
+          </h1>
+
+          {/* Role */}
+          <p
+            className="
+              text-lg
+              md:text-xl
+              text-muted-foreground
+              font-medium
+            "
+          >
+            Frontend Engineer · UI Architect
+          </p>
+
+          {/* Description */}
+          <p
+            className="
+              text-base
+              md:text-lg
+              leading-relaxed
+              text-muted-foreground
+            "
+          >
+            I design and build scalable, high-performance web platforms
+            using React, TypeScript, and modern 3D technologies.
+
             <br />
-            <span className="text-muted-foreground text-xl md:text-xl lg:text-2xl font-normal">
-              Frontend Engineer & UI Architect
-            </span>
-          </motion.h1>
+            <br />
 
-          {/* Sub Headline */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="max-w-3xl mx-auto text-lg md:text-l text-muted-foreground leading-relaxed"
-          >
-            I design and engineer modern web platforms using React,
-            TypeScript, and 3D technologies — focused on performance,
-            scalability, and user experience.
-          </motion.p>
+            Focused on clean architecture, system design, and delivering
+            production-grade user experiences.
+          </p>
 
-          {/* Focus Strip */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="flex flex-wrap justify-center gap-3"
-          >
+          {/* Stack */}
+          <div className="flex flex-wrap gap-3">
             {[
               "React",
               "TypeScript",
+              "Next.js",
               "System Design",
-              "3D UI",
-              "Full-Stack",
+              "Three.js",
+              "Node.js",
             ].map((item) => (
               <span
                 key={item}
-                className="px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-primary text-sm font-mono"
+                className="
+                  px-4
+                  py-1.5
+                  rounded-full
+                  border
+                  border-primary/40
+                  bg-primary/10
+                  text-primary
+                  text-sm
+                  font-mono
+                "
               >
                 {item}
               </span>
             ))}
-          </motion.div>
+          </div>
 
           {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center pt-6"
-          >
-
+          <div className="flex flex-wrap gap-4 pt-4">
             <Link
               to="/projects"
-              className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-7 py-3 rounded-xl font-mono uppercase tracking-wide shadow-neon hover:bg-primary-glow hover-scale transition"
+              className="
+                flex
+                items-center
+                gap-2
+                bg-primary
+                text-white
+                px-7
+                py-3
+                rounded-xl
+                font-mono
+                uppercase
+                tracking-wide
+                shadow-lg
+                hover:shadow-primary/60
+                transition
+              "
             >
               View Projects
-              <ArrowDown className="w-4 h-4 animate-bounce" />
+              <ArrowDown className="w-4 h-4" />
             </Link>
 
             <Button
-              size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono uppercase tracking-wide px-8 hover-scale"
+              className="
+                border-primary
+                text-primary
+                hover:bg-primary/10
+                font-mono
+                uppercase
+                px-7
+              "
             >
               <Download className="w-4 h-4 mr-2" />
               Resume
             </Button>
+          </div>
 
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.3 }}
-            className="flex justify-center gap-6 pt-6 text-muted-foreground"
-          >
+          {/* Socials */}
+          <div className="flex gap-6 pt-4 text-muted-foreground">
             <a
               href="https://github.com/Sree0405"
               target="_blank"
+              rel="noreferrer"
               className="hover:text-primary transition"
             >
               <Github />
@@ -140,6 +207,7 @@ export default function Hero() {
             <a
               href="https://linkedin.com"
               target="_blank"
+              rel="noreferrer"
               className="hover:text-primary transition"
             >
               <Linkedin />
@@ -151,10 +219,11 @@ export default function Hero() {
             >
               <Mail />
             </a>
-          </motion.div>
-
+          </div>
         </motion.div>
 
+        {/* RIGHT SPACER (for grid balance) */}
+        <div className="hidden lg:block" />
       </div>
     </section>
   );

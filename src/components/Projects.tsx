@@ -19,10 +19,12 @@ import fieldstackvideo from "@/assets/videos/fieldstack.mp4";
 
 import EVPortalPic from "@/assets/evpic.png";
 import EVPortalVideo from "@/assets/videos/evPortal.mp4";
+import LiveAdminMain from "@/assets/LifeAdminMain.png";
 /* Project Data */
 const projects = [
   {
     title: "My3DUI — 3D Component Library",
+    type: "Open Source Library",
     description:
       "An open-source 3D UI system built with React and Three.js. Enables developers to build immersive interfaces with reusable components.",
     highlights: [
@@ -31,64 +33,92 @@ const projects = [
       "Tree-Shakable Build",
       "Component Playground",
     ],
-    tech: ["Next Js","React", "TypeScript", "Three.js", "Tailwind", "Vite"],
+    tech: ["Next Js", "React", "TypeScript", "Three.js", "Tailwind", "Vite"],
     image: myuipic,
     url: "https://my3dui.vercel.app/",
     video: My3DUIVideo,
     gitHub: "https://github.com/Sree0405/my3dui",
     docs: "https://my3dui.vercel.app/docs",
-  },  
+  },
+
   {
     title: "Flixify — Backend Framework Dashboard",
+    type: "Open Source Framework",
     description:
-      "FieldStack is a production-ready, self-hosted headless CMS framework inspired by Directus. it provides a complete solution for managing dynamic content through an intuitive admin interface and auto-generated REST APIs.",
+      "Production-ready headless CMS framework with admin panel and auto-generated APIs.",
     highlights: [
       "JWT Authentication",
-      "Users and Roles Management",
-      "Api Generator",
+      "Users & Roles",
+      "API Generator",
       "Scalable Backend",
     ],
     tech: ["React", "Next.js", "Node.js", "PostgreSQL", "Prisma"],
-    image:fieldstackimg,
+    image: fieldstackimg,
     video: fieldstackvideo,
     url: "https://fieldstack.onrender.com/",
     gitHub: "https://github.com/Sree0405/fieldstack",
     docs: "/project/fieldstack",
   },
-{
-  title: "EV Portal — Interactive Electric Vehicle Showcase",
-  description:
-    "A modern web platform for discovering and exploring electric vehicles with immersive 3D visuals and smooth animations. Built to showcase India's growing EV ecosystem with performance-focused UI and real-time interactions.",
-  highlights: [
-    "3D Vehicle Visualization",
-    "Smooth Page Transitions",
-    "Animated Catalog & Filters",
-    "High-Performance UI",
-  ],
-  tech: ["Next.js", "React", "Three.js", "React Three Fiber", "Tailwind CSS"],
-  url: "https://ev-portal.vercel.app/",
-  image: EVPortalPic,
-  video: EVPortalVideo, // import your video
-  gitHub: "https://github.com/Sree0405/ev-portal",
-  docs: "/project/ev-portal",
-},
+
+  {
+    title: "LifeAdmin Pro — Finance & Renewal Tracker",
+    type: "Mobile App",
+    description:
+      "Personal finance & renewal management app with smart reminders and analytics.",
+    highlights: [
+      "Renewal Tracking",
+      "Smart Reminders",
+      "Offline Storage",
+      "Analytics",
+    ],
+    tech: [
+      "React Native",
+      "Expo",
+      "TypeScript",
+      "Context API",
+      "AsyncStorage",
+      "Firebase"
+    ],
+    image: LiveAdminMain,
+    url: "https://drive.google.com/drive/u/1/folders/11vPn0NE1w-0qGiIQ7Mc9iVHhQ7SWEyXO/",
+    gitHub: "https://github.com/Sree0405/lifeadmin-pro",
+    docs: "/project/lifeadmin",
+  },
+
+  {
+    title: "EV Portal — Interactive EV Showcase",
+    type: "Web App",
+    description:
+      "3D-powered EV discovery platform with smooth animations.",
+    highlights: [
+      "3D Visualization",
+      "Smooth Transitions",
+      "Filters",
+      "High Performance",
+    ],
+    tech: ["Next.js", "React", "Three.js", "Tailwind CSS"],
+    url: "https://ev-portal.vercel.app/",
+    image: EVPortalPic,
+    video: EVPortalVideo,
+    gitHub: "https://github.com/Sree0405/ev-portal",
+  },
 
   {
     title: "Netflix Clone — Full Stack App",
+    type: "Web App",
     description:
-      "A complete Netflix clone with authentication, browsing, and backend integration.",
+      "Full-stack Netflix clone with authentication and backend integration.",
     highlights: [
       "User Auth",
       "Dynamic Content",
       "Responsive UI",
       "REST APIs",
     ],
-    tech: ["JavaScript", "React", "Redux Toolkit", "SSR", "NextJs"],
+    tech: ["JavaScript", "React", "Redux Toolkit", "NextJs"],
     video: Netflixvideo,
     warning: "This features require VPN connectivity",
     url: "https://sree-netflix.vercel.app/",
     gitHub: "https://github.com/Sree0405/netflix-clone",
-    docs: "/project/netflix-clone",
   },
 ];
 
@@ -99,15 +129,14 @@ export default function Projects({ homepage = false }) {
   const visibleProjects = homepage
     ? projects.slice(0, 2)
     : projects;
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <section
       id="projects"
       ref={ref}
-      className={`relative px-6 ${
-        homepage ? "py-24 bg-slate-950" : "py-32 bg-slate-950"
-      }`}
+      className={`relative px-6 ${homepage ? "py-24 bg-slate-950" : "py-32 bg-slate-950"
+        }`}
     >
       <div className="max-w-7xl mx-auto">
 
@@ -143,9 +172,12 @@ const navigate = useNavigate();
                 className={
                   homepage
                     ? "flex flex-col gap-6"
-                    : `grid lg:grid-cols-2 gap-16 items-center ${
-                        reverse ? "lg:flex-row-reverse" : ""
-                      }`
+                    : `grid lg:grid-cols-2 gap-16 items-center   backdrop-blur
+  border border-slate-700/40
+  rounded-xl
+  p-6
+  shadow-xl${reverse ? "lg:flex-row-reverse" : ""
+                    }`
                 }
               >
 
@@ -155,16 +187,47 @@ const navigate = useNavigate();
                 </div>
 
                 {/* Content */}
-                <div className="space-y-5">
+                <div className="
+  space-y-6
 
-                  <h3 className="text-2xl font-bold text-foreground">
-                    {project.title}
-                  </h3>
+">
+                  <div className="flex flex-wrap items-center gap-3">
+
+                    <h3 className="text-2xl font-bold text-foreground">
+                      {project.title}
+                    </h3>
+
+                    {/* Project Type Badge */}
+                    {project.type && (
+                      <span className="
+      px-3 py-1 rounded-full text-xs font-semibold
+      bg-gradient-to-r from-indigo-500/20 to-purple-500/20
+      text-indigo-300 border border-indigo-500/30
+      backdrop-blur
+    ">
+                        {project.type}
+                      </span>
+                    )}
+
+                  </div>
 
                   <p className="text-muted-foreground leading-relaxed text-base">
                     {project.description}
                   </p>
+                  {/* Highlights */}
+                  <div className="grid grid-cols-2 gap-2 text-sm text-slate-300">
 
+                    {project.highlights?.map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-2"
+                      >
+                        <span className="text-indigo-400">▸</span>
+                        {item}
+                      </div>
+                    ))}
+
+                  </div>
                   {/* Tech */}
                   <div className="flex flex-wrap gap-2">
                     {project.tech.slice(0, homepage ? 4 : project.tech.length).map((tech) => (
@@ -186,7 +249,7 @@ const navigate = useNavigate();
                       View Live
                     </Button>
 
-                    {!homepage && (
+                    {!homepage && project.docs && (
                       <Button
                         variant="outline"
                         onClick={() => window.open(project.docs)}

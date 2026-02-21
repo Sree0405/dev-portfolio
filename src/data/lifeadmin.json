@@ -1,0 +1,364 @@
+{
+  "slug": "life-admin",
+  "projectName": "Life Admin Mobile App",
+  "tagline": "Personal Finance & Renewal Management App",
+  "description": "A mobile-first application designed to help users take full control of their financial obligations. Built with React Native and Expo, it provides a comprehensive solution for managing subscriptions, bills, insurance renewals, and recurring expenses — all in one place.",
+  "platform": ["Mobile", "Android", "iOS"],
+  "techStack": ["React Native", "Expo", "Context API", "AsyncStorage", "Firebase"],
+  "status": "In Development",
+    "demoUrl": "https://drive.google.com/drive/folders/11vPn0NE1w-0qGiIQ7Mc9iVHhQ7SWEyXO?usp=drive_link",
+
+
+  "overview": {
+    "purpose": "Life Admin which is a Personal Finance & Renewal Tracker focuses specifically on renewal cycles and deadline awareness. It combines smart reminders, detailed analytics, secure local storage, and a guided multi-step entry flow to ensure users never miss a payment or renewal date again.",
+    "targetUsers": [
+      "Individuals managing multiple subscriptions and recurring bills",
+      "Users who want proactive payment reminders",
+      "People who prefer offline-first, privacy-focused financial tools",
+      "Anyone tracking insurance renewals, rent cycles, or utility bills"
+    ],
+    "benefits": [
+      "Renewal-First: Built around recurring cycles — subscriptions, insurance, rent, and bills",
+      "Smart Reminders: Automated alerts at 30, 7, 3, and 1 day before every due date",
+      "Offline-First: Works entirely on-device with optional cloud sync. No internet required",
+      "Secure: Privacy-first design with encrypted local storage and biometric app lock",
+      "Insightful: Analytics dashboard with monthly breakdowns and category-level spending insights"
+    ]
+  },
+
+  "problem": {
+    "summary": "Most people manage dozens of recurring financial obligations — monthly subscriptions, annual insurance renewals, quarterly bills, and rent cycles. Without a dedicated system, these deadlines live scattered across emails, paper documents, and memory. The result: missed renewals, unexpected charges, and unnecessary late fees.",
+    "painPoints": [
+      "Missed Payments: No centralized system to track upcoming due dates leads to forgotten renewals and avoidable penalties.",
+      "Manual Reminders: Calendar reminders are static and require manual setup for every renewal — unsustainable at scale.",
+      "Scattered Records: Bills, receipts, and renewal documents exist in different apps, folders, and inboxes with no unified view.",
+      "Lack of Insight: Without analytics, users cannot identify spending patterns or anticipate high-expense months in advance."
+    ]
+  },
+
+  "features": [
+    {
+      "title": "Renewal Management",
+      "description": "Full lifecycle management for recurring payments. Users define a renewal record once and the system automatically calculates next due dates.",
+      "points": [
+        "Supports monthly, quarterly, semi-annual, and annual cycles",
+        "Visual status cards with color-coded urgency indicators",
+        "Active status tracking with archived record support",
+        "Category-based organization (Health, Vehicle, General, Utilities, Insurance, Rent)"
+      ]
+    },
+    {
+      "title": "Expense & Payment Logging",
+      "description": "Log actual payments against renewal records with full transaction history.",
+      "points": [
+        "Capture amount paid, payment method (Cash, GPay, UPI, Card), and date",
+        "Optional receipt attachment per expense entry",
+        "Total monthly expenses aggregated across Dashboard and Analytics",
+        "Filter by month, category, or payment method"
+      ]
+    },
+    {
+      "title": "Smart Reminders",
+      "description": "Automated local push notifications ensuring users never miss a payment deadline.",
+      "points": [
+        "Configurable reminder intervals: 30, 7, 3, and 1 day before due date",
+        "Each interval independently enabled or disabled per record",
+        "Powered by Expo Notifications — fully local, no server required",
+        "Badge count reflects total pending reminders"
+      ]
+    },
+    {
+      "title": "Analytics Dashboard",
+      "description": "Visual spending insights with monthly comparisons and category breakdowns.",
+      "points": [
+        "Monthly total with 6-month bar chart comparison",
+        "Category distribution with progress bars",
+        "Upcoming vs paid amounts for current month",
+        "Historical data view with month selector"
+      ]
+    },
+    {
+      "title": "PDF Export",
+      "description": "Generate structured financial reports for personal records or auditing.",
+      "points": [
+        "Structured report format with all records and expenses",
+        "Export triggered from Settings with one tap",
+        "Share via native share sheet (email, cloud drive, messaging)",
+        "Offline access — no internet required to generate reports"
+      ]
+    },
+    {
+      "title": "App Lock & Security",
+      "description": "Protect sensitive financial data with biometric and PIN authentication.",
+      "points": [
+        "Biometric authentication (Face ID / Fingerprint) via Expo LocalAuthentication",
+        "PIN fallback stored in Expo SecureStore — never in plain AsyncStorage",
+        "Inactivity auto-lock after 5 minutes (configurable)",
+        "Three failed attempts triggers 30-second lockout"
+      ]
+    },
+    {
+      "title": "Light / Dark / System Theme",
+      "description": "Full theme support adapting to user preference and device settings.",
+      "points": [
+        "Manual theme selection: Light, Dark, or System Default",
+        "Live preview in Settings before applying",
+        "Consistent purple accent (#7C3AED) across all themes",
+        "All colors meet WCAG AA contrast standards"
+      ]
+    }
+  ],
+
+  "modules": [
+    {
+      "name": "Dashboard",
+      "purpose": "Provides a quick snapshot of the user's financial status and upcoming payments.",
+      "features": [
+        "Current month total expenses card",
+        "Upcoming renewals sorted by urgency with color-coded due dates",
+        "Quick action button to add a new record",
+        "Summary of active vs archived records",
+        "See All link to full Records view"
+      ],
+      "summary": "The Dashboard acts as the control center. It gives users instant visibility into monthly spending and upcoming obligations, helping plan finances efficiently."
+    },
+    {
+      "name": "Records",
+      "purpose": "Manage subscriptions, renewals, and recurring payments in a centralized list.",
+      "features": [
+        "Paginated card-based list of all renewal records",
+        "Each card shows Title, Category badge, Amount, Due Date, and Repeat cycle",
+        "Swipe left to delete, tap to view or edit full detail",
+        "Filter by category or status (active/archived)",
+        "Search by title keyword"
+      ],
+      "summary": "The Records section stores and monitors all important renewals. It ensures recurring payments are always tracked and updated automatically."
+    },
+    {
+      "name": "Add Record",
+      "purpose": "Provides a guided multi-step process to create new records accurately.",
+      "features": [
+        "Step 1: Title, Category (selectable chips), and Amount",
+        "Step 2: Due Date (calendar picker), Repeat Cycle (tappable cards), and next-due-date preview",
+        "Step 3: Reminder interval toggles (30, 7, 3, 1 day) and optional Notes field",
+        "Live preview card before final save",
+        "Input validation and step progress indicator"
+      ],
+      "summary": "The Add Record flow simplifies data entry using a step-by-step wizard, reducing errors and ensuring all information is captured before saving."
+    },
+    {
+      "name": "Expenses",
+      "purpose": "Logs and manages actual payments made by users against renewal records.",
+      "features": [
+        "Transaction history with total monthly spend header",
+        "Each entry shows linked record, amount, payment method icon, and date",
+        "Tap to expand for full details including attached receipt",
+        "Delete individual entries or bulk clear",
+        "Filter by month, category, or payment method"
+      ],
+      "summary": "The Expenses section records real transactions and helps users understand where money is spent while maintaining a digital payment history."
+    },
+    {
+      "name": "Analytics",
+      "purpose": "Visualizes financial data for better decision-making and spending awareness.",
+      "features": [
+        "Monthly total with 6-month bar chart comparison",
+        "Category distribution with horizontal progress bars",
+        "Upcoming vs paid amounts for current month",
+        "Historical data view with month selector",
+        "All data pulled from local storage in real time"
+      ],
+      "summary": "Analytics transforms raw data into meaningful insights. Users can analyze spending patterns and adjust financial habits accordingly."
+    },
+    {
+      "name": "Settings",
+      "purpose": "Allows users to customize app behavior, security, and data management.",
+      "features": [
+        "Appearance: Light / Dark / System Default theme selector with live preview",
+        "Security: App Lock toggle for biometric or PIN authentication",
+        "Notifications: Global reminder toggle and default reminder intervals",
+        "Data Management: Export to PDF and Clear all data with confirmation dialog"
+      ],
+      "summary": "Settings provides personalization, security, and data control. Users can adapt the app while keeping financial data secure."
+    },
+    {
+      "name": "Reminders",
+      "purpose": "Ensures users never miss important payments through automated alerts.",
+      "features": [
+        "Notification center listing all scheduled reminders",
+        "Each item shows record title, reminder type, and scheduled time",
+        "Toggle individual reminders on or off",
+        "Fully local push via Expo Notifications — no server required",
+        "Badge count reflects total pending reminders"
+      ],
+      "summary": "The reminder system proactively alerts users about upcoming payments, reducing the risk of late fees and missed renewals."
+    },
+    {
+      "name": "Notes",
+      "purpose": "Allows users to add additional context and payment instructions to records.",
+      "features": [
+        "Optional notes field per record",
+        "Store payment instructions, account numbers, or remarks",
+        "Displayed in record detail view",
+        "Included in PDF export output"
+      ],
+      "summary": "Notes enable users to store important payment details, making records more informative and easier to manage later."
+    }
+  ],
+
+  "workflow": [
+    {
+      "step": 1,
+      "title": "Create a Record",
+      "description": "Tap the central '+' tab in bottom navigation. Fill in title, category chip, and amount in Step 1 of the wizard."
+    },
+    {
+      "step": 2,
+      "title": "Set Renewal Cycle",
+      "description": "In Step 2, pick a due date from the calendar picker and select a repeat cycle (No Repeat, Monthly, Every 3 Months, Every 6 Months, or Yearly). The system auto-calculates the next due date."
+    },
+    {
+      "step": 3,
+      "title": "Enable Reminders",
+      "description": "In Step 3, toggle on reminder intervals (30-day, 7-day, 3-day, 1-day) individually. Add optional notes for payment instructions or account references."
+    },
+    {
+      "step": 4,
+      "title": "Confirm & Save",
+      "description": "Review the live preview card. Tap Confirm & Save — the record is written to AsyncStorage and notifications are scheduled immediately."
+    },
+    {
+      "step": 5,
+      "title": "Log Expense",
+      "description": "When a payment is made, open the record detail view and log an expense. Enter amount, select payment method, optionally attach a receipt."
+    },
+    {
+      "step": 6,
+      "title": "Track Analytics",
+      "description": "Navigate to the Analytics tab to view monthly totals, category breakdowns, and 6-month spending history. Data updates in real time."
+    },
+    {
+      "step": 7,
+      "title": "Export Report",
+      "description": "At month-end, go to Settings and tap Export to PDF. A structured report of all records and expenses is generated and shared via the native share sheet."
+    }
+  ],
+
+  "analytics": {
+    "metrics": [
+      "Monthly Total: Aggregate of all expense logs within the current calendar month",
+      "Category Split: Per-category spend as percentage and absolute value for selected period",
+      "Upcoming Load: Total amount due in the next 30 days across all active records",
+      "History View: Month-by-month historical data with month selector for trend analysis",
+      "Month-over-Month Change: Percentage increase or decrease vs previous month"
+    ],
+    "visuals": [
+      "Horizontal bar chart comparing last 6 months of total expense",
+      "Progress bars for category distribution (Health, Vehicle, Utilities, General, Other)",
+      "Color-coded due date indicators: red (overdue), orange (within 7 days), green (upcoming)",
+      "Upcoming vs paid card for current month summary"
+    ],
+    "logic": "All analytics are computed client-side from AsyncStorage data using Context API selectors. No external analytics service is used. Data is filtered by calendar month boundaries and aggregated per category using reduce operations."
+  },
+
+  "architecture": {
+    "frontend": "React Native with Expo SDK — single codebase targeting iOS and Android. Screens organized by feature module. Styling via StyleSheet API with NativeWind utility classes.",
+    "backend": "No dedicated backend server. Optional Firebase Firestore for cloud sync (user opt-in). Firebase Auth for account management when cloud features are enabled.",
+    "state": "Context API with useReducer — RecordsContext, ExpenseContext, ThemeContext, and AuthContext wrap the app root. Lightweight global state without Redux overhead.",
+    "storage": "AsyncStorage for records and expense logs. Expo SecureStore for credentials, PIN, and sensitive configuration. All data stored locally on device by default.",
+    "api": "Expo Notifications API for local push scheduling. Expo LocalAuthentication for biometric/PIN lock. react-native-html-to-pdf for PDF generation. Optional Firebase SDK for cloud sync."
+  },
+
+  "security": {
+    "authentication": "Biometric authentication (Face ID / Fingerprint) via Expo LocalAuthentication. PIN fallback stored in Expo SecureStore. Auto-lock after 5 minutes of inactivity. Three failed attempts triggers 30-second lockout.",
+    "encryption": "Expo SecureStore provides OS-level encrypted storage for credentials and PIN. AsyncStorage data is stored in app-sandboxed local storage inaccessible to other apps.",
+    "privacy": "No analytics or telemetry collected. No third-party tracking SDKs. All data stored on-device by default. Cloud sync is purely opt-in and user-controlled. No data shared with external services."
+  },
+
+  "design": {
+    "themes": ["Light", "Dark", "System Default"],
+    "principles": [
+      "Card-based layout — every record and expense lives in a clean, tappable card",
+      "Bottom navigation — thumb-friendly access to all primary modules",
+      "Step-based forms — guided entry reduces cognitive load and input errors",
+      "Color-coded urgency — immediate visual understanding of payment status",
+      "System font usage — native feel on both iOS (SF Pro) and Android (Roboto)",
+      "Responsive spacing — dynamic padding adapts to device size and safe areas"
+    ],
+    "patterns": [
+      "RecordCard: title, category badge, amount, due date, repeat icon",
+      "ExpenseItem: method icon, amount, date, expandable receipt view",
+      "CategoryChip: colored pill selector for Health / Vehicle / General / Utilities",
+      "StepIndicator: progress dots for multi-step form navigation",
+      "ReminderToggle: labeled switch for each notification interval",
+      "AmountInput: currency-prefixed numeric field with native keyboard",
+      "StatusBadge: active / archived / overdue state indicator"
+    ]
+  },
+
+  "future": {
+    "features": [
+      "Phase 2 (Q3 2025): Firebase cloud sync (opt-in), multi-device login, enhanced PDF reports with charts, recurring expense templates",
+      "Phase 3 (Q1 2026): AI-powered spending insights, monthly budget planning module, web dashboard companion app, multi-language and currency support",
+      "AI Insights: Anomaly detection, subscription audit for inactive subscriptions, 3-month budget recommendations, renewal cost predictions",
+      "Budget Planning: Per-category monthly budget limits, real-time progress bars, overspend alerts, annual cost projection from renewal cycles",
+      "Cross-Platform: Web dashboard companion for desktop access, data portability across platforms"
+    ],
+    "roadmap": "The current build establishes a solid offline-first foundation. Phase 2 focuses on connectivity and collaboration. Phase 3 introduces intelligence and platform expansion. All enhancements preserve the app's core simplicity and privacy-first approach."
+  },
+  "mobile":true,
+"gallery": [
+  {
+    "id": "1",
+    "src": "/assets/mobile-app/main-record-management.png",
+    "alt": "Record management main screen mockup",
+    "title": "Record Management Showcase",
+    "description": "Hero mockup highlighting the Records module with renewal tracking, expense management, and smart reminders.",
+    "meta": {
+      "screen": "Records",
+      "module": "Core Management",
+      "platform": "Android & iOS",
+      "purpose": "Marketing Hero"
+    }
+  },
+  {
+    "id": "2",
+    "src": "/assets/mobile-app/dual-dashboard-records.png",
+    "alt": "Dashboard and Records dual screen mockup",
+    "title": "Dashboard & Records View",
+    "description": "Side-by-side view showing the main dashboard overview and active renewal records.",
+    "meta": {
+      "screen": "Dashboard + Records",
+      "module": "Home & Records",
+      "platform": "Android & iOS",
+      "layout": "Dual Preview"
+    }
+  },
+  {
+    "id": "3",
+    "src": "/assets/mobile-app/full-app-overview.png",
+    "alt": "Complete app screens overview",
+    "title": "Complete App Preview",
+    "description": "Multi-screen overview displaying Dashboard, Analytics, Settings, and Record Details in a unified layout.",
+    "meta": {
+      "screen": "All Modules",
+      "module": "Overview",
+      "platform": "Android & iOS",
+      "layout": "Multi-Screen Grid"
+    }
+  },
+  {
+    "id": "4",
+    "src": "/assets/mobile-app/record-iphone.png",
+    "alt": "Add new record step-by-step flow",
+    "title": "Add Record Workflow",
+    "description": "Step-by-step record creation flow with amount input, category selection, and confirmation preview.",
+    "meta": {
+      "screen": "Add Record",
+      "module": "Records",
+      "platform": "Android & iOS",
+      "flow": "Multi-Step Wizard"
+    }
+  }
+]
+}
