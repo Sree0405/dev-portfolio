@@ -42,7 +42,7 @@ const projects = [
   },
 
   {
-    title: "Flixify — Backend Framework Dashboard",
+    title: "Fieldstack — Backend Framework",
     type: "Open Source Framework",
     description:
       "Production-ready headless CMS framework with admin panel and auto-generated APIs.",

@@ -205,7 +205,7 @@ export default function Hero() {
             </a>
 
             <a
-              href="https://linkedin.com"
+              href="linkedin.com/in/sreekanth04052005/"
               target="_blank"
               rel="noreferrer"
               className="hover:text-primary transition"
@@ -214,7 +214,7 @@ export default function Hero() {
             </a>
 
             <a
-              href="mailto:yourmail@gmail.com"
+              href="mailto:sreekanth04052005@gmail.com"
               className="hover:text-primary transition"
             >
               <Mail />
