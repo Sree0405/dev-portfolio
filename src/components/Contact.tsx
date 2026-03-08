@@ -50,19 +50,48 @@ export default function Contact() {
 
   return (
     <section id="contact" ref={ref} className="relative bg-slate-950 py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 particle-bg opacity-20" />
+      <div className="absolute inset-0 bg-slate-950 opacity-20" />
 
       <div className="relative max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold neon-text mb-4">Contact Terminal</h2>
-          <p className="text-l text-muted-foreground font-mono">Establish Connection</p>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-glow mx-auto mt-4" />
-        </motion.div>
+<motion.div
+  initial={{ opacity: 0, y: 40 }}
+  animate={isInView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.8 }}
+  className="text-center mb-24"
+>
+
+  <h2
+    className="
+    text-4xl
+    sm:text-5xl
+    md:text-6xl
+    font-bold
+    tracking-tight
+    mb-6
+    "
+  >
+
+    <span
+      className="
+      bg-gradient-to-r
+      from-indigo-400
+      via-purple-400
+      to-cyan-400
+      bg-clip-text
+      text-transparent
+      "
+    >
+      Let's Connect
+    </span>
+
+  </h2>
+
+  <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+    Whether you're building a new product, exploring an idea, or looking for
+    engineering collaboration, I'm always open to meaningful conversations.
+  </p>
+
+</motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Info */}
@@ -73,7 +102,12 @@ export default function Contact() {
             className="space-y-8"
           >
             <div className="glass-panel p-8 rounded-2xl">
-              <h3 className="text-2xl font-bold mb-6 text-foreground">Get In Touch</h3>
+              <h3 className="text-2xl font-bold mb-6 text-foreground bg-gradient-to-r
+      from-indigo-400
+      via-purple-400
+      to-cyan-400
+      bg-clip-text
+      text-transparent">Get In Touch</h3>
               <p className="text-muted-foreground mb-8 leading-relaxed">
                 I'm always open to discussing new projects, creative ideas, or opportunities 
                 to be part of your vision. Feel free to reach out through any of these channels.

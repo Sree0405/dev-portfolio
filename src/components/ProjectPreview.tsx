@@ -1,39 +1,44 @@
 import { useState } from "react";
 
 export function ProjectPreview({ project }) {
-  const [ready, setReady] = useState(false);
+
+  const [loaded, setLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+
+  const showVideo = project.video && !videoError;
 
   return (
-    <div className="relative h-[320px] rounded-2xl overflow-hidden border border-primary/20 shadow-xl">
+    <div className="relative h-[360px] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl group">
 
-      {/* IMAGE PLACEHOLDER */}
-      {!ready && project.image && (
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-[320px] object-cover"
-        />
-      )}
+      {/* Image fallback */}
+      <img
+        src={project.image}
+        alt={project.title}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+          loaded ? "opacity-0" : "opacity-100"
+        }`}
+      />
 
-      {/* VIDEO */}
-      {project.video && (
+      {/* Video */}
+      {showVideo && (
         <video
           src={project.video}
           autoPlay
-          loop
           muted
+          loop
           playsInline
           preload="metadata"
-          onCanPlay={() => setReady(true)}
-          className={`w-full h-[320px] object-cover transition-opacity duration-500 ${
-            ready ? "opacity-100" : "opacity-0"
+          onCanPlay={() => setLoaded(true)}
+          onError={() => setVideoError(true)}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+            loaded ? "opacity-100" : "opacity-0"
           }`}
         />
       )}
 
-      {/* Hover Overlay */}
-      <div className="absolute h-[320px] inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-4">
-        {/* buttons */}
+      {/* Hover overlay */}
+      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold">
+        View Project
       </div>
 
     </div>

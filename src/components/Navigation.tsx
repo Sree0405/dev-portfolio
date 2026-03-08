@@ -70,10 +70,21 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto">
         <div className="glass-panel rounded-full px-6 py-3 flex items-center justify-between">
           {/* Logo - links to immersive experience */}
-          <Link to="/immersive">
+          <Link to="/">
             <motion.div
-              className="font-mono font-bold text-xl neon-text flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
+className="
+font-bold
+text-xl
+flex
+items-center
+gap-2
+bg-gradient-to-r
+from-indigo-400
+via-purple-400
+to-cyan-400
+bg-clip-text
+text-transparent
+"              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               title="Enter Immersive Experience"
             >

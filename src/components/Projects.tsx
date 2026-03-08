@@ -1,262 +1,280 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ExternalLink, Github, AlertTriangle } from "lucide-react";
+import { ExternalLink, Github, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectPreview } from "./ProjectPreview";
-
 import { useNavigate } from "react-router-dom";
 
 
-/* Assets */
-import FlixifyImg from "@/assets/Screenshot 2026-02-01 125107.png";
-
-import myuipic from "@/assets/3dUi.png";
+import My3DUIImage from "@/assets/3dUi.png";
 import My3DUIVideo from "@/assets/videos/my3dui.mp4";
-import Netflixvideo from "@/assets/videos/netflix.mp4";
 
-import fieldstackimg from "@/assets/Dashboard.png";
-import fieldstackvideo from "@/assets/videos/fieldstack.mp4";
+import FieldstackImage from "@/assets/Dashboard.png";
+import FieldstackVideo from "@/assets/videos/fieldstack.mp4";
 
-import EVPortalPic from "@/assets/evpic.png";
+import EVPortalImage from "@/assets/evpic.png";
 import EVPortalVideo from "@/assets/videos/evPortal.mp4";
-import LiveAdminMain from "@/assets/LifeAdminMain.png";
-/* Project Data */
+
+import NetflixImage from "@/assets/Screenshot 2026-02-01 125107.png";
+import NetflixVideo from "@/assets/videos/netflix.mp4";
+
+import LifeAdminImage from "@/assets/LifeAdminMain.png";
+/* ============================= */
+/* PROJECT DATA */
+/* ============================= */
+
 const projects = [
   {
-    title: "My3DUI — 3D Component Library",
-    type: "Open Source Library",
+    title: "My3DUI",
+    subtitle: "3D Component Library",
+    type: "Open Source UI System",
     description:
-      "An open-source 3D UI system built with React and Three.js. Enables developers to build immersive interfaces with reusable components.",
+      "An open-source 3D UI component library built with React Three Fiber. Designed to help developers build immersive web interfaces using composable, reusable primitives.",
+
     highlights: [
-      "React Three Fiber",
-      "TypeScript First",
-      "Tree-Shakable Build",
-      "Component Playground",
+      "Reusable 3D UI Components",
+      "Developer Playground",
+      "Tree-Shakable Architecture",
+      "TypeScript-first API",
     ],
-    tech: ["Next Js", "React", "TypeScript", "Three.js", "Tailwind", "Vite"],
-    image: myuipic,
-    url: "https://my3dui.vercel.app/",
+
+    tech: ["Next.js", "React", "TypeScript", "Three.js", "Tailwind"],
+
+    image: My3DUIImage,
     video: My3DUIVideo,
-    gitHub: "https://github.com/Sree0405/my3dui",
+
+    live: "https://my3dui.vercel.app/",
+    github: "https://github.com/Sree0405/my3dui",
     docs: "https://my3dui.vercel.app/docs",
   },
 
   {
-    title: "Fieldstack — Backend Framework",
-    type: "Open Source Framework",
+    title: "Fieldstack",
+    subtitle: "Headless Backend Framework",
+    type: "Open Source Backend System",
+
     description:
-      "Production-ready headless CMS framework with admin panel and auto-generated APIs.",
+      "A scalable backend framework with an integrated admin panel, authentication system, and auto-generated APIs designed for modern SaaS platforms.",
+
     highlights: [
       "JWT Authentication",
-      "Users & Roles",
-      "API Generator",
-      "Scalable Backend",
+      "Role-Based Access",
+      "Auto API Generator",
+      "Modular Backend Architecture",
     ],
-    tech: ["React", "Next.js", "Node.js", "PostgreSQL", "Prisma"],
-    image: fieldstackimg,
-    video: fieldstackvideo,
-    url: "https://fieldstack.onrender.com/",
-    gitHub: "https://github.com/Sree0405/fieldstack",
-    docs: "/project/fieldstack",
+
+    tech: ["Next.js", "Node.js", "PostgreSQL", "Prisma"],
+
+    image: FieldstackImage,
+    video: FieldstackVideo,
+
+    live: "https://fieldstack.onrender.com/",
+    github: "https://github.com/Sree0405/fieldstack",
   },
 
   {
-    title: "LifeAdmin Pro — Finance & Renewal Tracker",
-    type: "Mobile App",
+    title: "LifeAdmin Pro",
+    subtitle: "Finance & Renewal Tracker",
+    type: "Mobile Application",
+
     description:
-      "Personal finance & renewal management app with smart reminders and analytics.",
+      "A mobile productivity application for managing financial renewals, subscriptions, and recurring payments with reminders and analytics.",
+
     highlights: [
       "Renewal Tracking",
-      "Smart Reminders",
+      "Smart Notifications",
       "Offline Storage",
-      "Analytics",
+      "Analytics Dashboard",
     ],
+
     tech: [
       "React Native",
       "Expo",
       "TypeScript",
       "Context API",
       "AsyncStorage",
-      "Firebase"
+      "Firebase",
     ],
-    image: LiveAdminMain,
-    url: "https://drive.google.com/drive/u/1/folders/11vPn0NE1w-0qGiIQ7Mc9iVHhQ7SWEyXO/",
-    gitHub: "https://github.com/Sree0405/lifeadmin-pro",
-    docs: "/project/lifeadmin",
+
+    image: LifeAdminImage,
+
+    live: "https://drive.google.com/drive/u/1/folders/11vPn0NE1w-0qGiIQ7Mc9iVHhQ7SWEyXO/",
+    github: "https://github.com/Sree0405/lifeadmin-pro",
   },
 
   {
-    title: "EV Portal — Interactive EV Showcase",
-    type: "Web App",
+    title: "EV Portal",
+    subtitle: "Interactive EV Showcase",
+    type: "3D Web Application",
+
     description:
-      "3D-powered EV discovery platform with smooth animations.",
+      "An immersive electric vehicle discovery platform featuring interactive 3D visualizations, animations, and dynamic filtering.",
+
     highlights: [
       "3D Visualization",
-      "Smooth Transitions",
-      "Filters",
-      "High Performance",
+      "Smooth Page Transitions",
+      "Dynamic Filtering",
+      "High Performance Rendering",
     ],
-    tech: ["Next.js", "React", "Three.js", "Tailwind CSS"],
-    url: "https://ev-portal.vercel.app/",
-    image: EVPortalPic,
+
+    tech: ["Next.js", "React", "Three.js", "Tailwind"],
+
+    image: EVPortalImage,
     video: EVPortalVideo,
-    gitHub: "https://github.com/Sree0405/ev-portal",
+
+    live: "https://ev-portal.vercel.app/",
+    github: "https://github.com/Sree0405/ev-portal",
   },
 
   {
-    title: "Netflix Clone — Full Stack App",
-    type: "Web App",
+    title: "Netflix Clone",
+    subtitle: "Full Stack Streaming App",
+    type: "Full Stack Application",
+
     description:
-      "Full-stack Netflix clone with authentication and backend integration.",
+      "A full-stack streaming platform inspired by Netflix featuring authentication, dynamic content rendering, and backend API integration.",
+
     highlights: [
-      "User Auth",
-      "Dynamic Content",
+      "User Authentication",
+      "Dynamic Content Loading",
       "Responsive UI",
-      "REST APIs",
+      "REST API Integration",
     ],
-    tech: ["JavaScript", "React", "Redux Toolkit", "NextJs"],
-    video: Netflixvideo,
-    warning: "This features require VPN connectivity",
-    url: "https://sree-netflix.vercel.app/",
-    gitHub: "https://github.com/Sree0405/netflix-clone",
+
+    tech: ["React", "Redux Toolkit", "Next.js", "JavaScript"],
+
+    // image: FlixifyImg,
+    video: NetflixVideo,
+
+    live: "https://sree-netflix.vercel.app/",
+    github: "https://github.com/Sree0405/netflix-clone",
+
+    warning: "Some content requires VPN connectivity.",
   },
 ];
 
+/* ============================= */
+/* COMPONENT */
+/* ============================= */
+
 export default function Projects({ homepage = false }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const visibleProjects = homepage
-    ? projects.slice(0, 2)
-    : projects;
+  const isInView = useInView(ref, { once: true });
   const navigate = useNavigate();
+
+  const visibleProjects = homepage ? projects.slice(0, 2) : projects;
 
   return (
     <section
       id="projects"
       ref={ref}
-      className={`relative px-6 ${homepage ? "py-24 bg-slate-950" : "py-32 bg-slate-950"
-        }`}
+      className="relative py-32 px-6 bg-slate-950 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto">
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className={`text-center ${homepage ? "mb-16" : "mb-24"}`}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold neon-text mb-4">
-            {homepage ? "Featured Work" : "Featured Projects"}
-          </h2>
+        <div className="space-y-32">
 
-          <p className="text-muted-foreground text-l font-mono">
-            Real Products • Real Engineering • Real Impact
-          </p>
-        </motion.div>
+          {visibleProjects.map((project, index) => {
 
-        {/* Projects */}
-        <div className={homepage ? "grid gap-16 md:grid-cols-2" : "space-y-32"}>
-
-          {visibleProjects.map((project, i) => {
-            const reverse = !homepage && i % 2 !== 0;
+            const reverse = index % 2 !== 0 && !homepage;
 
             return (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 60 }}
+                initial={{ opacity: 0, y: 80 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className={
-                  homepage
-                    ? "flex flex-col gap-6"
-                    : `grid lg:grid-cols-2 gap-16 items-center   backdrop-blur
-  border border-slate-700/40
-  rounded-xl
-  p-6
-  shadow-xl${reverse ? "lg:flex-row-reverse" : ""
-                    }`
-                }
+                viewport={{ once: true }}
+                className={`grid lg:grid-cols-2 gap-16 items-center`}
               >
 
-                {/* Preview */}
-                <div className="relative group">
+                {/* PREVIEW */}
+
+                <div className={reverse ? "lg:order-2" : ""}>
                   <ProjectPreview project={project} />
                 </div>
 
-                {/* Content */}
-                <div className="
-  space-y-6
+                {/* CONTENT */}
 
-">
-                  <div className="flex flex-wrap items-center gap-3">
+                <div className="space-y-6">
 
-                    <h3 className="text-2xl font-bold text-foreground">
+                  <div className="flex items-center gap-3 flex-wrap">
+
+                    <h3 className="text-2xl font-bold">
                       {project.title}
                     </h3>
 
-                    {/* Project Type Badge */}
-                    {project.type && (
-                      <span className="
-      px-3 py-1 rounded-full text-xs font-semibold
-      bg-gradient-to-r from-indigo-500/20 to-purple-500/20
-      text-indigo-300 border border-indigo-500/30
-      backdrop-blur
-    ">
-                        {project.type}
-                      </span>
-                    )}
+                    <span className="px-3 py-1 text-xs font-semibold rounded-full border border-primary/30 bg-primary/10 text-primary">
+                      {project.type}
+                    </span>
 
                   </div>
 
-                  <p className="text-muted-foreground leading-relaxed text-base">
+                  <p className="text-muted-foreground leading-relaxed">
                     {project.description}
                   </p>
-                  {/* Highlights */}
-                  <div className="grid grid-cols-2 gap-2 text-sm text-slate-300">
 
-                    {project.highlights?.map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-2"
-                      >
-                        <span className="text-indigo-400">▸</span>
+                  {/* HIGHLIGHTS */}
+
+                  <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+
+                    {project.highlights.map((item) => (
+                      <div key={item} className="flex items-center gap-2">
+                        <span className="text-primary">▸</span>
                         {item}
                       </div>
                     ))}
 
                   </div>
-                  {/* Tech */}
+
+                  {/* TECH */}
+
                   <div className="flex flex-wrap gap-2">
-                    {project.tech.slice(0, homepage ? 4 : project.tech.length).map((tech) => (
+
+                    {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 rounded-full text-xs font-mono bg-primary/10 text-primary border border-primary/30"
+                        className="px-3 py-1 text-xs font-mono border border-primary/30 rounded-full bg-primary/10 text-primary"
                       >
                         {tech}
                       </span>
                     ))}
+
                   </div>
 
-                  {/* CTA */}
-                  <div className="flex gap-4 pt-2">
-                    <Button
-                      size={homepage ? "sm" : "default"}
-                      onClick={() => window.open(project.url)}
-                    >
-                      View Live
-                    </Button>
+                  {/* ACTIONS */}
 
-                    {!homepage && project.docs && (
+                  <div className="flex gap-3 pt-2 flex-wrap">
+
+                    {project.live && (
+                      <Button
+                        onClick={() => window.open(project.live)}
+                      >
+                        <ExternalLink size={16} className="mr-2" />
+                        Live
+                      </Button>
+                    )}
+
+                    {project.github && (
+                      <Button
+                        variant="outline"
+                        onClick={() => window.open(project.github)}
+                      >
+                        <Github size={16} className="mr-2" />
+                        Code
+                      </Button>
+                    )}
+
+                    {project.docs && (
                       <Button
                         variant="outline"
                         onClick={() => window.open(project.docs)}
                       >
-                        Documentation
+                        <FileText size={16} className="mr-2" />
+                        Docs
                       </Button>
                     )}
+
                   </div>
 
                 </div>
@@ -267,22 +285,14 @@ export default function Projects({ homepage = false }) {
 
         </div>
 
-        {/* VIEW ALL CTA (Homepage only) */}
+        {/* VIEW ALL BUTTON */}
+
         {homepage && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.4 }}
-            className="mt-20 text-center"
-          >
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => (navigate("/projects"))}
-            >
+          <div className="text-center mt-20">
+            <Button size="lg" onClick={() => navigate("/projects")}>
               View All Projects →
             </Button>
-          </motion.div>
+          </div>
         )}
 
       </div>
