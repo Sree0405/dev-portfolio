@@ -1,5 +1,5 @@
 import Navigation from '@/components/Navigation';
-import Projects from '@/components/Projects';
+import Projects from '@/components/projects/Projects';
 import Footer from '@/components/Footer';
 import ProjectsHero from "@/components/projects/ProjectsHero";
 const ProjectsPage = () => {
