@@ -14,12 +14,12 @@
 
   /* CORE SURFACE SYSTEM */
 
-  --background: 240 30% 4%;
-  --surface: 240 22% 7%;
-  --surface-2: 240 20% 10%;
-  --surface-3: 240 15% 14%;
+  --background: 235 32% 5%;
+  --surface: 235 26% 8%;
+  --surface-2: 235 22% 11%;
+  --surface-3: 235 18% 14%;
 
-  --foreground: 0 0% 96%;
+  --foreground: 220 20% 96%;
 
   --card: 240 20% 8%;
   --card-foreground: 0 0% 95%;
@@ -34,18 +34,30 @@
 --primary: 262 100% 56%;
 --primary-light: 262 100% 72%;
 --primary-bright: 262 100% 80%;
-  --secondary: 240 14% 16%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 235 18% 12%;
   --secondary-foreground: 0 0% 96%;
 
   --accent: 195 100% 50%;
   --accent-soft: 195 100% 60%;
+  --accent-foreground: 235 32% 6%;
 
-  --muted: 240 10% 14%;
-  --muted-foreground: 240 6% 65%;
+  --muted: 235 16% 13%;
+  --muted-foreground: 220 10% 62%;
 
-  --border: 240 15% 22%;
-  --input: 240 14% 18%;
+  --border: 235 18% 20%;
+  --input: 235 20% 14%;
   --ring: 262 100% 56%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+
+  --neon-purple: 262 90% 62%;
+  --neon-purple-glow: 262 100% 72%;
+  --neon-blue: 195 95% 55%;
+
+  --glass-bg: 235 30% 8%;
+  --glass-border: 235 25% 100%;
 
   --radius: 0.8rem;
 
@@ -69,15 +81,21 @@
     );
 
   --gradient-bg:
+    hsl(235 32% 5%),
     radial-gradient(
-      circle at 30% 20%,
-      hsl(262 100% 56% / 0.15),
-      transparent 60%
+      ellipse 120% 80% at 50% -30%,
+      hsl(262 70% 22% / 0.35),
+      transparent 55%
     ),
     radial-gradient(
-      circle at 80% 80%,
-      hsl(195 100% 50% / 0.12),
-      transparent 60%
+      ellipse 90% 60% at 100% 50%,
+      hsl(195 80% 18% / 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 0% 80%,
+      hsl(262 60% 18% / 0.2),
+      transparent 45%
     );
 
   /* ========================= */
@@ -119,12 +137,15 @@
 body {
   @apply bg-background text-foreground antialiased;
   font-family: "Inter", sans-serif;
+  font-feature-settings: "cv02", "cv11", "ss01";
   overflow-x: hidden;
   background-image: var(--gradient-bg);
+  background-attachment: fixed;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 code,pre {
@@ -181,11 +202,153 @@ code,pre {
 /* GLASS PANEL */
 
 .glass-panel {
-  background: hsl(var(--surface) / .6);
-  backdrop-filter: blur(14px);
-  border: 1px solid hsl(var(--border) / .5);
-  box-shadow: var(--shadow-glass);
+  background: linear-gradient(
+    165deg,
+    hsl(var(--glass-bg) / 0.55),
+    hsl(var(--background) / 0.42)
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid hsl(var(--glass-border) / 0.12);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 1px 0 hsl(var(--glass-border) / 0.06);
   border-radius: var(--radius);
+}
+
+/* Nav shell — matches premium skills aesthetic */
+.glass-nav {
+  position: relative;
+  background: linear-gradient(
+    130deg,
+    hsl(var(--glass-bg) / 0.45),
+    hsl(var(--background) / 0.35)
+  );
+  border: 1px solid hsl(var(--glass-border) / 0.14);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow:
+    0 8px 32px rgba(2, 6, 23, 0.45),
+    inset 0 1px 0 hsl(var(--glass-border) / 0.08);
+}
+
+.glass-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    hsl(var(--glass-border) / 0.1) 0%,
+    transparent 45%,
+    hsl(var(--accent) / 0.06) 100%
+  );
+}
+
+/* Full-page consistent surface (optional wrapper) */
+.app-canvas {
+  @apply min-h-screen text-foreground;
+  background-color: hsl(var(--background));
+  background-image: var(--gradient-bg);
+  background-attachment: fixed;
+}
+
+/* Below fixed nav — top inset for every page hero / lead section */
+.page-hero-pt {
+  padding-top: 5.5rem;
+}
+@media (min-width: 640px) {
+  .page-hero-pt {
+    padding-top: 6rem;
+  }
+}
+@media (min-width: 1024px) {
+  .page-hero-pt {
+    padding-top: 6.75rem;
+  }
+}
+
+/* Bottom spacing for hero bands (title + intro) */
+.page-hero-pb {
+  padding-bottom: 2.5rem;
+}
+@media (min-width: 640px) {
+  .page-hero-pb {
+    padding-bottom: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .page-hero-pb {
+    padding-bottom: 3.5rem;
+  }
+}
+
+/* Horizontal rhythm aligned site-wide */
+.page-container-x {
+  @apply mx-auto max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16;
+}
+
+/* Standard content section vertical rhythm */
+.page-section-y {
+  @apply py-20 md:py-28 lg:py-32;
+}
+
+/* Section label — use with mono capitals */
+.section-eyebrow {
+  @apply font-mono text-xs uppercase tracking-[0.2em] text-primary;
+}
+
+/* Subtle noise-like grain via CSS only (very light) */
+.particle-bg {
+  background-image:
+    radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, hsl(var(--accent) / 0.04) 0%, transparent 45%);
+}
+
+/* Premium gradient CTA */
+.btn-gradient {
+  background: var(--gradient-primary);
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--glass-border) / 0.15);
+  box-shadow:
+    0 10px 28px hsl(var(--primary) / 0.35),
+    inset 0 1px 0 hsl(0 0% 100% / 0.15);
+  transition: box-shadow 0.35s ease, transform 0.25s ease, filter 0.25s ease;
+}
+
+.btn-gradient:hover {
+  box-shadow:
+    0 12px 36px hsl(var(--primary) / 0.45),
+    0 0 40px hsl(var(--primary-glow) / 0.25);
+  filter: brightness(1.05);
+}
+
+/* Premium glass button */
+.btn-glass {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--glass-bg) / 0.4),
+    hsl(var(--background) / 0.25)
+  );
+  border: 1px solid hsl(var(--glass-border) / 0.18);
+  color: hsl(var(--foreground));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 hsl(var(--glass-border) / 0.08);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.btn-glass:hover {
+  border-color: hsl(var(--primary) / 0.45);
+  box-shadow:
+    0 0 24px hsl(var(--primary) / 0.12),
+    inset 0 1px 0 hsl(var(--glass-border) / 0.12);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--primary) / 0.12),
+    hsl(var(--background) / 0.3)
+  );
 }
 
 /* CYBER PANEL */

@@ -85,9 +85,9 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="relative py-32 px-6 overflow-hidden bg-slate-950"
+      className="relative overflow-hidden border-t border-border/30 bg-transparent page-section-y"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="page-container-x">
 
         {/* ================= HEADER ================= */}
 
@@ -95,13 +95,14 @@ export default function About() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-24"
+          className="mb-24 text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            About Me
+          <p className="section-eyebrow mb-3">Profile</p>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+            About me
           </h2>
 
-          <p className="text-muted-foreground font-mono text-lg">
+          <p className="font-mono text-lg text-muted-foreground">
             Frontend Systems • Scalable Products • Modern Web Platforms
           </p>
         </motion.div>

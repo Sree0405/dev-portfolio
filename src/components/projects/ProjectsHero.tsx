@@ -11,12 +11,12 @@ export default function ProjectsHero() {
   ];
 
   return (
-    <section className="relative pt-32 text-center overflow-hidden">
+    <section className="page-hero-pt page-hero-pb pt-40 relative overflow-hidden border-b border-border/25 text-center">
 
-      {/* Ambient Background */}
-      <div className="absolute inset-0 particle-bg opacity-20" />
+      <div className="particle-bg pointer-events-none absolute inset-0 opacity-30" />
 
-      <div className="relative max-w-4xl mx-auto px-6">
+      <div className="page-container-x relative">
+        <div className="mx-auto max-w-4xl">
 
         {/* Title */}
 
@@ -108,6 +108,7 @@ export default function ProjectsHero() {
 
         </motion.div>
 
+        </div>
       </div>
 
     </section>

@@ -201,7 +201,7 @@ export default function Projects({ homepage = false }) {
     <section
       id="projects"
       ref={ref}
-      className="relative py-32 px-6 bg-slate-950 overflow-hidden"
+      className="relative overflow-hidden border-t border-border/30 bg-transparent px-6 py-32"
     >
       <div className="max-w-7xl mx-auto">
 

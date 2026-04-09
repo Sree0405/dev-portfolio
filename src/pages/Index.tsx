@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen bg-slate-950 overflow-x-hidden">
+    <div className="app-canvas relative min-h-screen overflow-x-hidden">
       <Navigation />
       <main>
         <Hero />

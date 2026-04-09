@@ -1,11 +1,9 @@
-import Navigation from '@/components/Navigation';
-import Experience from '@/components/Experience';
-import Footer from '@/components/Footer';
+import Experience from "@/components/Experience";
+import Footer from "@/components/Footer";
 
 const ExperiencePage = () => {
   return (
-    <div className="relative min-h-screen bg-slate-950 overflow-x-hidden">
-      <Navigation />
+    <div className="relative min-h-screen overflow-x-hidden text-foreground">
       <main>
         <Experience />
       </main>

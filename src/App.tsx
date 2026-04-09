@@ -2,11 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProjectDocumentation from "./pages/apiDocs";
 // Layouts
 import NormalLayout from "./layouts/NormalLayout";
-import ImmersiveLayout from "./layouts/ImmersiveLayout";
 
 // Pages
 import Home from "./pages/Home";
@@ -14,12 +14,21 @@ import ProjectsPage from "./pages/ProjectsPage";
 import SkillsPage from "./pages/SkillsPage";
 import ContactPage from "./pages/ContactPage";
 import ExperiencePage from "./pages/ExperiencePage";
-import ImmersivePage from "./pages/ImmersivePage";
 import NotFound from "./pages/NotFound";
 
 import Fieldstack from "./pages/Fieldstack.tsx";
 import LifeAdmin from "./pages/LifeAdmin.tsx";
 const queryClient = new QueryClient();
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
+
+  return null;
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -27,11 +36,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* Immersive Layout - Isolated 3D experience */}
-          <Route element={<ImmersiveLayout />}>
-            <Route path="/immersive" element={<ImmersivePage />} />
-          </Route>
+
 
           {/* Normal Layout - Standard pages with full navigation */}
           <Route element={<NormalLayout />}>

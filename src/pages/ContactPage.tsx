@@ -1,11 +1,9 @@
-import Navigation from '@/components/Navigation';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 const ContactPage = () => {
   return (
-    <div className="relative min-h-screen bg-slate-950 overflow-x-hidden">
-      <Navigation />
+    <div className="relative min-h-screen overflow-x-hidden text-foreground">
       <main>
         <Contact />
       </main>

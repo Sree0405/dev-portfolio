@@ -38,12 +38,13 @@ const experiences = [
       "Next.js",
       "TypeScript",
       "Node.js",
+      "Express",
       "PHP",
       "MySQL",
       "REST APIs",
-      "Spring Boot",
       "Directus",
       "Zapier",
+      "Spring Boot",
       "AI Integration",
       "Automation",
       "Git",
@@ -130,12 +131,12 @@ export default function Experience() {
     <section
       id="experience"
       ref={ref}
-      className="relative py-32 px-6 overflow-hidden bg-slate-950"
+      className="page-hero-pt relative overflow-hidden border-t border-border/30 bg-transparent pb-20 md:pb-28 lg:pb-32"
     >
-      {/* Ambient background */}
-      <div className="absolute inset-0 bg-slate-950 opacity-20" />
+      <div className="particle-bg pointer-events-none absolute inset-0 opacity-50" />
 
-      <div className="relative max-w-6xl mx-auto">
+      <div className="page-container-x relative">
+        <div className="mx-auto max-w-6xl">
 
         {/* Header */}
 
@@ -143,11 +144,12 @@ export default function Experience() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-24"
+          className="mb-24 text-center"
         >
+          <p className="section-eyebrow mb-3">Career</p>
 <h2
   className="
-  text-3xl md:text-4xl font-bold mb-4
+  mb-4 text-3xl font-bold md:text-4xl
   bg-gradient-to-r
   from-indigo-400
   via-purple-400
@@ -156,9 +158,9 @@ export default function Experience() {
   text-transparent
 "
 >
-  Professional Experience
+  Professional experience
 </h2>
-<p className="text-muted-foreground font-mono text-lg tracking-wide">
+<p className="font-mono text-lg tracking-wide text-muted-foreground">
   Building scalable platforms • designing systems • delivering real-world impact
 </p>
         </motion.div>
@@ -330,6 +332,7 @@ transition
 
         </div>
 
+        </div>
       </div>
     </section>
   );

@@ -1,17 +1,16 @@
 /**
  * NORMAL LAYOUT
- * - Used for standard pages (home, about, projects, etc.)
- * - Includes full navigation
+ * - Shared premium canvas + nav; pages stay transparent to show global gradient
  */
 
-import { Outlet } from 'react-router-dom';
-import Navigation from '@/components/Navigation';
+import { Outlet } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 
 export default function NormalLayout() {
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="app-canvas">
       <Navigation />
-      <main className="pt-20">
+      <main className="min-h-0 pt-0">
         <Outlet />
       </main>
     </div>
