@@ -103,8 +103,9 @@ export default function Footer() {
                   </div>
 
                   <p className="max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[15px] sm:leading-relaxed">
-                    Frontend-focused full-stack engineer building production web
-                    experiences, Node.js services, and clear UX under the hood.
+                    Frontend-focused full-stack engineer—strongest on interfaces,
+                    React/Next systems, and UX—with Node.js & Express for APIs and
+                    integrations when owning features end-to-end.
                   </p>
 
                   <nav

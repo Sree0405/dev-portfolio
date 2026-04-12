@@ -26,8 +26,9 @@ const SkillsPage = () => {
           <EmergingTech onSelectSkill={setSelectedSkill} />
 
           <p className="mt-14 border-t border-border/40 pt-8 text-center text-xs leading-relaxed text-muted-foreground sm:mt-16 sm:pt-10 sm:text-sm">
-            Java and Spring Boot are additional JVM experience; primary backend
-            depth is Node.js and Express.
+            Java and Spring Boot are additional JVM experience. Deepest craft is
+            frontend and product UX; Node.js and Express support APIs when
+            shipping full-stack.
           </p>
         </div>
 

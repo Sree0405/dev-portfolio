@@ -4,16 +4,16 @@ import { Crosshair, Cpu, Layers, Sparkles, Leaf } from "lucide-react";
 const radarLevels = [
   {
     name: "Core",
-    blurb: "Product UI, typesafe apps, and the Node runtime you ship on most.",
-    skills: ["React", "Next.js", "TypeScript", "Node.js"],
+    blurb: "Product UI, design systems, and typesafe React / Next applications.",
+    skills: ["React", "Next.js", "TypeScript"],
     icon: Crosshair,
     accent: "from-violet-500/20 to-transparent",
     ring: "text-violet-400",
   },
   {
-    name: "Backend (main)",
-    blurb: "Express-first services, APIs, and distributed boundaries.",
-    skills: ["Express", "Microservices", "REST APIs"],
+    name: "APIs & services",
+    blurb: "Node and Express for HTTP APIs and integrations—full-stack, not frontend-only.",
+    skills: ["Node.js", "Express", "Microservices", "REST APIs"],
     icon: Cpu,
     accent: "from-cyan-500/20 to-transparent",
     ring: "text-cyan-400",
@@ -56,7 +56,8 @@ export default function RadarVisualization({ onSelectSkill }: Props) {
             Technology radar
           </h2>
           <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
-            Node.js and Express at the center; Spring Boot grouped as{" "}
+            Frontend systems at the center of how I work; Node & Express sit
+            here for APIs. Spring Boot is{" "}
             <span className="text-foreground">additional</span> JVM depth — tap any
             chip for detail.
           </p>

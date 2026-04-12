@@ -34,16 +34,16 @@ const SKILL_DETAILS: Record<string, SkillDetail> = {
   },
   "Node.js": {
     title: "Node.js",
-    role: "Primary backend runtime",
+    role: "APIs & full-stack runtime",
     description:
-      "Main serverside path—APIs and integrations that stay aligned with the JavaScript/TypeScript frontend.",
+      "JavaScript runtime for services and tooling—pairs with React/Next so UI and APIs share types and velocity when shipping vertically.",
     tags: ["REST", "Middleware", "Performance"],
   },
   Java: {
     title: "Java",
     role: "Additional · JVM backends",
     description:
-      "Complementary enterprise and service work when teams standardize on the JVM—alongside a Node-first default.",
+      "Complementary enterprise and service work when teams standardize on the JVM—alongside a frontend-led stack.",
     tags: ["OOP & patterns", "Concurrency", "Interoperability"],
   },
   "Spring Boot": {
@@ -139,9 +139,9 @@ const SKILL_DETAILS: Record<string, SkillDetail> = {
   },
   Express: {
     title: "Express",
-    role: "Main HTTP layer",
+    role: "HTTP & REST APIs",
     description:
-      "The default API surface on Node—routing, middleware, and JSON services that ship quickly and stay maintainable.",
+      "Lightweight API layer on Node—routing, middleware, and JSON endpoints for features owned alongside the frontend.",
     tags: ["Routing", "Middleware", "JSON APIs"],
   },
   "REST APIs": {

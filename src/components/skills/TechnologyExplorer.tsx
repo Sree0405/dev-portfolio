@@ -35,16 +35,16 @@ type TechItem = {
   tier?: "main" | "additional";
 };
 
-/** Primary: Node & Express–centric backend; JVM listed separately */
+/** Core stack: frontend-led full-stack; JVM listed separately */
 const primaryTech: TechItem[] = [
   { name: "React", icon: SiReact, hint: "UI & state", kind: "si", tier: "main" },
   { name: "Next.js", icon: SiNextdotjs, hint: "Full-stack web", kind: "si", tier: "main" },
   { name: "TypeScript", icon: SiTypescript, hint: "Types & APIs", kind: "si", tier: "main" },
-  { name: "Node.js", icon: SiNodedotjs, hint: "Main backend runtime", kind: "si", tier: "main" },
+  { name: "Node.js", icon: SiNodedotjs, hint: "APIs & tooling", kind: "si", tier: "main" },
   {
     name: "Express",
     icon: Server,
-    hint: "Main HTTP layer",
+    hint: "HTTP / REST APIs",
     kind: "lucide",
     tier: "main",
   },
@@ -173,8 +173,9 @@ export default function TechnologyExplorer({ onSelectSkill }: Props) {
           Technology explorer
         </h2>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">
-          <span className="text-foreground">Primary depth</span> in Node.js and
-          Express; Java and Spring Boot are{" "}
+          <span className="text-foreground">Primary depth</span> in React, Next.js,
+          and TypeScript; Node & Express for APIs when shipping full-stack. Java
+          and Spring Boot are{" "}
           <span className="text-foreground">additional</span> JVM experience when
           the stack calls for it.
         </p>

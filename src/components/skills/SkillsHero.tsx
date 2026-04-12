@@ -3,8 +3,9 @@ import { ChevronDown, Sparkles } from "lucide-react";
 import SkillsHeroScene from "./SkillsHeroScene";
 
 const pillars = [
-  "Frontend systems",
-  "Node & Express",
+  "React & Next.js",
+  "Product UX",
+  "APIs (Node / Express)",
   "Microservices",
   "Java & Spring (also)",
   "Zapier & n8n",
@@ -51,10 +52,10 @@ export default function SkillsHero() {
           transition={{ delay: 0.15, duration: 0.55 }}
           className="mx-auto max-w-xl text-base text-muted-foreground sm:text-lg"
         >
-          Primary depth on{" "}
-          <span className="text-foreground">Node.js and Express</span>; Java and
-          Spring Boot as complementary JVM experience—tap any skill below for
-          detail.
+          Deepest craft on{" "}
+          <span className="text-foreground">interfaces and frontend systems</span>
+          ; full-stack delivery includes Node & Express APIs. Java and Spring
+          Boot are complementary JVM experience—tap any skill below for detail.
         </motion.p>
 
         <motion.div

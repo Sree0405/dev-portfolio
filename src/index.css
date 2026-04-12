@@ -134,6 +134,15 @@
   @apply border-border;
 }
 
+html {
+  scroll-padding-top: 6.5rem;
+}
+@media (min-width: 1024px) {
+  html {
+    scroll-padding-top: 7.75rem;
+  }
+}
+
 body {
   @apply bg-background text-foreground antialiased;
   font-family: "Inter", sans-serif;
@@ -254,18 +263,18 @@ code,pre {
   background-attachment: fixed;
 }
 
-/* Below fixed nav — top inset for every page hero / lead section */
+/* Below fixed nav — top inset (nav ~4.5–5.5rem + breathing room; avoid utility pt-* on same node or it overrides this) */
 .page-hero-pt {
-  padding-top: 5.5rem;
+  padding-top: max(6rem, calc(env(safe-area-inset-top, 0px) + 5.25rem));
 }
 @media (min-width: 640px) {
   .page-hero-pt {
-    padding-top: 6rem;
+    padding-top: max(6.5rem, calc(env(safe-area-inset-top, 0px) + 5.75rem));
   }
 }
 @media (min-width: 1024px) {
   .page-hero-pt {
-    padding-top: 6.75rem;
+    padding-top: max(7.25rem, calc(env(safe-area-inset-top, 0px) + 6.25rem));
   }
 }
 
@@ -466,18 +475,21 @@ code,pre {
   animation: float 6s ease-in-out infinite;
 }
 
+/* FADE IN */
+
+.fade-in {
+  animation: fadeIn .8s ease forwards;
+}
+
+}
+
+/* Keyframes must live outside @layer so PostCSS parses them reliably */
 @keyframes float {
 
   0%,100% { transform: translateY(0); }
 
   50% { transform: translateY(-18px); }
 
-}
-
-/* FADE IN */
-
-.fade-in {
-  animation: fadeIn .8s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -491,7 +503,5 @@ code,pre {
     opacity: 1;
     transform: translateY(0);
   }
-
-}
 
 }

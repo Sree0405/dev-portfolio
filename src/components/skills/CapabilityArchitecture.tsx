@@ -11,9 +11,9 @@ const layers = [
     accent: "from-indigo-500/15 to-transparent",
   },
   {
-    title: "Backend (Node & Express)",
+    title: "APIs (Node & Express)",
     description:
-      "Main backend surface: Node.js runtimes, Express APIs, REST contracts, and service-style boundaries.",
+      "HTTP services and REST contracts on Node when owning features end-to-end—aligned with the same TypeScript mindset as the UI.",
     tech: ["Node.js", "Express", "REST APIs", "Microservices"],
     icon: Server,
     accent: "from-cyan-500/15 to-transparent",
@@ -71,8 +71,9 @@ export default function CapabilityArchitecture({ onSelectSkill }: Props) {
           System layers
         </h2>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">
-          Express-centred services with Node.js as the main path; Spring Boot
-          called out explicitly as additional JVM depth.
+          Frontend systems first; Node and Express for APIs and integrations when
+          products need full-stack depth. Spring Boot called out as additional JVM
+          experience.
         </p>
       </div>
 

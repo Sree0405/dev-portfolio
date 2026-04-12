@@ -11,7 +11,7 @@ export default function ProjectsHero() {
   ];
 
   return (
-    <section className="page-hero-pt page-hero-pb pt-40 relative overflow-hidden border-b border-border/25 text-center">
+    <section className="page-hero-pt page-hero-pb relative overflow-hidden border-b border-border/25 text-center">
 
       <div className="particle-bg pointer-events-none absolute inset-0 opacity-30" />
 
