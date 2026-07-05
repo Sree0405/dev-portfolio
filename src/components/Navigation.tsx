@@ -10,7 +10,6 @@ import {
   Folder,
   Code,
   Mail,
-  Sparkles,
   Menu,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -46,14 +45,14 @@ export default function Navigation() {
         className="fixed left-0 right-0 top-0 z-50 px-4 py-3 sm:px-6 sm:py-4"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link to="/immersive">
-            <motion.span
-              className="font-mono text-lg font-bold text-foreground"
+          <Link to="/immersive" className="flex max-w-[14rem] shrink-0 items-center sm:max-w-[16rem]">
+            <motion.img
+              src="/branding/sreeBrandLogo.png"
+              alt="Sreekanth"
+              className="h-auto w-[45%] max-w-full object-contain"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            >
-              Sree
-            </motion.span>
+            />
           </Link>
           <Link to="/">
             <motion.span
@@ -82,13 +81,14 @@ export default function Navigation() {
           <div className="relative z-10 flex w-full items-center justify-between gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-2 md:px-5 md:py-2.5">
             <Link
               to="/"
-              className="flex shrink-0 items-center gap-1.5 sm:gap-2"
+              className="flex max-w-[14rem] shrink-0 items-center sm:max-w-[16rem]"
               onClick={() => setMobileOpen(false)}
             >
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-lg font-bold tracking-tight text-transparent sm:text-xl">
-                Sree
-              </span>
-              <Sparkles className="h-4 w-4 text-primary opacity-70" />
+              <img
+                src="/branding/sreeBrandLogo.png"
+                alt="Sreekanth"
+                className="h-auto w-[45%] max-w-full object-contain"
+              />
             </Link>
 
             {/* Desktop links */}

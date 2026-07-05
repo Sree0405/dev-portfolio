@@ -77,28 +77,20 @@ export default function Footer() {
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-10 xl:gap-14">
             {/* Brand — SaaS-style lockup + bio + quick links */}
             <div className="lg:col-span-5 xl:col-span-5">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
-                <div
-                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-border/50 bg-gradient-to-br from-primary/15 via-background to-accent/10 font-semibold tracking-tight text-foreground shadow-[0_0_0_1px_hsl(var(--primary)/0.12)_inset] sm:h-16 sm:w-16"
-                  aria-hidden
-                >
-                  <span className="bg-gradient-to-br from-indigo-300 via-purple-300 to-cyan-300 bg-clip-text text-2xl text-transparent sm:text-[1.65rem]">
-                    S
-                  </span>
-                </div>
+              <div className="flex flex-col gap-6">
+                <img
+                  src="/branding/sreeBrandLogo.png"
+                  alt="Sreekanth"
+                  className="h-auto w-[45%] max-w-full object-contain"
+                />
 
                 <div className="min-w-0 flex-1 space-y-4">
                   <div className="space-y-2">
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-primary sm:text-[11px]">
                       Full-stack · Frontend-led
                     </p>
-                    <h2 className="text-3xl font-bold leading-[1.08] tracking-tight sm:text-4xl lg:text-[2.625rem]">
-                      <span className="block bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                        Sreekanth
-                      </span>
-                      <span className="mt-2 block text-base font-medium leading-snug text-muted-foreground sm:text-lg">
-                        Engineer & product-focused builder
-                      </span>
+                    <h2 className="text-base font-medium leading-snug text-muted-foreground sm:text-lg">
+                      Engineer & product-focused builder
                     </h2>
                   </div>
 
