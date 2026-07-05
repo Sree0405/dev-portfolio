@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import {
-  ArrowDown,
   ArrowRight,
+  Code2,
   Download,
   Github,
+  Layers,
   Linkedin,
   Mail,
-  Sparkles,
+  Radio,
+  Server,
 } from "lucide-react";
 
 import HeroScene from "./HeroScene";
@@ -14,173 +16,199 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const stackTags = [
-  "Next.js",
   "React",
   "TypeScript",
+  "Next.js",
   "Node.js",
   "Express",
-  "Microservices",
-  "Java",
-  "Spring Boot",
-  "Zapier",
-  "n8n",
-  "AI Agents",
-  "Full-stack systems",
+  "REST APIs",
+  "WebSockets",
+  "PostgreSQL",
 ];
+
+const highlights = [
+  {
+    icon: Code2,
+    title: "React & TypeScript",
+    sub: "Rendering, hooks & scalable UI",
+  },
+  {
+    icon: Server,
+    title: "APIs & backend",
+    sub: "Node · Express · REST",
+  },
+  {
+    icon: Layers,
+    title: "System design",
+    sub: "HLD/LLD · performance · scale",
+  },
+];
+
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full overflow-hidden bg-transparent"
+      className="relative min-h-[100dvh] w-full overflow-hidden bg-transparent"
     >
-      {/* Full-bleed background: 3D + gradients */}
       <div className="absolute inset-0 w-full">
-        <div className="absolute inset-0 opacity-40 lg:opacity-100">
-          <div className="absolute inset-0 left-0 right-0 top-0 bottom-0 lg:left-[40%] xl:left-[42%]">
+        <div className="absolute inset-0 opacity-35 sm:opacity-50 lg:opacity-100">
+          <div className="absolute inset-0 lg:left-[38%] xl:left-[40%]">
             <HeroScene />
           </div>
         </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-background/94 to-background lg:bg-gradient-to-r lg:from-background lg:via-background/88 lg:to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_65%_at_65%_28%,hsl(var(--primary)/0.12),transparent_58%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-background/96 to-background lg:bg-gradient-to-r lg:from-background lg:via-background/90 lg:to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_70%_25%,hsl(var(--primary)/0.14),transparent_60%)]" />
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
       </div>
 
-      {/* Content: centered on small screens; inset + max measure on large so it does not hug the viewport edge */}
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col justify-center lg:min-h-screen lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-6 xl:gap-x-10">
-        {/* Left gutter — optical breathing room from the corner */}
-        <div
-          className="hidden lg:col-span-1 xl:col-span-2 lg:block"
-          aria-hidden
-        />
+      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col justify-center lg:grid lg:min-h-screen lg:grid-cols-12 lg:items-center lg:gap-x-6 xl:gap-x-10">
+        <div className="hidden lg:col-span-1 xl:col-span-2 lg:block" aria-hidden />
 
-        <div className="page-hero-pt flex flex-col justify-center px-5 pb-20 sm:px-8 sm:pb-24 md:px-10 md:pb-28 lg:col-span-6 lg:px-0 lg:pb-24 xl:col-span-5">
+        <div className="page-hero-pt flex flex-col justify-center px-4 pb-16 sm:px-8 sm:pb-20 md:px-10 lg:col-span-6 lg:px-0 lg:pb-24 xl:col-span-5">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto flex w-full max-w-[34rem] flex-col items-center text-center sm:max-w-[36rem] lg:mx-0 lg:max-w-[min(100%,32rem)] lg:items-start lg:text-left xl:max-w-[36rem]"
+            {...fadeUp}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto flex w-full max-w-[36rem] flex-col items-center text-center lg:mx-0 lg:items-start lg:text-left xl:max-w-[38rem]"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/75 px-4 py-1.5 font-mono text-[11px] text-primary shadow-[0_0_28px_hsl(var(--primary)/0.1)] backdrop-blur-md sm:text-xs md:text-sm">
-              <Sparkles size={14} className="shrink-0" aria-hidden />
-              React & UX · Full-stack · APIs · Automation
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-primary sm:px-4 sm:text-xs">
+              <Radio className="h-3.5 w-3.5 shrink-0" aria-hidden />
+              Available for full-stack roles
             </div>
 
-            <h1 className="mt-7 text-[2.125rem] font-bold leading-[1.12] tracking-[-0.02em] sm:mt-8 sm:text-5xl sm:leading-[1.1] lg:text-[2.75rem] lg:leading-[1.08] xl:text-6xl xl:leading-[1.06]">
+            <h1 className="mt-5 font-display text-[2rem] font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:mt-6 sm:text-5xl lg:text-[2.85rem] xl:text-6xl">
               Hi, I&apos;m{" "}
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="page-title-accent">
                 Sreekanth
               </span>
             </h1>
 
-            <p className="mt-4 text-base font-medium text-muted-foreground sm:text-lg md:text-xl">
+            <p className="mt-3 text-base font-medium text-foreground/90 sm:mt-4 sm:text-lg">
               Frontend-focused full-stack engineer
             </p>
 
-            <p className="mt-5 max-w-prose text-[0.9375rem] leading-relaxed text-muted-foreground sm:text-base sm:leading-relaxed md:text-lg md:leading-relaxed">
-              I lead with{" "}
-              <span className="font-medium text-foreground/95">
-                React, Next.js, and product UX
-              </span>
-              —and ship full-stack: TypeScript across the stack,{" "}
-              <span className="font-medium text-foreground/95">
-                Node.js & Express
-              </span>{" "}
-              for APIs when features need it, plus automation (Zapier & n8n), JVM
-              work with Java & Spring Boot when teams require it, and AI-assisted
-              product work.
+            <p className="mt-4 max-w-prose text-sm leading-relaxed text-muted-foreground sm:text-base sm:leading-relaxed">
+              I build production apps with{" "}
+              <span className="text-foreground/90">React, Next.js, and TypeScript</span>
+              —from rendering and performance to REST APIs, WebSockets, and
+              scalable project architecture.
             </p>
 
-            <div className="mt-8 grid w-full max-w-lg grid-cols-1 gap-3 sm:max-w-none sm:grid-cols-2 sm:gap-3 lg:max-w-xl">
-              {[
-                { title: "UI & product", sub: "React · Next · UX" },
-                { title: "APIs & services", sub: "Node · Express" },
-                { title: "Automation", sub: "Zapier · n8n" },
-                { title: "Also · JVM", sub: "Java · Spring Boot" },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-xl border border-border/60 bg-background/45 px-3.5 py-3.5 text-left shadow-sm backdrop-blur-md transition hover:border-primary/35 sm:px-4"
-                >
-                  <p className="text-sm font-semibold text-primary">
-                    {item.title}
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground sm:text-xs">
-                    {item.sub}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-6 hidden w-full gap-2.5 sm:grid sm:grid-cols-3 sm:gap-3">
+              {highlights.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.08, duration: 0.45 }}
+                    className="rounded-xl border border-border/55 bg-background/50 px-3 py-3 text-left backdrop-blur-sm transition hover:border-primary/30 sm:px-3.5 sm:py-3.5"
+                  >
+                    <Icon className="mb-2 h-4 w-4 text-primary" />
+                    <p className="text-xs font-semibold leading-tight text-foreground sm:text-sm">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 text-[10px] leading-snug text-muted-foreground sm:text-[11px]">
+                      {item.sub}
+                    </p>
+                  </motion.div>
+                );
+              })}
             </div>
 
-            <div className="mt-7 flex w-full max-w-lg flex-wrap justify-center gap-2 sm:max-w-none lg:justify-start">
+            <div className="mt-6 hidden w-full flex-wrap justify-center gap-2 md:flex lg:justify-start">
               {stackTags.map((item, i) => (
                 <motion.span
                   key={item}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.12 + i * 0.025, duration: 0.35 }}
-                  className="rounded-full border border-primary/25 bg-primary/[0.08] px-3 py-1 text-[11px] font-mono text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition hover:border-primary/45 hover:bg-primary/12 sm:px-3.5 sm:py-1.5 sm:text-xs md:text-sm"
+                  transition={{ delay: 0.2 + i * 0.03, duration: 0.35 }}
+                      className="rounded-md bg-muted/50 px-2.5 py-1 font-mono text-[10px] text-muted-foreground sm:px-3 sm:py-1.5 sm:text-xs"
                 >
                   {item}
                 </motion.span>
               ))}
             </div>
 
-            <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-3 sm:gap-4 lg:justify-start">
+            <div className="mt-7 flex w-full flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 lg:justify-start">
               <Link
                 to="/projects"
-                className="group inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wide text-primary-foreground shadow-[0_10px_28px_hsl(var(--primary)/0.35)] transition hover:scale-[1.02] hover:shadow-[0_0_32px_hsl(var(--primary)/0.4)]"
+                className="btn-gradient group inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wide text-primary-foreground sm:w-auto"
               >
                 View work
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </Link>
-              <Link
-                to="/skills"
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-border/70 bg-background/55 px-5 py-3 font-mono text-sm font-medium uppercase tracking-wide text-foreground backdrop-blur-md transition hover:border-primary/40"
-              >
-                Skill map
-                <ArrowDown className="h-4 w-4 opacity-70" />
-              </Link>
-              <Button
-                variant="outline"
-                className="min-h-[44px] border-primary/45 font-mono text-sm uppercase"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Resume
-              </Button>
+              <div className="grid grid-cols-2 gap-2.5 sm:flex sm:gap-3">
+                <Link
+                  to="/skills"
+                  className="btn-glass inline-flex min-h-[44px] items-center justify-center rounded-xl border border-border/60 px-4 py-3 font-mono text-xs font-medium uppercase tracking-wide text-foreground sm:px-5 sm:text-sm"
+                >
+                  Skills
+                </Link>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="min-h-[44px] w-full border-primary/35 font-mono text-xs uppercase sm:w-auto sm:text-sm"
+                >
+                  <a
+                    href="/resume/Sreekanth_SDE.pdf"
+                    download="Sreekanth_SDE.pdf"
+                  >
+                    <Download className="mr-1.5 h-4 w-4" />
+                    Resume
+                  </a>
+                </Button>
+              </div>
             </div>
 
-            <div className="mt-8 flex justify-center gap-6 text-muted-foreground lg:justify-start lg:gap-5">
-              <a
-                href="https://github.com/Sree0405"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg p-2 transition hover:bg-primary/10 hover:text-primary"
-                aria-label="GitHub"
-              >
-                <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com/in/sreekanth04052005"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg p-2 transition hover:bg-primary/10 hover:text-primary"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="mailto:sreekanth04052005@gmail.com"
-                className="rounded-lg p-2 transition hover:bg-primary/10 hover:text-primary"
-                aria-label="Email"
-              >
-                <Mail className="h-5 w-5" />
-              </a>
+            <div className="mt-6 flex items-center justify-center gap-2 rounded-xl border border-border/50 bg-background/40 p-1.5 sm:mt-7 lg:justify-start">
+              {[
+                {
+                  href: "https://github.com/Sree0405",
+                  label: "GitHub",
+                  icon: Github,
+                },
+                {
+                  href: "https://linkedin.com/in/sreekanth04052005",
+                  label: "LinkedIn",
+                  icon: Linkedin,
+                },
+                {
+                  href: "mailto:sreekanth04052005@gmail.com",
+                  label: "Email",
+                  icon: Mail,
+                },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      item.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    aria-label={item.label}
+                    className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-lg text-muted-foreground transition hover:bg-primary/10 hover:text-primary sm:flex-none sm:px-4"
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="hidden text-xs font-medium sm:inline">
+                      {item.label}
+                    </span>
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
         </div>
 
-        {/* Reserves horizontal space for the 3D canvas on large screens */}
         <div
           className="hidden min-h-[240px] lg:col-span-4 lg:block xl:col-span-5"
           aria-hidden

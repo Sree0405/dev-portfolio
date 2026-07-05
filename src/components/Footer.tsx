@@ -35,16 +35,19 @@ const externalLinks = [
     name: "GitHub",
     href: "https://github.com/Sree0405",
     label: "GitHub profile",
+    icon: Github,
   },
   {
     name: "LinkedIn",
     href: "https://linkedin.com/in/sreekanth04052005",
     label: "LinkedIn profile",
+    icon: Linkedin,
   },
   {
     name: "Email",
     href: "mailto:sreekanth04052005@gmail.com",
     label: "Email Sreekanth",
+    icon: Mail,
   },
 ] as const;
 
@@ -73,28 +76,28 @@ export default function Footer() {
       />
 
       <div className="relative w-full">
-        <div className="mx-auto w-full max-w-7xl px-5 pb-12 pt-12 sm:px-8 md:px-12 md:pb-14 md:pt-14 lg:px-16">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-10 xl:gap-14">
-            {/* Brand — SaaS-style lockup + bio + quick links */}
-            <div className="lg:col-span-5 xl:col-span-5">
-              <div className="flex flex-col gap-6">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-8 sm:px-8 sm:pb-12 sm:pt-12 md:px-12 md:pb-14 md:pt-14 lg:px-16">
+          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
+            {/* Brand */}
+            <div className="col-span-2 lg:col-span-5">
+              <div className="flex flex-col gap-4 sm:gap-6">
                 <img
                   src="/branding/sreeBrandLogo.png"
                   alt="Sreekanth"
-                  className="h-auto w-[45%] max-w-full object-contain"
+                  className="h-auto w-[50%] max-w-[11rem] object-contain sm:w-[45%] sm:max-w-full"
                 />
 
-                <div className="min-w-0 flex-1 space-y-4">
-                  <div className="space-y-2">
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-primary sm:text-[11px]">
+                <div className="min-w-0 space-y-3 sm:space-y-4">
+                  <div className="space-y-1 sm:space-y-2">
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-primary sm:text-[11px]">
                       Full-stack · Frontend-led
                     </p>
-                    <h2 className="text-base font-medium leading-snug text-muted-foreground sm:text-lg">
+                    <h2 className="text-sm font-medium leading-snug text-muted-foreground sm:text-lg">
                       Engineer & product-focused builder
                     </h2>
                   </div>
 
-                  <p className="max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[15px] sm:leading-relaxed">
+                  <p className="hidden max-w-lg text-sm leading-relaxed text-muted-foreground sm:block sm:text-[15px]">
                     Frontend-focused full-stack engineer—strongest on interfaces,
                     React/Next systems, and UX—with Node.js & Express for APIs and
                     integrations when owning features end-to-end.
@@ -102,22 +105,19 @@ export default function Footer() {
 
                   <nav
                     aria-label="Quick links"
-                    className="flex flex-col gap-2 border-t border-border/40 pt-5 sm:pt-6"
+                    className="hidden border-t border-border/40 pt-5 sm:block sm:pt-6"
                   >
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
                       Links
                     </p>
-                    <ul className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-1 sm:gap-y-2">
+                    <ul className="mt-2 flex flex-row flex-wrap gap-x-1 gap-y-2">
                       {bioLinks.map((item, i) => (
                         <li
                           key={"to" in item ? item.to : item.href}
-                          className="flex items-center sm:inline-flex"
+                          className="inline-flex items-center"
                         >
                           {i > 0 ? (
-                            <span
-                              className="mx-3 hidden text-border sm:inline"
-                              aria-hidden
-                            >
+                            <span className="mx-3 text-border" aria-hidden>
                               ·
                             </span>
                           ) : null}
@@ -148,68 +148,71 @@ export default function Footer() {
               </div>
             </div>
 
+            {/* Explore */}
             <nav
-              className="lg:col-span-3 xl:col-span-3"
+              className="col-span-1 lg:col-span-3"
               aria-label="Site pages"
             >
-              <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+              <p className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-primary sm:mb-4 sm:text-[11px]">
                 Explore
               </p>
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-2 text-sm sm:space-y-3">
                 {navLinks.map((item) => (
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="group inline-flex items-center gap-2 text-muted-foreground transition hover:text-foreground"
+                      className="group inline-flex items-center gap-1.5 text-muted-foreground transition hover:text-foreground"
                     >
                       {item.name}
-                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100" />
+                      <ArrowUpRight className="hidden h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100 sm:inline" />
                     </Link>
                   </li>
                 ))}
               </ul>
             </nav>
 
-            <div className="lg:col-span-4 xl:col-span-4">
-              <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+            {/* Connect */}
+            <div className="col-span-1 lg:col-span-4">
+              <p className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-primary sm:mb-4 sm:text-[11px]">
                 Connect
               </p>
-              <ul className="space-y-3 text-sm">
-                {externalLinks.map((item) => (
-                  <li key={item.href}>
-                    <a
-                      href={item.href}
-                      target={
-                        item.href.startsWith("http") ? "_blank" : undefined
-                      }
-                      rel={
-                        item.href.startsWith("http")
-                          ? "noopener noreferrer"
-                          : undefined
-                      }
-                      aria-label={item.label}
-                      className="group inline-flex items-center gap-2.5 text-muted-foreground transition hover:text-foreground"
-                    >
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border/50 bg-background/60 text-primary shadow-sm">
-                        {item.name === "GitHub" ? (
-                          <Github className="h-3.5 w-3.5" />
-                        ) : item.name === "LinkedIn" ? (
-                          <Linkedin className="h-3.5 w-3.5" />
-                        ) : (
-                          <Mail className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                      {item.name}
-                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100" />
-                    </a>
-                  </li>
-                ))}
+              <ul className="space-y-2 text-sm sm:space-y-3">
+                {externalLinks.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        target={
+                          item.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel={
+                          item.href.startsWith("http")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                        aria-label={item.label}
+                        className="group inline-flex items-center gap-2 text-muted-foreground transition hover:text-foreground sm:gap-2.5"
+                      >
+                        <span className="hidden h-8 w-8 items-center justify-center rounded-lg border border-border/50 bg-background/60 text-primary shadow-sm sm:inline-flex">
+                          <Icon className="h-3.5 w-3.5" />
+                        </span>
+                        <Icon
+                          className="h-3.5 w-3.5 text-primary sm:hidden"
+                          aria-hidden
+                        />
+                        {item.name}
+                        <ArrowUpRight className="hidden h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100 sm:inline" />
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
 
-              <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+              <p className="mt-6 hidden font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:mt-8 sm:block">
                 Stack
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 hidden flex-wrap gap-2 sm:flex">
                 {stackPills.map((tech) => (
                   <span
                     key={tech}
@@ -224,13 +227,13 @@ export default function Footer() {
         </div>
 
         <div className="w-full border-t border-border/40 bg-background/50">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 md:px-12 lg:px-16">
-            <p className="text-xs text-muted-foreground sm:text-sm">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-8 sm:py-6 md:px-12 lg:px-16">
+            <p className="text-[11px] text-muted-foreground sm:text-sm">
               © {year}{" "}
               <span className="text-foreground/90">Sreekanth</span>. All rights
               reserved.
             </p>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground sm:gap-6 sm:text-sm">
+            <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground sm:gap-6 sm:text-sm">
               <a
                 href="https://github.com/Sree0405"
                 target="_blank"
@@ -256,10 +259,10 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={scrollTop}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/60 px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-wider text-foreground transition hover:border-primary/35 sm:text-xs"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/60 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-wider text-foreground transition hover:border-primary/35 sm:px-3 sm:py-1.5 sm:text-xs"
               >
                 <ArrowUp className="h-3.5 w-3.5" />
-                Back to top
+                Top
               </button>
             </div>
           </div>

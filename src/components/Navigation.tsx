@@ -11,10 +11,13 @@ import {
   Code,
   Mail,
   Menu,
+  ArrowUpRight,
+  X,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -23,11 +26,36 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "Home", icon: Home, href: "/" },
-  { name: "Experience", icon: Briefcase, href: "/experience" },
-  { name: "Projects", icon: Folder, href: "/projects" },
-  { name: "Skills", icon: Code, href: "/skills" },
-  { name: "Contact", icon: Mail, href: "/contact" },
+  {
+    name: "Home",
+    icon: Home,
+    href: "/",
+    description: "Portfolio overview",
+  },
+  {
+    name: "Experience",
+    icon: Briefcase,
+    href: "/experience",
+    description: "Career & freelance story",
+  },
+  {
+    name: "Projects",
+    icon: Folder,
+    href: "/projects",
+    description: "Selected engineering work",
+  },
+  {
+    name: "Skills",
+    icon: Code,
+    href: "/skills",
+    description: "React, TS & full-stack depth",
+  },
+  {
+    name: "Contact",
+    icon: Mail,
+    href: "/contact",
+    description: "Hire or collaborate",
+  },
 ] as const;
 
 export default function Navigation() {
@@ -142,53 +170,112 @@ export default function Navigation() {
               <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                 <SheetTrigger
                   type="button"
-                  className="btn-glass inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden"
+                  className="btn-glass inline-flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 md:hidden"
                   aria-label="Open menu"
                 >
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-5 w-5 text-primary" />
                 </SheetTrigger>
                 <SheetContent
                   side="right"
-                  className="flex w-full max-w-sm flex-col border-border/40 bg-background/95 backdrop-blur-xl"
+                  className="flex w-full max-w-[min(100vw,20rem)] flex-col justify-between border-l border-primary/20 bg-gradient-to-b from-background via-background/98 to-background/95 p-0 backdrop-blur-2xl [&>button.absolute]:hidden"
                 >
-                  <SheetHeader className="border-b border-border/30 pb-4 text-left">
-                    <SheetTitle className="font-mono text-sm uppercase tracking-widest text-primary">
-                      Menu
-                    </SheetTitle>
-                  </SheetHeader>
-                  <nav className="flex flex-1 flex-col gap-1 py-6">
-                    {navItems.map((item) => {
-                      const active = location.pathname === item.href;
-                      return (
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_100%_0%,hsl(var(--primary)/0.12),transparent_55%)]" />
+
+                  <div className="relative flex h-full flex-col justify-between px-4 pb-5 pt-6">
+                    <SheetHeader className="sr-only">
+                      <SheetTitle>Navigation menu</SheetTitle>
+                    </SheetHeader>
+
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center justify-between gap-3">
                         <Link
-                          key={item.name}
-                          to={item.href}
+                          to="/"
                           onClick={() => setMobileOpen(false)}
-                          className={cn(
-                            "flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium transition",
-                            active
-                              ? "bg-primary/15 text-foreground"
-                              : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
-                          )}
+                          className="inline-flex min-w-0 max-w-[9.5rem] flex-1 items-center"
                         >
-                          <item.icon
-                            className={cn(
-                              "h-5 w-5",
-                              active ? "text-primary" : "",
-                            )}
+                          <img
+                            src="/branding/sreeBrandLogo.png"
+                            alt="Sreekanth"
+                            className="h-auto w-full max-w-full object-contain object-left"
                           />
-                          {item.name}
                         </Link>
-                      );
-                    })}
-                  </nav>
-                  <Link
-                    to="/contact"
-                    onClick={() => setMobileOpen(false)}
-                    className="btn-gradient mb-6 mt-auto block rounded-xl py-3.5 text-center font-mono text-sm font-semibold uppercase tracking-wide text-primary-foreground"
-                  >
-                    Hire me
-                  </Link>
+
+                        <SheetClose asChild>
+                          <button
+                            type="button"
+                            aria-label="Close menu"
+                            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary shadow-[0_0_20px_hsl(var(--primary)/0.15)] transition hover:border-primary/50 hover:bg-primary/15 active:scale-95"
+                          >
+                            <X className="h-6 w-6" strokeWidth={2.25} />
+                          </button>
+                        </SheetClose>
+                      </div>
+
+                      <nav
+                        aria-label="Mobile navigation"
+                        className="flex flex-col gap-1.5"
+                      >
+                      {navItems.map((item) => {
+                        const active = location.pathname === item.href;
+                        const Icon = item.icon;
+                        return (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            onClick={() => setMobileOpen(false)}
+                            className={cn(
+                              "group flex items-center gap-3 rounded-xl border px-3 py-2.5 transition",
+                              active
+                                ? "border-primary/40 bg-primary/10"
+                                : "border-border/50 bg-background/40 hover:border-primary/25 hover:bg-background/70",
+                            )}
+                          >
+                            <span
+                              className={cn(
+                                "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition",
+                                active
+                                  ? "border-primary/35 bg-primary/15 text-primary"
+                                  : "border-border/50 bg-background/60 text-muted-foreground group-hover:text-primary",
+                              )}
+                            >
+                              <Icon className="h-4 w-4" strokeWidth={1.75} />
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span
+                                className={cn(
+                                  "block text-sm font-semibold leading-tight",
+                                  active ? "text-foreground" : "text-foreground/90",
+                                )}
+                              >
+                                {item.name}
+                              </span>
+                              <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">
+                                {item.description}
+                              </span>
+                            </span>
+                            <ArrowUpRight
+                              className={cn(
+                                "h-3.5 w-3.5 shrink-0",
+                                active
+                                  ? "text-primary"
+                                  : "text-muted-foreground opacity-40",
+                              )}
+                            />
+                          </Link>
+                        );
+                      })}
+                      </nav>
+                    </div>
+
+                    <Link
+                      to="/contact"
+                      onClick={() => setMobileOpen(false)}
+                      className="btn-gradient mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-center font-mono text-xs font-semibold uppercase tracking-wide text-primary-foreground shadow-[0_8px_24px_hsl(var(--primary)/0.3)]"
+                    >
+                      Hire me
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>

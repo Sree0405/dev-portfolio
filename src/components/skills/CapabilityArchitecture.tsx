@@ -1,27 +1,52 @@
-import { motion } from "framer-motion";
-import { Box, Layers, Server, Smartphone, Workflow, Zap, Leaf } from "lucide-react";
+import { Cpu, Gauge, Layers, Leaf, Radio, Server, Smartphone, Workflow, Zap } from "lucide-react";
+
+import { SectionTitle } from "@/components/ui/page-title";
 
 const layers = [
   {
-    title: "Frontend systems",
+    title: "React & TypeScript",
     description:
-      "Composable UI, design tokens, and performance-first rendering for complex apps.",
-    tech: ["React", "Next.js", "TypeScript"],
+      "Component models, hooks, strict typing, and maintainable UI architecture for growing codebases.",
+    tech: ["React", "TypeScript", "Next.js"],
     icon: Layers,
     accent: "from-indigo-500/15 to-transparent",
   },
   {
-    title: "APIs (Node & Express)",
+    title: "JavaScript internals",
     description:
-      "HTTP services and REST contracts on Node when owning features end-to-end—aligned with the same TypeScript mindset as the UI.",
-    tech: ["Node.js", "Express", "REST APIs", "Microservices"],
-    icon: Server,
+      "Event loop, async patterns, closures, and language behavior that keeps React apps predictable.",
+    tech: ["JavaScript", "TypeScript", "Vite"],
+    icon: Cpu,
+    accent: "from-violet-500/15 to-transparent",
+  },
+  {
+    title: "Rendering & optimization",
+    description:
+      "Reconciliation, memoization, code splitting, and bundle strategy for fast, stable UIs.",
+    tech: ["React", "Performance optimization", "Vite"],
+    icon: Gauge,
     accent: "from-cyan-500/15 to-transparent",
+  },
+  {
+    title: "APIs & realtime",
+    description:
+      "REST endpoints on Express, predictable contracts, and WebSocket flows for live features.",
+    tech: ["REST APIs", "Express", "WebSockets", "Node.js"],
+    icon: Radio,
+    accent: "from-sky-500/15 to-transparent",
+  },
+  {
+    title: "Scalable architecture",
+    description:
+      "Folder structure, feature boundaries, and service design so teams can extend products safely.",
+    tech: ["Microservices", "Full-stack systems", "Docker"],
+    icon: Server,
+    accent: "from-teal-500/12 to-transparent",
   },
   {
     title: "Also · JVM stack",
     description:
-      "Additional experience when products lean on Java / Spring — complementary, not the default tool choice.",
+      "Additional experience when products lean on Java / Spring—complementary, not the default stack.",
     tech: ["Java", "Spring Boot"],
     icon: Leaf,
     accent: "from-emerald-500/12 to-transparent",
@@ -29,23 +54,15 @@ const layers = [
   {
     title: "Automation & integrations",
     description:
-      "Workflow engines and connectors to ship integrations without reinventing plumbing.",
+      "Workflow engines and connectors for shipping integrations without reinventing plumbing.",
     tech: ["Zapier", "n8n"],
     icon: Zap,
     accent: "from-amber-500/10 to-transparent",
   },
   {
-    title: "Interactive interfaces",
-    description:
-      "Spatial UX, animation systems, and immersive web experiences.",
-    tech: ["Three.js", "Framer Motion"],
-    icon: Box,
-    accent: "from-violet-500/15 to-transparent",
-  },
-  {
     title: "Mobile platforms",
     description:
-      "Cross-platform apps with native-grade flows and offline-ready patterns.",
+      "Cross-platform apps with shared React patterns and native-ready delivery.",
     tech: ["React Native", "Expo"],
     icon: Smartphone,
     accent: "from-fuchsia-500/15 to-transparent",
@@ -53,7 +70,7 @@ const layers = [
   {
     title: "Full-stack delivery",
     description:
-      "End-to-end ownership—from UX and APIs to data, deploys, and automation.",
+      "End-to-end ownership—from UI and APIs to data, deploys, and release discipline.",
     tech: ["Full-stack systems", "Docker", "Git", "CI/CD"],
     icon: Workflow,
     accent: "from-teal-500/12 to-transparent",
@@ -66,27 +83,20 @@ export default function CapabilityArchitecture({ onSelectSkill }: Props) {
   return (
     <section className="scroll-mt-24 pb-8 pt-12 md:pt-16">
       <div className="mb-10 md:mb-12">
-        <p className="section-eyebrow mb-2">Architecture</p>
-        <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-          System layers
-        </h2>
+        <SectionTitle eyebrow="Architecture" accent="System" rest="layers" className="mb-0" />
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">
-          Frontend systems first; Node and Express for APIs and integrations when
-          products need full-stack depth. Spring Boot called out as additional JVM
-          experience.
+          React and TypeScript first—then APIs, WebSockets, and patterns for
+          scaling projects. Spring Boot is additional JVM experience when teams
+          need it.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 md:gap-5">
-        {layers.map((layer, index) => {
+        {layers.map((layer) => {
           const Icon = layer.icon;
           return (
-            <motion.article
+            <article
               key={layer.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.45, delay: index * 0.04 }}
               className={`relative overflow-hidden rounded-2xl border border-border/70 bg-gradient-to-br ${layer.accent} p-6 shadow-[0_8px_30px_rgba(0,0,0,0.22)] backdrop-blur-sm transition hover:border-primary/30 md:p-7`}
             >
               <div className="mb-4 flex items-center gap-3">
@@ -112,7 +122,7 @@ export default function CapabilityArchitecture({ onSelectSkill }: Props) {
                   </button>
                 ))}
               </div>
-            </motion.article>
+            </article>
           );
         })}
       </div>

@@ -1,4 +1,5 @@
 import { motion, useInView } from "framer-motion";
+import { PageTitle } from "@/components/ui/page-title";
 import { useRef } from "react";
 import { ArrowUpRight, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -180,12 +181,11 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="mb-12 text-center sm:mb-14 md:mb-16 lg:mb-20"
           >
-            <p className="section-eyebrow mb-3">Contact</p>
-            <h1 className="mb-4 text-3xl font-bold tracking-tight sm:mb-5 sm:text-4xl md:text-5xl lg:text-6xl">
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                Let&apos;s connect
-              </span>
-            </h1>
+            <PageTitle
+              eyebrow="Contact"
+              accent="Let's connect"
+              titleClassName="mb-4 sm:mb-5"
+            />
             <p className="mx-auto max-w-2xl px-1 text-base leading-relaxed text-muted-foreground sm:text-lg">
               Whether you&apos;re building a product, exploring an idea, or
               looking for engineering collaboration—I&apos;m open to thoughtful

@@ -13,7 +13,7 @@ const NotFound = () => {
     <div className="app-canvas flex min-h-screen flex-col items-center justify-center px-6">
       <div className="glass-panel max-w-md rounded-2xl p-10 text-center">
         <p className="section-eyebrow mb-3">Error</p>
-        <h1 className="mb-2 text-5xl font-bold tracking-tight">404</h1>
+        <h1 className="page-title mb-2">404</h1>
         <p className="mb-6 text-muted-foreground">
           This page doesn’t exist or was moved.
         </p>

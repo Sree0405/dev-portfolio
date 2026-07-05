@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -18,6 +18,10 @@
   --surface: 235 26% 8%;
   --surface-2: 235 22% 11%;
   --surface-3: 235 18% 14%;
+
+  --title-accent-start: 42 48% 90%;
+  --title-accent-mid: 268 70% 84%;
+  --title-accent-end: 212 65% 78%;
 
   --foreground: 220 20% 96%;
 
@@ -144,16 +148,21 @@ html {
 }
 
 body {
-  @apply bg-background text-foreground antialiased;
-  font-family: "Inter", sans-serif;
+  @apply bg-background font-sans text-foreground antialiased;
   font-feature-settings: "cv02", "cv11", "ss01";
   overflow-x: hidden;
   background-image: var(--gradient-bg);
   background-attachment: fixed;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
+h1, h2, h3 {
+  font-family: "Syne", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+h4, h5, h6 {
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
@@ -305,7 +314,28 @@ code,pre {
 
 /* Section label — use with mono capitals */
 .section-eyebrow {
-  @apply font-mono text-xs uppercase tracking-[0.2em] text-primary;
+  @apply font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-primary/90 sm:text-xs;
+}
+
+/* Premium page & section titles */
+.page-title {
+  @apply font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-foreground/95 sm:text-5xl md:text-6xl;
+}
+
+.page-title-accent {
+  background: linear-gradient(
+    118deg,
+    hsl(var(--title-accent-start)) 0%,
+    hsl(var(--title-accent-mid)) 48%,
+    hsl(var(--title-accent-end)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-title {
+  @apply font-display text-2xl font-semibold leading-tight tracking-[-0.03em] text-foreground/95 md:text-3xl;
 }
 
 /* Subtle noise-like grain via CSS only (very light) */

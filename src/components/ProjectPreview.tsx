@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ProjectPreview({ project }) {
+export function ProjectPreview({ project, compact = false }) {
 
   const [loaded, setLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
@@ -8,7 +8,11 @@ export function ProjectPreview({ project }) {
   const showVideo = project.video && !videoError;
 
   return (
-    <div className="relative h-[360px] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl group">
+    <div
+      className={`group relative overflow-hidden rounded-2xl border border-border/50 shadow-lg ${
+        compact ? "h-[220px] sm:h-[240px]" : "h-[260px] sm:h-[300px]"
+      }`}
+    >
 
       {/* Image fallback */}
       <img
