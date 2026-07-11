@@ -56,7 +56,7 @@ export default function Hero() {
       className="relative min-h-[100dvh] w-full overflow-hidden bg-transparent"
     >
       <div className="absolute inset-0 w-full">
-        <div className="absolute inset-0 opacity-35 sm:opacity-50 lg:opacity-100">
+        <div className="absolute inset-0 opacity-45 sm:opacity-50 lg:opacity-100">
           <div className="absolute inset-0 lg:left-[38%] xl:left-[40%]">
             <HeroScene />
           </div>
@@ -98,7 +98,7 @@ export default function Hero() {
               scalable project architecture.
             </p>
 
-            <div className="mt-6 hidden w-full gap-2.5 sm:grid sm:grid-cols-3 sm:gap-3">
+            <div className="mt-5 grid w-full grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
               {highlights.map((item, i) => {
                 const Icon = item.icon;
                 return (
@@ -107,18 +107,32 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 + i * 0.08, duration: 0.45 }}
-                    className="rounded-xl border border-border/55 bg-background/50 px-3 py-3 text-left backdrop-blur-sm transition hover:border-primary/30 sm:px-3.5 sm:py-3.5"
+                    className="rounded-xl border border-border/55 bg-background/55 px-2 py-2.5 text-left backdrop-blur-sm transition hover:border-primary/30 sm:bg-background/50 sm:px-3.5 sm:py-3.5"
                   >
-                    <Icon className="mb-2 h-4 w-4 text-primary" />
-                    <p className="text-xs font-semibold leading-tight text-foreground sm:text-sm">
+                    <Icon className="mb-1.5 h-3.5 w-3.5 text-primary sm:mb-2 sm:h-4 sm:w-4" />
+                    <p className="text-[10px] font-semibold leading-tight text-foreground sm:text-sm">
                       {item.title}
                     </p>
-                    <p className="mt-1 text-[10px] leading-snug text-muted-foreground sm:text-[11px]">
+                    <p className="mt-0.5 hidden text-[10px] leading-snug text-muted-foreground min-[400px]:block sm:text-[11px]">
                       {item.sub}
                     </p>
                   </motion.div>
                 );
               })}
+            </div>
+
+            <div className="mt-4 flex w-full flex-wrap justify-center gap-1.5 md:hidden lg:justify-start">
+              {stackTags.slice(0, 6).map((item, i) => (
+                <motion.span
+                  key={item}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.03, duration: 0.35 }}
+                  className="rounded-md border border-border/50 bg-background/45 px-2 py-1 font-mono text-[10px] text-muted-foreground"
+                >
+                  {item}
+                </motion.span>
+              ))}
             </div>
 
             <div className="mt-6 hidden w-full flex-wrap justify-center gap-2 md:flex lg:justify-start">
@@ -134,6 +148,27 @@ export default function Hero() {
                 </motion.span>
               ))}
             </div>
+
+            <nav
+              aria-label="Explore site"
+              className="mt-5 flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-border/40 pt-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground sm:hidden"
+            >
+              <Link to="/experience" className="transition hover:text-primary">
+                Experience
+              </Link>
+              <span className="text-border" aria-hidden>
+                ·
+              </span>
+              <Link to="/projects" className="transition hover:text-primary">
+                Projects
+              </Link>
+              <span className="text-border" aria-hidden>
+                ·
+              </span>
+              <Link to="/skills" className="transition hover:text-primary">
+                Skills
+              </Link>
+            </nav>
 
             <div className="mt-7 flex w-full flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 lg:justify-start">
               <Link
@@ -166,7 +201,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-2 rounded-xl border border-border/50 bg-background/40 p-1.5 sm:mt-7 lg:justify-start">
+            <div className="mt-6 flex w-full max-w-sm items-center justify-center gap-1 rounded-xl border border-border/50 bg-background/40 p-1.5 sm:mt-7 sm:max-w-none sm:gap-2 lg:justify-start">
               {[
                 {
                   href: "https://github.com/Sree0405",
@@ -196,10 +231,10 @@ export default function Hero() {
                         : undefined
                     }
                     aria-label={item.label}
-                    className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-lg text-muted-foreground transition hover:bg-primary/10 hover:text-primary sm:flex-none sm:px-4"
+                    className="inline-flex h-10 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-2 text-muted-foreground transition hover:bg-primary/10 hover:text-primary sm:h-10 sm:flex-row sm:flex-none sm:gap-2 sm:px-4"
                   >
-                    <Icon className="h-4 w-4" />
-                    <span className="hidden text-xs font-medium sm:inline">
+                    <Icon className="h-4 w-4 shrink-0" />
+                    <span className="text-[10px] font-medium leading-none sm:text-xs">
                       {item.label}
                     </span>
                   </a>

@@ -77,7 +77,7 @@ export default function Footer() {
 
       <div className="relative w-full">
         <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-8 sm:px-8 sm:pb-12 sm:pt-12 md:px-12 md:pb-14 md:pt-14 lg:px-16">
-          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
+          <div className="grid grid-cols-2 justify-between gap-x-8 gap-y-8 sm:gap-x-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
             {/* Brand */}
             <div className="col-span-2 lg:col-span-5">
               <div className="flex flex-col gap-4 sm:gap-6">
@@ -228,12 +228,12 @@ export default function Footer() {
 
         <div className="w-full border-t border-border/40 bg-background/50">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-8 sm:py-6 md:px-12 lg:px-16">
-            <p className="text-[11px] text-muted-foreground sm:text-sm">
+            <p className="w-full text-center text-[11px] text-muted-foreground sm:w-auto sm:text-left sm:text-sm">
               © {year}{" "}
               <span className="text-foreground/90">Sreekanth</span>. All rights
               reserved.
             </p>
-            <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground sm:gap-6 sm:text-sm">
+            <div className="flex w-full flex-wrap items-center justify-between gap-3 text-[11px] text-muted-foreground sm:w-auto sm:justify-end sm:gap-6 sm:text-sm">
               <a
                 href="https://github.com/Sree0405"
                 target="_blank"
