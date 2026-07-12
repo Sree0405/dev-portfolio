@@ -20,14 +20,14 @@ interface AuthUserConfig {
 function buildAuthUsers(): Record<string, AuthUserConfig> {
   const users: Record<string, AuthUserConfig> = {
     Demo: {
-      password: "Demo@2026",
+      password: process.env.DEMO_PASSWORD?.trim() || "Demo@2026",
       role: "demo",
       dataType: "Demo",
     },
   };
 
   const ownerUsername = process.env.OWNER_USERNAME?.trim();
-  const ownerPassword = process.env.OWNER_PASSWORD;
+  const ownerPassword = process.env.OWNER_PASSWORD?.trim();
 
   if (ownerUsername && ownerPassword) {
     users[ownerUsername] = {
@@ -36,13 +36,28 @@ function buildAuthUsers(): Record<string, AuthUserConfig> {
       dataType: "Default",
     };
   } else if (process.env.NODE_ENV === "production") {
-    throw new Error("OWNER_USERNAME and OWNER_PASSWORD must be set in production");
+    console.warn(
+      "[auth] OWNER_USERNAME and/or OWNER_PASSWORD not set — owner login disabled in production",
+    );
   }
 
   return users;
 }
 
-export const AUTH_USERS: Record<string, AuthUserConfig> = buildAuthUsers();
+let authUsersCache: Record<string, AuthUserConfig> | null = null;
+
+function getAuthUsers(): Record<string, AuthUserConfig> {
+  if (!authUsersCache) {
+    authUsersCache = buildAuthUsers();
+  }
+  return authUsersCache;
+}
+
+export function logAuthConfig(): void {
+  const users = getAuthUsers();
+  const accounts = Object.keys(users);
+  console.log(`[auth] Enabled accounts: ${accounts.join(", ") || "none"}`);
+}
 
 export const DEMO_CREDENTIALS = {
   username: "Demo",
@@ -63,13 +78,30 @@ export function authenticateUser(
   username: string,
   password: string,
 ): SessionUser | null {
-  const config = AUTH_USERS[username];
-  if (!config || config.password !== password) {
+  const users = getAuthUsers();
+  const trimmedUsername = username.trim();
+
+  const exactConfig = users[trimmedUsername];
+  if (exactConfig && exactConfig.password === password) {
+    return {
+      username: trimmedUsername,
+      role: exactConfig.role,
+      dataType: exactConfig.dataType,
+    };
+  }
+
+  const matchedEntry = Object.entries(users).find(
+    ([key]) => key.toLowerCase() === trimmedUsername.toLowerCase(),
+  );
+
+  if (!matchedEntry || matchedEntry[1].password !== password) {
     return null;
   }
 
+  const [canonicalUsername, config] = matchedEntry;
+
   return {
-    username,
+    username: canonicalUsername,
     role: config.role,
     dataType: config.dataType,
   };

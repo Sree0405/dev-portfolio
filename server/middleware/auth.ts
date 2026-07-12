@@ -1,3 +1,4 @@
+import type {} from "../types/express.js";
 import type { Request, Response, NextFunction } from "express";
 import {
   DEMO_DELETE_ERROR,
@@ -6,12 +7,13 @@ import {
   type SessionUser,
 } from "../auth/config.js";
 import { isValidSessionUser, normalizeSessionUser } from "../auth/sessionUser.js";
+import { clearSession } from "../session.js";
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   const user = req.session[SESSION_USER_KEY];
   if (!isValidSessionUser(user)) {
     if (user) {
-      req.session.destroy(() => {});
+      clearSession(req, res).catch(() => {});
     }
     return res.status(401).json({ error: "Unauthorized" });
   }

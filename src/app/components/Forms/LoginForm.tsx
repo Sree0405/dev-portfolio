@@ -35,8 +35,8 @@ export const LoginForm = forwardRef<LoginFormHandle, LoginFormProps>(function Lo
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: DEMO_CREDENTIALS.username,
+      password: DEMO_CREDENTIALS.password,
     },
   });
 
