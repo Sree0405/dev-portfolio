@@ -363,6 +363,60 @@ code,pre {
   filter: brightness(1.05);
 }
 
+/* Sree Dev Tool — subtle silver → purple */
+.btn-sree-dev {
+  background: linear-gradient(
+    120deg,
+    hsl(var(--title-accent-start) / 0.22),
+    hsl(var(--title-accent-mid) / 0.28),
+    hsl(var(--title-accent-end) / 0.24)
+  );
+  border: 1px solid hsl(var(--title-accent-mid) / 0.35);
+  color: hsl(var(--foreground));
+  box-shadow: 0 4px 18px hsl(var(--primary) / 0.12);
+  transition: all 0.25s ease;
+}
+
+.btn-sree-dev:hover {
+  background: linear-gradient(
+    120deg,
+    hsl(var(--title-accent-start) / 0.3),
+    hsl(var(--title-accent-mid) / 0.36),
+    hsl(var(--title-accent-end) / 0.32)
+  );
+  border-color: hsl(var(--title-accent-mid) / 0.5);
+  box-shadow: 0 6px 22px hsl(var(--primary) / 0.16);
+}
+
+.btn-sree-dev:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 767px) {
+  [data-finance-flyout] {
+    top: auto !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    width: auto !important;
+  }
+}
+
+.dashboard-surface-card {
+  border: 1px solid hsl(var(--border) / 0.55);
+  background: hsl(var(--card) / 0.45);
+  backdrop-filter: blur(8px);
+}
+
+.dashboard-highlight-card {
+  border: 1px solid hsl(var(--title-accent-mid) / 0.28);
+  background: linear-gradient(
+    145deg,
+    hsl(var(--title-accent-start) / 0.08),
+    hsl(var(--title-accent-mid) / 0.1),
+    hsl(var(--title-accent-end) / 0.06)
+  );
+}
+
 /* Premium glass button */
 .btn-glass {
   background: linear-gradient(

@@ -160,11 +160,14 @@ export default function Navigation() {
             </div>
 
             <div className="flex items-center gap-2">
-              <Link
-                to="/contact"
-                className="btn-gradient hidden rounded-full px-4 py-2 text-center font-mono text-[11px] font-semibold uppercase tracking-wider text-primary-foreground md:inline-block md:text-xs"
-              >
-                Hire me
+              <Link to="/login" className="hidden md:inline-block">
+                <motion.span
+                  className="relative inline-flex items-center gap-2 rounded-full border border-dashed border-amber-400/40 bg-amber-400/5 px-4 py-2 text-center font-mono text-[11px] font-semibold uppercase tracking-wider text-amber-100/90 transition-colors hover:border-amber-400/70 hover:bg-amber-400/10 hover:text-amber-50 md:text-xs"
+                  whileHover={{ scale: 1.04, rotate: [-1, 1, -1, 0] }}
+                  transition={{ duration: 0.35 }}
+                >
+                  Don&apos;t Click 👀
+                </motion.span>
               </Link>
 
               <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -264,15 +267,16 @@ export default function Navigation() {
                           </Link>
                         );
                       })}
+
                       </nav>
                     </div>
 
                     <Link
-                      to="/contact"
+                      to="/login"
                       onClick={() => setMobileOpen(false)}
-                      className="btn-gradient mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-center font-mono text-xs font-semibold uppercase tracking-wide text-primary-foreground shadow-[0_8px_24px_hsl(var(--primary)/0.3)]"
+                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-amber-400/40 bg-amber-400/5 py-3 text-center font-mono text-xs font-semibold uppercase tracking-wide text-amber-100/90 shadow-[0_8px_24px_rgba(251,191,36,0.12)] transition hover:border-amber-400/60 hover:bg-amber-400/10"
                     >
-                      Hire me
+                      Don&apos;t Click 👀
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </Link>
                   </div>

@@ -9,6 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        sreeDev:
+          "btn-sree-dev border-0 shadow-none hover:brightness-[1.02] active:scale-[0.98]",
         default:
           "btn-gradient border-0 text-primary-foreground shadow-[0_8px_28px_hsl(var(--primary)/0.35)] hover:shadow-[0_12px_36px_hsl(var(--primary)/0.42),0_0_32px_hsl(var(--primary-glow)/0.2)] hover:brightness-[1.06] active:scale-[0.98]",
         destructive:
