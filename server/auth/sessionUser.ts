@@ -7,9 +7,11 @@ export function isValidSessionUser(user: unknown): user is SessionUser {
 
   const candidate = user as Partial<SessionUser>;
   return (
+    typeof candidate.id === "string" &&
     typeof candidate.username === "string" &&
-    (candidate.role === "owner" || candidate.role === "demo") &&
-    (candidate.dataType === "Default" || candidate.dataType === "Demo")
+    typeof candidate.email === "string" &&
+    (candidate.displayName === null || typeof candidate.displayName === "string") &&
+    (candidate.role === "admin" || candidate.role === "user" || candidate.role === "demo")
   );
 }
 

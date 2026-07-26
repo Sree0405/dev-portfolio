@@ -1,8 +1,84 @@
 import { PrismaClient, DataType } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import "dotenv/config";
 
 const prisma = new PrismaClient();
 
 const DEMO_TYPE = DataType.Demo;
+const DEFAULT_TYPE = DataType.Default;
+
+async function ensureUsers() {
+  const adminUsername = process.env.OWNER_USERNAME?.trim() || "Sree";
+  const adminPassword = process.env.OWNER_PASSWORD?.trim() || "changeme";
+  const demoPassword = process.env.DEMO_PASSWORD?.trim() || "Demo@2026";
+  const adminEmail =
+    process.env.ADMIN_EMAIL?.trim() || `${adminUsername.toLowerCase()}@sreekanth.local`;
+
+  const adminHash = await bcrypt.hash(adminPassword, 12);
+  const demoHash = await bcrypt.hash(demoPassword, 12);
+
+  const admin = await prisma.user.upsert({
+    where: { username: adminUsername },
+    update: {
+      role: "admin",
+      email: adminEmail,
+    },
+    create: {
+      username: adminUsername,
+      email: adminEmail,
+      passwordHash: adminHash,
+      displayName: adminUsername,
+      role: "admin",
+    },
+  });
+
+  const demo = await prisma.user.upsert({
+    where: { username: "Demo" },
+    update: { role: "demo" },
+    create: {
+      username: "Demo",
+      email: "demo@sreekanth.local",
+      passwordHash: demoHash,
+      displayName: "Demo User",
+      role: "demo",
+    },
+  });
+
+  return { admin, demo };
+}
+
+async function backfillUserIds(adminId: string, demoId: string) {
+  const tables = [
+    prisma.project,
+    prisma.payment,
+    prisma.projectNote,
+    prisma.credential,
+    prisma.financeRecord,
+    prisma.financePaymentHistory,
+    prisma.budget,
+    prisma.resume,
+    prisma.devUtilityFavorite,
+    prisma.devUtilityRecent,
+    prisma.contactFormSubmission,
+    prisma.company,
+    prisma.companyContact,
+    prisma.jobApplication,
+    prisma.jobStatusHistory,
+    prisma.interviewSchedule,
+    prisma.jobNote,
+  ] as const;
+
+  for (const model of tables) {
+    await (model as { updateMany: (args: unknown) => Promise<unknown> }).updateMany({
+      where: { type: DEFAULT_TYPE, userId: null },
+      data: { userId: adminId },
+    });
+    await (model as { updateMany: (args: unknown) => Promise<unknown> }).updateMany({
+      where: { type: DEMO_TYPE, userId: null },
+      data: { userId: demoId },
+    });
+  }
+}
 
 const projectsSeed = [
   {
@@ -187,14 +263,27 @@ function monthsAgo(months: number): Date {
 }
 
 async function main() {
+  console.log("Ensuring admin and demo users...");
+  const { admin: adminUser, demo: demoUser } = await ensureUsers();
+  await backfillUserIds(adminUser.id, demoUser.id);
+  const demoUserId = demoUser.id;
+
   console.log("Clearing existing demo data...");
-  await prisma.financePaymentHistory.deleteMany({ where: { type: DEMO_TYPE } });
-  await prisma.financeRecord.deleteMany({ where: { type: DEMO_TYPE } });
-  await prisma.projectNote.deleteMany({ where: { type: DEMO_TYPE } });
-  await prisma.payment.deleteMany({ where: { type: DEMO_TYPE } });
-  await prisma.credential.deleteMany({ where: { type: DEMO_TYPE } });
-  await prisma.resume.deleteMany({ where: { type: DEMO_TYPE } });
-  await prisma.project.deleteMany({ where: { type: DEMO_TYPE } });
+  await prisma.financePaymentHistory.deleteMany({ where: { userId: demoUserId } });
+  await prisma.financeRecord.deleteMany({ where: { userId: demoUserId } });
+  await prisma.projectNote.deleteMany({ where: { userId: demoUserId } });
+  await prisma.payment.deleteMany({ where: { userId: demoUserId } });
+  await prisma.credential.deleteMany({ where: { userId: demoUserId } });
+  await prisma.contactFormSubmission.deleteMany({ where: { userId: demoUserId } });
+  await prisma.resume.deleteMany({ where: { userId: demoUserId } });
+  await prisma.jobNote.deleteMany({ where: { userId: demoUserId } });
+  await prisma.interviewSchedule.deleteMany({ where: { userId: demoUserId } });
+  await prisma.jobStatusHistory.deleteMany({ where: { userId: demoUserId } });
+  await prisma.jobApplication.deleteMany({ where: { userId: demoUserId } });
+  await prisma.companyContact.deleteMany({ where: { userId: demoUserId } });
+  await prisma.company.deleteMany({ where: { userId: demoUserId } });
+  await prisma.project.deleteMany({ where: { userId: demoUserId } });
+  await prisma.budget.deleteMany({ where: { userId: demoUserId } });
 
   console.log("Creating demo projects...");
   const createdProjects = [];
@@ -203,7 +292,7 @@ async function main() {
     const project = await prisma.project.create({
       data: {
         ...seed,
-        type: DEMO_TYPE,
+        type: DEMO_TYPE, userId: demoUserId,
         totalPaid: 0,
       },
     });
@@ -251,7 +340,7 @@ async function main() {
                 ? "Cheque cleared successfully"
                 : `Payment via ${method}`,
           paymentDate: monthsAgo(monthsBack),
-          type: DEMO_TYPE,
+          type: DEMO_TYPE, userId: demoUserId,
         },
       });
 
@@ -280,7 +369,7 @@ async function main() {
         data: {
           projectId: project.id,
           content,
-          type: DEMO_TYPE,
+          type: DEMO_TYPE, userId: demoUserId,
           createdAt,
           updatedAt: createdAt,
         },
@@ -314,7 +403,7 @@ async function main() {
       data: {
         ...seed,
         notes: "Fictional demo credential for showcase purposes only.",
-        type: DEMO_TYPE,
+        type: DEMO_TYPE, userId: demoUserId,
       },
     });
   }
@@ -345,7 +434,7 @@ async function main() {
         currentInstallment: 5,
         startDate,
         notes: "Demo EMI for showcase only.",
-        type: DEMO_TYPE,
+        type: DEMO_TYPE, userId: demoUserId,
       },
     });
 
@@ -363,7 +452,7 @@ async function main() {
           status: isPaid ? "Paid" : i === 4 ? "Pending" : "Pending",
           periodLabel: `Installment ${i + 1}`,
           installmentNumber: i + 1,
-          type: DEMO_TYPE,
+          type: DEMO_TYPE, userId: demoUserId,
         },
       });
     }
@@ -385,7 +474,7 @@ async function main() {
         amount: rent.monthlyAmount,
         dueDay: rent.dueDay,
         notes: "Demo rent record.",
-        type: DEMO_TYPE,
+        type: DEMO_TYPE, userId: demoUserId,
       },
     });
 
@@ -401,7 +490,7 @@ async function main() {
           paidDate: isPaid ? due : null,
           status: isPaid ? "Paid" : "Pending",
           periodLabel: due.toLocaleString("en-IN", { month: "long", year: "numeric" }),
-          type: DEMO_TYPE,
+          type: DEMO_TYPE, userId: demoUserId,
         },
       });
     }
@@ -437,7 +526,7 @@ async function main() {
         autoRenew: true,
         category: sub.category,
         notes: "Demo subscription.",
-        type: DEMO_TYPE,
+        type: DEMO_TYPE, userId: demoUserId,
       },
     });
 
@@ -453,7 +542,7 @@ async function main() {
           paidDate: isPaid ? due : null,
           status: isPaid ? "Paid" : "Pending",
           periodLabel: due.toLocaleString("en-IN", { month: "long", year: "numeric" }),
-          type: DEMO_TYPE,
+          type: DEMO_TYPE, userId: demoUserId,
         },
       });
     }
@@ -463,10 +552,10 @@ async function main() {
     `Created ${emiSeeds.length} EMIs, ${rentSeeds.length} rent records, ${subscriptionSeeds.length} subscriptions.`,
   );
 
-  await seedBudgetDemo();
+  await seedBudgetDemo(demoUserId);
 }
 
-async function seedBudgetDemo() {
+async function seedBudgetDemo(demoUserId: string) {
   const now = new Date();
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
@@ -491,7 +580,7 @@ async function seedBudgetDemo() {
       ruleLabel: "50 / 30 / 20",
       notes: "Demo budget for July — explore safe, warning, and exceeded categories.",
       status: "Active",
-      type: DEMO_TYPE,
+      type: DEMO_TYPE, userId: demoUserId,
       categories: {
         create: demoCategories.map((c, i) => ({
           name: c.name,
@@ -517,7 +606,7 @@ async function seedBudgetDemo() {
       ruleLabel: "50 / 30 / 20",
       notes: "Archived demo budget.",
       status: "Archived",
-      type: DEMO_TYPE,
+      type: DEMO_TYPE, userId: demoUserId,
       categories: {
         create: [
           { name: "Rent", percentage: 16, plannedAmount: 11500, actualAmount: 11500, sortOrder: 0 },
@@ -530,6 +619,129 @@ async function seedBudgetDemo() {
 
   console.log(`Created demo budget ${active.id} with ${demoCategories.length} categories.`);
 
+  console.log("Creating demo form submissions...");
+  const formsSeed = [
+    {
+      name: "Priya Sharma",
+      email: "priya.sharma@novatech-demo.com",
+      subject: "E-commerce platform inquiry",
+      message:
+        "Hi, we are planning a multi-vendor marketplace and liked your portfolio. Can we discuss timeline and pricing for a React + Node build?",
+      status: "new",
+      source: "contact_page",
+    },
+    {
+      name: "Rahul Mehta",
+      email: "rahul@greenleaf-demo.io",
+      subject: "Restaurant website redesign",
+      message:
+        "Looking for a modern responsive website with online reservations and menu management. Please share your availability.",
+      status: "read",
+      source: "contact_page",
+    },
+    {
+      name: "Ananya Iyer",
+      email: "ananya@fittrack-demo.app",
+      subject: "Mobile app UI collaboration",
+      message:
+        "We need a designer-developer for fitness app screens and a React Native prototype over the next 6 weeks.",
+      status: "new",
+      source: "dashboard",
+    },
+    {
+      name: "Vikram Desai",
+      email: "vikram@cloudsync-demo.com",
+      subject: "Admin dashboard MVP",
+      message:
+        "Interested in a SaaS admin dashboard with role-based access, charts, and billing integration. Is this something you can take on?",
+      status: "read",
+      source: "contact_page",
+    },
+    {
+      name: "Sneha Patel",
+      email: "sneha@eduspark-demo.org",
+      subject: "Learning portal maintenance",
+      message:
+        "We already have a portal built and need ongoing maintenance plus feature work for quizzes and student progress tracking.",
+      status: "archived",
+      source: "contact_page",
+    },
+    {
+      name: "Arjun Nair",
+      email: "arjun@urbannest-demo.in",
+      subject: "Real estate listing site",
+      message:
+        "Need a property listing website with map search, lead forms, and an admin panel for agents. Please share a rough estimate.",
+      status: "new",
+      source: "contact_page",
+    },
+    {
+      name: "Meera Krishnan",
+      email: "meera@medicare-demo.health",
+      subject: "Appointment booking system",
+      message:
+        "Clinic wants online appointment booking with SMS reminders. Would like to understand stack recommendations and delivery timeline.",
+      status: "read",
+      source: "dashboard",
+    },
+    {
+      name: "Karthik Reddy",
+      email: "karthik@stylehub-demo.shop",
+      subject: "Shopify + custom storefront",
+      message:
+        "Exploring headless commerce with a custom React storefront. Do you have experience integrating Shopify APIs?",
+      status: "new",
+      source: "contact_page",
+    },
+    {
+      name: "Divya Menon",
+      email: "divya@autofleet-demo.io",
+      subject: "Fleet tracking dashboard",
+      message:
+        "We are building a logistics dashboard with live vehicle tracking. Looking for a frontend engineer for 3 months.",
+      status: "read",
+      source: "contact_page",
+    },
+    {
+      name: "Harish Kumar",
+      email: "harish@pixelcraft-demo.studio",
+      subject: "Portfolio builder SaaS",
+      message:
+        "Interested in discussing architecture for a no-code portfolio builder with templates and custom domains.",
+      status: "archived",
+      source: "dashboard",
+    },
+    {
+      name: "Lakshmi Venkat",
+      email: "lakshmi@finwise-demo.tech",
+      subject: "Expense tracker app",
+      message:
+        "Need help shipping v1 of a personal finance app with budgets, recurring expenses, and export to CSV.",
+      status: "new",
+      source: "contact_page",
+    },
+    {
+      name: "Aditya Bose",
+      email: "aditya@demo-startup.io",
+      subject: "Full-stack freelancer availability",
+      message:
+        "Early-stage startup looking for part-time full-stack support on a Next.js product. Are you open to retainer work?",
+      status: "read",
+      source: "contact_page",
+    },
+  ];
+
+  for (const seed of formsSeed) {
+    await prisma.contactFormSubmission.create({
+      data: {
+        ...seed,
+        type: DEMO_TYPE, userId: demoUserId,
+      },
+    });
+  }
+
+  console.log(`Created ${formsSeed.length} demo form submissions.`);
+
   console.log("Creating demo resume...");
   const { DEMO_RESUME_LATEX } = await import("../server/resume/defaultTemplate.js");
   await prisma.resume.create({
@@ -538,10 +750,175 @@ async function seedBudgetDemo() {
       description: "Showcase LaTeX resume for the demo account.",
       latexSource: DEMO_RESUME_LATEX,
       compileStatus: "idle",
-      type: DEMO_TYPE,
+      type: DEMO_TYPE, userId: demoUserId,
     },
   });
   console.log("Created demo resume.");
+
+  await seedJobTrackerDemo(demoUserId);
+}
+
+function daysAgo(days: number) {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date;
+}
+
+function daysFromNow(days: number) {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
+async function seedJobTrackerDemo(demoUserId: string) {
+  console.log("Creating demo companies and job tracker data...");
+
+  const companiesSeed = [
+    { name: "TechNova Solutions", linkedinUrl: "https://linkedin.com/company/technova-demo", careersUrl: "https://technova-demo.com/careers", productCategory: "SaaS", companySize: "201-500", headquarters: "Bangalore", officeLocation: "Bangalore, Karnataka", applied: true },
+    { name: "CloudPeak Systems", linkedinUrl: "https://linkedin.com/company/cloudpeak-demo", careersUrl: "https://cloudpeak-demo.io/jobs", productCategory: "Cloud Infrastructure", companySize: "501-1000", headquarters: "Hyderabad", officeLocation: "Hyderabad, Telangana", applied: true },
+    { name: "DataForge Analytics", productCategory: "Data Analytics", companySize: "51-200", headquarters: "Pune", officeLocation: "Pune, Maharashtra", applied: false },
+    { name: "FinEdge Technologies", linkedinUrl: "https://linkedin.com/company/finedge-demo", productCategory: "FinTech", companySize: "201-500", headquarters: "Mumbai", officeLocation: "Mumbai, Maharashtra", applied: true },
+    { name: "HealthSync Digital", careersUrl: "https://healthsync-demo.com/careers", productCategory: "HealthTech", companySize: "101-200", headquarters: "Chennai", officeLocation: "Chennai, Tamil Nadu", applied: false },
+    { name: "RetailPulse Commerce", productCategory: "E-Commerce", companySize: "501-1000", headquarters: "Delhi", officeLocation: "Gurgaon, Haryana", applied: true },
+    { name: "SecureNet Cyber", linkedinUrl: "https://linkedin.com/company/securenet-demo", productCategory: "Cybersecurity", companySize: "51-200", headquarters: "Bangalore", officeLocation: "Bangalore, Karnataka", applied: true },
+    { name: "EduLeap Learning", productCategory: "EdTech", companySize: "201-500", headquarters: "Pune", officeLocation: "Pune, Maharashtra", applied: false },
+    { name: "LogiTrack Mobility", careersUrl: "https://logitrack-demo.com/jobs", productCategory: "Logistics", companySize: "1001-5000", headquarters: "Mumbai", officeLocation: "Mumbai, Maharashtra", applied: true },
+    { name: "GreenEnergy Labs", productCategory: "CleanTech", companySize: "51-200", headquarters: "Ahmedabad", officeLocation: "Ahmedabad, Gujarat", applied: false },
+    { name: "MediaStream Studios", linkedinUrl: "https://linkedin.com/company/mediastream-demo", productCategory: "Media", companySize: "201-500", headquarters: "Mumbai", officeLocation: "Mumbai, Maharashtra", applied: true },
+    { name: "AI Horizon Labs", careersUrl: "https://aihorizon-demo.ai/careers", productCategory: "Artificial Intelligence", companySize: "101-200", headquarters: "Bangalore", officeLocation: "Bangalore, Karnataka", applied: true },
+    { name: "PropTech India", productCategory: "PropTech", companySize: "51-200", headquarters: "Hyderabad", officeLocation: "Hyderabad, Telangana", applied: false },
+    { name: "GameForge Interactive", productCategory: "Gaming", companySize: "201-500", headquarters: "Pune", officeLocation: "Pune, Maharashtra", applied: true },
+    { name: "InsureTech Global", linkedinUrl: "https://linkedin.com/company/insuretech-demo", productCategory: "InsurTech", companySize: "501-1000", headquarters: "Bangalore", officeLocation: "Bangalore, Karnataka", applied: false },
+    { name: "TravelNest Platform", productCategory: "Travel", companySize: "201-500", headquarters: "Delhi", officeLocation: "Delhi NCR", applied: true },
+    { name: "AgriSmart Systems", productCategory: "AgriTech", companySize: "51-200", headquarters: "Chennai", officeLocation: "Chennai, Tamil Nadu", applied: false },
+    { name: "DevOps Matrix", careersUrl: "https://devopsmatrix-demo.com/jobs", productCategory: "DevTools", companySize: "101-200", headquarters: "Bangalore", officeLocation: "Remote", applied: true },
+    { name: "QuantumPay Solutions", productCategory: "Payments", companySize: "501-1000", headquarters: "Mumbai", officeLocation: "Mumbai, Maharashtra", applied: true },
+    { name: "NeoBank Digital", linkedinUrl: "https://linkedin.com/company/neobank-demo", productCategory: "Banking", companySize: "1001-5000", headquarters: "Bangalore", officeLocation: "Bangalore, Karnataka", applied: false },
+    { name: "SmartHome IoT", productCategory: "IoT", companySize: "201-500", headquarters: "Hyderabad", officeLocation: "Hyderabad, Telangana", applied: true },
+    { name: "CodeCraft Studios", productCategory: "Software Services", companySize: "51-200", headquarters: "Pune", officeLocation: "Pune, Maharashtra", applied: false },
+  ];
+
+  const companyTypes = ["Startup", "MNC", "Product", "Service", "Agency", "Consulting"] as const;
+
+  const createdCompanies = [];
+  for (const [index, seed] of companiesSeed.entries()) {
+    const company = await prisma.company.create({
+      data: {
+        ...seed,
+        companyType: companyTypes[index % companyTypes.length],
+        type: DEMO_TYPE, userId: demoUserId,
+      },
+    });
+    createdCompanies.push(company);
+  }
+
+  const contactNames = [
+    { name: "Priya Sharma", designation: "HR Manager", email: "priya.sharma@demo.com", phone: "+91 9876543210" },
+    { name: "Rahul Mehta", designation: "Talent Acquisition", email: "rahul.mehta@demo.com", phone: "+91 9123456789" },
+    { name: "Ananya Iyer", designation: "Recruiter", email: "ananya.iyer@demo.com", phone: "+91 9988776655" },
+  ];
+
+  for (const company of createdCompanies.slice(0, 15)) {
+    const contact = contactNames[Math.floor(Math.random() * contactNames.length)];
+    await prisma.companyContact.create({
+      data: {
+        companyId: company.id,
+        name: contact.name,
+        designation: contact.designation,
+        email: contact.email,
+        phone: contact.phone,
+        notes: "Demo HR contact for showcase.",
+        type: DEMO_TYPE, userId: demoUserId,
+      },
+    });
+  }
+
+  const jobStatuses = [
+    "Applied", "Shortlisted", "HR Discussion", "Interview Scheduled",
+    "Interview Completed", "Technical Round", "Manager Round", "Final Round",
+    "Selected", "Offer Received", "Rejected", "Withdrawn",
+  ] as const;
+
+  const roles = [
+    "Senior Full Stack Developer", "React Developer", "Node.js Engineer",
+    "Frontend Engineer", "Backend Developer", "Software Engineer II",
+    "Full Stack Engineer", "Lead Developer", "TypeScript Developer",
+  ];
+
+  let jobCount = 0;
+  for (const company of createdCompanies.filter((c) => c.applied)) {
+    const numJobs = Math.floor(Math.random() * 2) + 1;
+    for (let j = 0; j < numJobs && jobCount < 24; j++) {
+      const statusIndex = Math.floor(Math.random() * jobStatuses.length);
+      const status = jobStatuses[statusIndex];
+      const appliedDaysAgo = Math.floor(Math.random() * 60) + 5;
+
+      const job = await prisma.jobApplication.create({
+        data: {
+          companyId: company.id,
+          jobId: `JOB-${1000 + jobCount}`,
+          roleName: roles[jobCount % roles.length],
+          applicationUrl: company.careersUrl ?? "https://example.com/apply",
+          appliedThrough: Math.random() > 0.5 ? "LinkedIn" : "Company Website",
+          mailId: "demo.applicant@example.com",
+          appliedDate: daysAgo(appliedDaysAgo),
+          currentStatus: status,
+          expectedSalary: 1800000 + Math.floor(Math.random() * 1200000),
+          currentSalary: 1200000 + Math.floor(Math.random() * 800000),
+          negotiatedSalary: status === "Offer Received" ? 2200000 + Math.floor(Math.random() * 500000) : null,
+          offeredSalary: status === "Offer Received" ? 2400000 + Math.floor(Math.random() * 400000) : null,
+          companyStandardSalary: 2000000 + Math.floor(Math.random() * 600000),
+          type: DEMO_TYPE, userId: demoUserId,
+        },
+      });
+
+      const timelineStatuses = jobStatuses.slice(0, statusIndex + 1);
+      for (let s = 0; s < timelineStatuses.length; s++) {
+        await prisma.jobStatusHistory.create({
+          data: {
+            jobApplicationId: job.id,
+            status: timelineStatuses[s],
+            type: DEMO_TYPE, userId: demoUserId,
+            createdAt: daysAgo(appliedDaysAgo - s * 3),
+          },
+        });
+      }
+
+      if (["Interview Scheduled", "Technical Round", "Manager Round", "Final Round"].includes(status)) {
+        await prisma.interviewSchedule.create({
+          data: {
+            jobApplicationId: job.id,
+            interviewDate: daysFromNow(Math.floor(Math.random() * 14) + 1),
+            interviewTime: "10:30 AM",
+            mode: Math.random() > 0.4 ? "Online" : "Offline",
+            location: "Bangalore Office",
+            interviewer: "Panel Lead",
+            meetingLink: "https://meet.demo.com/interview",
+            notes: "Demo interview schedule.",
+            type: DEMO_TYPE, userId: demoUserId,
+          },
+        });
+      }
+
+      const noteSamples = [
+        "HR requested current CTC breakdown.",
+        "Need to prepare DSA — focus on arrays and trees.",
+        "Interview panel has 3 members.",
+        "Follow-up after 2 days if no response.",
+      ];
+      await prisma.jobNote.create({
+        data: {
+          jobApplicationId: job.id,
+          content: noteSamples[jobCount % noteSamples.length],
+          type: DEMO_TYPE, userId: demoUserId,
+        },
+      });
+
+      jobCount++;
+    }
+  }
+
+  console.log(`Created ${createdCompanies.length} demo companies and ${jobCount} job applications.`);
 }
 
 main()

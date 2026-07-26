@@ -9,7 +9,6 @@ import {
   resolvePaymentStatus,
 } from "../finance/engine.js";
 import { decimalToNumber } from "../lib/serializers.js";
-import type { DataType } from "../auth/config.js";
 import type {
   CreateEmiInput,
   CreateRentInput,
@@ -122,21 +121,21 @@ function serializeRecord(record: Awaited<ReturnType<typeof financeRepo.getRecord
 
 export async function listModuleRecords(
   moduleType: string,
-  dataType: DataType,
+  userId: string,
   options: { search?: string; status?: string; page?: number; pageSize?: number },
 ) {
-  await financeRepo.syncPaymentStatuses(dataType);
+  await financeRepo.syncPaymentStatuses(userId);
 
   if (moduleType === FINANCE_MODULES.RENT) {
-    const all = await financeRepo.listRecords(moduleType, dataType);
+    const all = await financeRepo.listRecords(moduleType, userId);
     for (const r of all) {
-      await financeRepo.ensureRentMonthlyEntries(r.id, dataType);
+      await financeRepo.ensureRentMonthlyEntries(r.id, userId);
     }
   }
 
   const result = await financeRepo.listRecordsFiltered({
     moduleType,
-    dataType,
+    userId,
     ...options,
   });
 
@@ -158,33 +157,33 @@ function computeModuleStats(items: NonNullable<ReturnType<typeof serializeRecord
 }
 
 export async function listEmiRecords(
-  dataType: DataType,
+  userId: string,
   options?: { search?: string; status?: string; page?: number; pageSize?: number },
 ) {
-  return listModuleRecords(FINANCE_MODULES.EMI, dataType, options ?? {});
+  return listModuleRecords(FINANCE_MODULES.EMI, userId, options ?? {});
 }
 
 export async function listRentRecords(
-  dataType: DataType,
+  userId: string,
   options?: { search?: string; status?: string; page?: number; pageSize?: number },
 ) {
-  return listModuleRecords(FINANCE_MODULES.RENT, dataType, options ?? {});
+  return listModuleRecords(FINANCE_MODULES.RENT, userId, options ?? {});
 }
 
 export async function listSubscriptionRecords(
-  dataType: DataType,
+  userId: string,
   options?: { search?: string; status?: string; page?: number; pageSize?: number },
 ) {
-  return listModuleRecords(FINANCE_MODULES.SUBSCRIPTION, dataType, options ?? {});
+  return listModuleRecords(FINANCE_MODULES.SUBSCRIPTION, userId, options ?? {});
 }
 
-export async function getFinanceRecord(id: string, dataType: DataType) {
-  await financeRepo.syncPaymentStatuses(dataType);
-  const record = await financeRepo.getRecordById(id, dataType);
+export async function getFinanceRecord(id: string, userId: string) {
+  await financeRepo.syncPaymentStatuses(userId);
+  const record = await financeRepo.getRecordById(id, userId);
   if (!record) throw new Error("NOT_FOUND");
   if (record.moduleType === FINANCE_MODULES.RENT) {
-    await financeRepo.ensureRentMonthlyEntries(id, dataType);
-    const refreshed = await financeRepo.getRecordById(id, dataType);
+    await financeRepo.ensureRentMonthlyEntries(id, userId);
+    const refreshed = await financeRepo.getRecordById(id, userId);
     return serializeRecord(refreshed);
   }
   return serializeRecord(record);
@@ -192,93 +191,93 @@ export async function getFinanceRecord(id: string, dataType: DataType) {
 
 export async function updateFinanceRecord(
   id: string,
-  dataType: DataType,
+  userId: string,
   data: Record<string, unknown>,
 ) {
-  const updated = await financeRepo.updateRecord(id, dataType, data);
+  const updated = await financeRepo.updateRecord(id, userId, data);
   if (!updated) throw new Error("NOT_FOUND");
   return serializeRecord(updated);
 }
 
-export async function createEmi(data: CreateEmiInput, dataType: DataType) {
-  const record = await financeRepo.createEmi(data, dataType);
+export async function createEmi(data: CreateEmiInput, userId: string) {
+  const record = await financeRepo.createEmi(data, userId);
   return serializeRecord(record);
 }
 
-export async function createRent(data: CreateRentInput, dataType: DataType) {
-  const record = await financeRepo.createRent(data, dataType);
+export async function createRent(data: CreateRentInput, userId: string) {
+  const record = await financeRepo.createRent(data, userId);
   return serializeRecord(record);
 }
 
-export async function createSubscription(data: CreateSubscriptionInput, dataType: DataType) {
-  const record = await financeRepo.createSubscription(data, dataType);
+export async function createSubscription(data: CreateSubscriptionInput, userId: string) {
+  const record = await financeRepo.createSubscription(data, userId);
   return serializeRecord(record);
 }
 
-export async function markPaymentPaid(paymentId: string, dataType: DataType) {
-  const result = await financeRepo.markPaymentPaid(paymentId, dataType);
+export async function markPaymentPaid(paymentId: string, userId: string) {
+  const result = await financeRepo.markPaymentPaid(paymentId, userId);
   if (!result) throw new Error("NOT_FOUND");
   return serializePayment(result);
 }
 
 export async function markRecordPaid(
   recordId: string,
-  dataType: DataType,
+  userId: string,
   details: financeRepo.MarkPaidDetails,
 ) {
-  const record = await financeRepo.getRecordById(recordId, dataType);
+  const record = await financeRepo.getRecordById(recordId, userId);
   if (!record) throw new Error("NOT_FOUND");
 
-  const result = await financeRepo.markRecordPaid(recordId, dataType, details);
+  const result = await financeRepo.markRecordPaid(recordId, userId, details);
   if (!result) throw new Error("NOT_FOUND");
 
   const paidAmount = details.amount ?? Number(result.amount);
   const paidDate = details.paidDate ? new Date(details.paidDate) : new Date();
 
   await syncBudgetFromFinancePayment(
-    dataType,
+    userId,
     paidAmount,
     record.moduleType,
     record.name,
     paidDate,
   );
 
-  const refreshed = await financeRepo.getRecordById(recordId, dataType);
+  const refreshed = await financeRepo.getRecordById(recordId, userId);
   return serializeRecord(refreshed);
 }
 
 export async function markEmiCurrentPaid(
   recordId: string,
-  dataType: DataType,
+  userId: string,
   details?: financeRepo.MarkPaidDetails,
 ) {
-  return markRecordPaid(recordId, dataType, details ?? {});
+  return markRecordPaid(recordId, userId, details ?? {});
 }
 
 export async function markRentCurrentPaid(
   recordId: string,
-  dataType: DataType,
+  userId: string,
   details?: financeRepo.MarkPaidDetails,
 ) {
-  return markRecordPaid(recordId, dataType, details ?? {});
+  return markRecordPaid(recordId, userId, details ?? {});
 }
 
 export async function markSubscriptionPaid(
   recordId: string,
-  dataType: DataType,
+  userId: string,
   details?: financeRepo.MarkPaidDetails,
 ) {
-  return markRecordPaid(recordId, dataType, details ?? {});
+  return markRecordPaid(recordId, userId, details ?? {});
 }
 
-export async function deleteFinanceRecord(id: string, dataType: DataType) {
-  const existing = await financeRepo.getRecordById(id, dataType);
+export async function deleteFinanceRecord(id: string, userId: string) {
+  const existing = await financeRepo.getRecordById(id, userId);
   if (!existing) throw new Error("NOT_FOUND");
-  await financeRepo.deleteRecord(id, dataType);
+  await financeRepo.deleteRecord(id, userId);
 }
 
-export async function getFinanceOverview(dataType: DataType) {
-  const data = await financeRepo.getOverviewData(dataType);
+export async function getFinanceOverview(userId: string) {
+  const data = await financeRepo.getOverviewData(userId);
 
   return {
     stats: data.stats,
@@ -322,8 +321,8 @@ export async function getFinanceOverview(dataType: DataType) {
   };
 }
 
-export async function getFinanceNotifications(dataType: DataType) {
-  return financeRepo.getFinanceNotifications(dataType);
+export async function getFinanceNotifications(userId: string) {
+  return financeRepo.getFinanceNotifications(userId);
 }
 
 export { serializeRecord, serializePayment };

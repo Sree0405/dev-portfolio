@@ -84,7 +84,7 @@ export default function Navigation() {
           </Link>
           <Link to="/">
             <motion.span
-              className="btn-glass flex items-center gap-2 rounded-full px-4 py-2 text-sm font-mono text-muted-foreground"
+              className="btn-glass flex items-center gap-2 rounded-full px-4 py-2 text-sm font-mono portfolio-text-muted"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -129,8 +129,8 @@ export default function Navigation() {
                       className={cn(
                         "relative flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors lg:px-3.5",
                         active
-                          ? "text-foreground"
-                          : "text-muted-foreground hover:text-foreground",
+                          ? "page-title-accent"
+                          : "portfolio-text-muted hover:text-primary",
                       )}
                     >
                       {active && (
@@ -238,7 +238,7 @@ export default function Navigation() {
                                 "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition",
                                 active
                                   ? "border-primary/35 bg-primary/15 text-primary"
-                                  : "border-border/50 bg-background/60 text-muted-foreground group-hover:text-primary",
+                                  : "border-border/50 bg-background/60 portfolio-text-muted group-hover:text-primary",
                               )}
                             >
                               <Icon className="h-4 w-4" strokeWidth={1.75} />
@@ -247,12 +247,12 @@ export default function Navigation() {
                               <span
                                 className={cn(
                                   "block text-sm font-semibold leading-tight",
-                                  active ? "text-foreground" : "text-foreground/90",
+                                  "block text-sm font-semibold leading-tight page-title-accent",
                                 )}
                               >
                                 {item.name}
                               </span>
-                              <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">
+                              <span className="mt-0.5 block truncate text-[11px] portfolio-text-muted">
                                 {item.description}
                               </span>
                             </span>
@@ -261,7 +261,7 @@ export default function Navigation() {
                                 "h-3.5 w-3.5 shrink-0",
                                 active
                                   ? "text-primary"
-                                  : "text-muted-foreground opacity-40",
+                                  : "portfolio-text-muted opacity-40",
                               )}
                             />
                           </Link>

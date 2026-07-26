@@ -14,12 +14,12 @@ const NotFound = () => {
       <div className="glass-panel max-w-md rounded-2xl p-10 text-center">
         <p className="section-eyebrow mb-3">Error</p>
         <h1 className="page-title mb-2">404</h1>
-        <p className="mb-6 text-muted-foreground">
+        <p className="mb-6 portfolio-text-muted">
           This page doesn’t exist or was moved.
         </p>
         <Link
           to="/"
-          className="btn-gradient inline-flex rounded-xl px-6 py-3 text-sm font-semibold text-primary-foreground"
+          className="btn-gradient btn-portfolio-primary w-auto px-6 py-3 normal-case"
         >
           Return home
         </Link>

@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 
 const ContactPage = () => {
   return (
-    <div className="relative min-h-screen overflow-x-hidden text-foreground">
+    <div className="relative min-h-screen overflow-x-hidden portfolio-text-muted">
       <main>
         <Contact />
       </main>

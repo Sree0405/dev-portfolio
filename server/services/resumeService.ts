@@ -3,7 +3,6 @@ import { serializeResume } from "../lib/serializers.js";
 import { compileLatexToPdf, isLatexInstalledError } from "../resume/latexCompile.js";
 import { DEFAULT_RESUME_LATEX } from "../resume/defaultTemplate.js";
 import { normalizeLatexSource } from "../resume/normalizeLatex.js";
-import type { DataType } from "../auth/config.js";
 import type { CreateResumeInput, UpdateResumeInput } from "../lib/validation.js";
 
 function slugifyFilename(title: string): string {
@@ -14,20 +13,20 @@ function slugifyFilename(title: string): string {
     .slice(0, 80) || "Resume";
 }
 
-export async function listResumes(params: { dataType: DataType; search?: string }) {
+export async function listResumes(params: { userId: string; search?: string }) {
   const items = await resumeRepo.listResumes(params);
   return items.map(serializeResume);
 }
 
-export async function getResume(id: string, dataType: DataType) {
-  const resume = await resumeRepo.getResumeById(id, dataType);
+export async function getResume(id: string, userId: string) {
+  const resume = await resumeRepo.getResumeById(id, userId);
   if (!resume) {
     throw new Error("NOT_FOUND");
   }
   return serializeResume(resume);
 }
 
-export async function createResume(data: CreateResumeInput, dataType: DataType) {
+export async function createResume(data: CreateResumeInput, userId: string) {
   const resume = await resumeRepo.createResume(
     {
       title: data.title,
@@ -36,38 +35,38 @@ export async function createResume(data: CreateResumeInput, dataType: DataType) 
         data.latexSource?.trim() ? data.latexSource : DEFAULT_RESUME_LATEX,
       ),
     },
-    dataType,
+    userId,
   );
   return serializeResume(resume);
 }
 
-export async function updateResume(id: string, data: UpdateResumeInput, dataType: DataType) {
-  const existing = await resumeRepo.getResumeById(id, dataType);
+export async function updateResume(id: string, data: UpdateResumeInput, userId: string) {
+  const existing = await resumeRepo.getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
 
-  const resume = await resumeRepo.updateResume(id, data, dataType);
+  const resume = await resumeRepo.updateResume(id, data, userId);
   return serializeResume(resume);
 }
 
 export async function saveResumeWithPdf(
   id: string,
-  dataType: DataType,
+  userId: string,
   payload: UpdateResumeInput & { compiledPdfBase64?: string },
 ) {
-  const existing = await resumeRepo.getResumeById(id, dataType);
+  const existing = await resumeRepo.getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
 
-  await resumeRepo.updateResume(id, payload, dataType);
+  await resumeRepo.updateResume(id, payload, userId);
 
   if (payload.compiledPdfBase64) {
     try {
       const pdfBuffer = Buffer.from(payload.compiledPdfBase64, "base64");
       const title = payload.title ?? existing.title;
-      await resumeRepo.updateResumeCompiledPdf(id, dataType, {
+      await resumeRepo.updateResumeCompiledPdf(id, userId, {
         compiledPdf: pdfBuffer,
         pdfFilename: `${slugifyFilename(title)}.pdf`,
         compileStatus: "success",
@@ -78,12 +77,12 @@ export async function saveResumeWithPdf(
     }
   }
 
-  const resume = await resumeRepo.getResumeById(id, dataType);
+  const resume = await resumeRepo.getResumeById(id, userId);
   return serializeResume(resume!);
 }
 
-export async function compileResumePdf(id: string, dataType: DataType) {
-  const resume = await resumeRepo.getResumeById(id, dataType);
+export async function compileResumePdf(id: string, userId: string) {
+  const resume = await resumeRepo.getResumeById(id, userId);
   if (!resume) {
     throw new Error("NOT_FOUND");
   }
@@ -92,7 +91,7 @@ export async function compileResumePdf(id: string, dataType: DataType) {
     const { pdf, log } = await compileLatexToPdf(resume.latexSource);
     const pdfFilename = `${slugifyFilename(resume.title)}.pdf`;
 
-    const updated = await resumeRepo.updateResumeCompiledPdf(id, dataType, {
+    const updated = await resumeRepo.updateResumeCompiledPdf(id, userId, {
       compiledPdf: pdf,
       pdfFilename,
       compileStatus: "success",
@@ -107,7 +106,7 @@ export async function compileResumePdf(id: string, dataType: DataType) {
         ? error.message.slice(-4000)
         : "LaTeX compilation failed";
 
-    await resumeRepo.updateResumeCompileError(id, dataType, message);
+    await resumeRepo.updateResumeCompileError(id, userId, message);
 
     if (isLatexInstalledError(error)) {
       throw new Error("LATEX_NOT_INSTALLED");
@@ -117,8 +116,8 @@ export async function compileResumePdf(id: string, dataType: DataType) {
   }
 }
 
-export async function getResumePdfBuffer(id: string, dataType: DataType) {
-  const resume = await resumeRepo.getResumePdf(id, dataType);
+export async function getResumePdfBuffer(id: string, userId: string) {
+  const resume = await resumeRepo.getResumePdf(id, userId);
   if (!resume) {
     throw new Error("NOT_FOUND");
   }
@@ -132,10 +131,10 @@ export async function getResumePdfBuffer(id: string, dataType: DataType) {
   };
 }
 
-export async function deleteResume(id: string, dataType: DataType) {
-  const existing = await resumeRepo.getResumeById(id, dataType);
+export async function deleteResume(id: string, userId: string) {
+  const existing = await resumeRepo.getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
-  await resumeRepo.deleteResume(id, dataType);
+  await resumeRepo.deleteResume(id, userId);
 }

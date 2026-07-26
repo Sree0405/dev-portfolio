@@ -13,6 +13,7 @@ import type { DocTabId, TabbedDocumentationData } from "./types";
 
 const TabbedDocumentationPage = memo(() => {
   const [data, setData] = useState<TabbedDocumentationData | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const { activeTab, activeModuleId, setTab, openModule } = useDocTabs("overview");
 
   useEffect(() => {
@@ -27,9 +28,13 @@ const TabbedDocumentationPage = memo(() => {
         const raw = (jsonMod as { default?: TabbedDocumentationData }).default ?? jsonMod;
         const merged = mapMod.applyDevToolScreenshots(raw as TabbedDocumentationData);
         setData(merged);
+        setLoadError(null);
       })
       .catch((err) => {
         console.error("[SreeDevTool docs] Failed to load documentation data:", err);
+        if (!cancelled) {
+          setLoadError("Failed to load documentation. Please refresh the page.");
+        }
       });
 
     return () => {
@@ -82,6 +87,14 @@ const TabbedDocumentationPage = memo(() => {
         return null;
     }
   }, [activeTab, activeModule, data, openModule, setTab, shouldLoadImages]);
+
+  if (loadError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950 px-4">
+        <p className="text-center text-sm text-red-400">{loadError}</p>
+      </div>
+    );
+  }
 
   if (!data) {
     return (

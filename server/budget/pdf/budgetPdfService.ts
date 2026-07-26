@@ -1,9 +1,13 @@
+import type { UserRole } from "../../auth/config.js";
 import * as budgetService from "../../services/budgetService.js";
 import { renderFinanceReportTemplate } from "../../finance/pdf/template/renderFinanceReportTemplate.js";
 import { formatFinanceDate, formatFinanceReportId, formatFinanceTime } from "../../finance/pdf/format.js";
-import type { DataType } from "../../auth/config.js";
-export async function generateBudgetReportPdf(budgetId: string, dataType: DataType) {
-  const budget = await budgetService.getBudgetDetail(budgetId, dataType);
+export async function generateBudgetReportPdf(
+  budgetId: string,
+  userId: string,
+  role: UserRole = "user",
+) {
+  const budget = await budgetService.getBudgetDetail(budgetId, userId);
   const now = new Date();
 
   const rows = budget.categories.map((cat) => ({
@@ -57,6 +61,7 @@ export async function generateBudgetReportPdf(budgetId: string, dataType: DataTy
         paymentsPending: budget.categories.filter((c) => c.actualAmount === 0).length,
       },
     },
-    dataType,
+    userId,
+    role,
   );
 }

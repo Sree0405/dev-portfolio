@@ -1,4 +1,3 @@
-import type { DataType } from "../auth/config.js";
 import * as budgetRepo from "../repositories/budgetRepository.js";
 import { currentBudgetPeriod } from "../budget/constants.js";
 
@@ -6,7 +5,7 @@ import { currentBudgetPeriod } from "../budget/constants.js";
  * When a Finance Hub payment is marked paid, increment the matching budget category.
  */
 export async function syncBudgetFromFinancePayment(
-  dataType: DataType,
+  userId: string,
   amount: number,
   moduleType: string,
   recordName: string,
@@ -22,7 +21,7 @@ export async function syncBudgetFromFinancePayment(
     return;
   }
 
-  const budget = await budgetRepo.getActiveBudget(dataType, month, year);
+  const budget = await budgetRepo.getActiveBudget(userId, month, year);
   if (!budget) return;
 
   const category = await budgetRepo.findMatchingCategory(budget.id, moduleType, recordName);

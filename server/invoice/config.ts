@@ -1,4 +1,4 @@
-import type { DataType } from "../auth/config.js";
+import type { UserRole } from "../auth/config.js";
 
 export interface InvoiceBranding {
   companyName: string;
@@ -41,8 +41,8 @@ export const INVOICE_BRANDING_DEMO: InvoiceBranding = {
     "This invoice was generated automatically by the Project Management Dashboard.",
 };
 
-export function getInvoiceBranding(dataType: DataType): InvoiceBranding {
-  return dataType === "Demo" ? INVOICE_BRANDING_DEMO : INVOICE_BRANDING;
+export function getInvoiceBranding(_userId: string, role: UserRole = "user"): InvoiceBranding {
+  return role === "demo" ? INVOICE_BRANDING_DEMO : INVOICE_BRANDING;
 }
 
 export const INVOICE_PDF = {

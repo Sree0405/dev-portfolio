@@ -10,7 +10,7 @@ router.use(requireAuth);
 router.get("/", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const notes = await noteService.listNotes(req.params.id, user.dataType);
+    const notes = await noteService.listNotes(req.params.id, user.id);
     res.json(notes);
   } catch (error) {
     next(error);
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const note = await noteService.createNote(req.params.id, parsed.data, user.dataType);
+    const note = await noteService.createNote(req.params.id, parsed.data, user.id);
     res.status(201).json(note);
   } catch (error) {
     next(error);
@@ -44,7 +44,7 @@ noteByIdRouter.put("/:id", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const note = await noteService.updateNote(req.params.id, parsed.data, user.dataType);
+    const note = await noteService.updateNote(req.params.id, parsed.data, user.id);
     res.json(note);
   } catch (error) {
     next(error);
@@ -54,7 +54,7 @@ noteByIdRouter.put("/:id", async (req, res, next) => {
 noteByIdRouter.delete("/:id", blockDemoDelete, async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    await noteService.deleteNote(req.params.id, user.dataType);
+    await noteService.deleteNote(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);

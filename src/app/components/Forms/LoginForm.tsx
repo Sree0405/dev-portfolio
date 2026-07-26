@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Link } from "react-router-dom";
 import { loginSchema, type LoginFormValues } from "@/app/lib/validation";
 import { DEMO_CREDENTIALS } from "@/app/lib/types";
 import { cn } from "@/lib/utils";
@@ -35,8 +36,8 @@ export const LoginForm = forwardRef<LoginFormHandle, LoginFormProps>(function Lo
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: DEMO_CREDENTIALS.username,
-      password: DEMO_CREDENTIALS.password,
+      username: "",
+      password: "",
     },
   });
 
@@ -150,6 +151,13 @@ export const LoginForm = forwardRef<LoginFormHandle, LoginFormProps>(function Lo
             )}
           </AnimatePresence>
         </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{" "}
+          <Link to="/signup" className="font-medium text-primary hover:underline">
+            Sign up
+          </Link>
+        </p>
       </form>
     </Form>
   );

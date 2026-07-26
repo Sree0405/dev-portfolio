@@ -34,7 +34,7 @@ export default function ProjectsHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mx-auto w-full max-w-2xl text-center text-lg leading-relaxed text-muted-foreground"
+            className="mx-auto w-full max-w-2xl text-center text-lg leading-relaxed portfolio-text-muted"
           >
             A collection of systems, platforms, and experimental interfaces
             designed to explore scalable architectures, immersive user
@@ -50,7 +50,7 @@ export default function ProjectsHero() {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md bg-muted/50 px-4 py-2 font-mono text-xs text-muted-foreground sm:text-sm"
+                className="rounded-md bg-muted/50 px-4 py-2 font-mono text-xs portfolio-text-muted sm:text-sm"
               >
                 {tag}
               </span>

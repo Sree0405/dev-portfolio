@@ -1,4 +1,4 @@
-import type { DataType } from "../../auth/config.js";
+import type { UserRole } from "../../auth/config.js";
 import { getInvoiceBranding, type InvoiceBranding } from "../../invoice/config.js";
 
 export interface FinanceBranding extends InvoiceBranding {
@@ -7,8 +7,8 @@ export interface FinanceBranding extends InvoiceBranding {
   footerSystemLine: string;
 }
 
-export function getFinanceBranding(dataType: DataType): FinanceBranding {
-  const base = getInvoiceBranding(dataType);
+export function getFinanceBranding(userId: string, role: UserRole = "user"): FinanceBranding {
+  const base = getInvoiceBranding(userId, role);
   return {
     ...base,
     dashboardTagline: "Professional Financial Management Dashboard",

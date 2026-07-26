@@ -22,7 +22,7 @@ export function TechStack({
       {items.map((tech) => (
         <span
           key={tech}
-          className="rounded-md bg-muted/50 px-2 py-1 font-mono text-[11px] text-muted-foreground sm:text-xs"
+          className="rounded-md bg-muted/50 px-2 py-1 font-mono text-[11px] portfolio-text-muted sm:text-xs"
         >
           {tech}
         </span>

@@ -32,7 +32,8 @@ async function startServer() {
   } else {
     const distPath = path.resolve(__dirname, "../dist");
     app.use(express.static(distPath));
-    app.get(/.*/, (_req, res) => {
+    // SPA fallback — skip paths with file extensions so /devtool/*.png etc. are served
+    app.get(/^\/(?!.*\.[^/]+$).*/, (_req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

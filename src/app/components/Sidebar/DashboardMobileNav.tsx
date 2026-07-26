@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   financeNavGroup,
+  jobTrackerNavItems,
+  accountNavItems,
+  adminNavItems,
   mobileMoreNavItems,
   mobileNavActions,
   mobilePrimaryNavItems,
 } from "./dashboardNavItems";
 import { isFinanceRoute } from "@/app/lib/finance/moduleConfig";
+import { useAuth } from "@/app/hooks/useAuth";
 import {
   MobileNavLinkItem,
   MobileNavSubmenu,
@@ -17,10 +21,18 @@ type OpenMenu = "finance" | "more" | null;
 
 export function DashboardMobileNav() {
   const location = useLocation();
+  const { isJobTrackerEnabled, isAdmin } = useAuth();
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
 
+  const moreItems = [
+    ...mobileMoreNavItems.filter(
+      (item) => isJobTrackerEnabled || !jobTrackerNavItems.some((jt) => jt.to === item.to),
+    ),
+    ...(isAdmin ? adminNavItems : []),
+  ];
+
   const financeActive = isFinanceRoute(location.pathname);
-  const moreActive = mobileMoreNavItems.some((item) =>
+  const moreActive = moreItems.some((item) =>
     item.end
       ? location.pathname === item.to
       : location.pathname === item.to || location.pathname.startsWith(`${item.to}/`),
@@ -85,7 +97,7 @@ export function DashboardMobileNav() {
             open={openMenu === "more"}
             onClose={() => setOpenMenu(null)}
             title="More Modules"
-            items={mobileMoreNavItems}
+            items={moreItems}
           />
         </div>
       </div>

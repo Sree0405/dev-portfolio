@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import {
   Ban,
   Briefcase,
+  Building2,
+  Calendar,
   CheckCircle2,
   Clock,
   FolderKanban,
@@ -12,8 +14,10 @@ import {
   PlayCircle,
   TrendingUp,
   Wallet,
+  XCircle,
 } from "lucide-react";
 import { api } from "@/app/lib/api";
+import { useAuth } from "@/app/hooks/useAuth";
 import { formatCurrency, formatDate } from "@/app/lib/format";
 import { EmptyState } from "@/app/components/Common/EmptyState";
 import { CardSkeleton, TableSkeleton } from "@/app/components/Common/LoadingSkeleton";
@@ -31,6 +35,7 @@ function formatCurrencyStat(amount: number) {
 }
 
 export default function DashboardPage() {
+  const { isJobTrackerEnabled } = useAuth();
   const { data, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ["dashboard"],
     queryFn: api.getDashboard,
@@ -175,6 +180,113 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </section>
+
+        {isJobTrackerEnabled && data.jobTracker ? (
+          <>
+            <section className="grid min-w-0 grid-cols-2 gap-3 xl:grid-cols-3">
+              <StatCard
+                label="Companies"
+                value={data.jobTracker.totalCompanies}
+                icon={Building2}
+                accent="primary"
+              />
+              <StatCard
+                label="Applied Companies"
+                value={data.jobTracker.appliedCompanies}
+                icon={CheckCircle2}
+                accent="success"
+              />
+              <StatCard
+                label="Job Applications"
+                value={data.jobTracker.totalJobApplications}
+                icon={Briefcase}
+                accent="primary"
+              />
+              <StatCard
+                label="Offers Received"
+                value={data.jobTracker.offersReceived}
+                icon={Wallet}
+                accent="success"
+              />
+              <StatCard
+                label="Rejected"
+                value={data.jobTracker.rejectedJobs}
+                icon={XCircle}
+                accent="danger"
+              />
+            </section>
+
+            <section className="grid gap-4 md:grid-cols-2">
+              <Card className="dashboard-surface-card">
+                <CardHeader className="flex flex-row items-center justify-between gap-2">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <Calendar className="h-4 w-4 text-primary" />
+                    Upcoming Interviews
+                  </CardTitle>
+                  <Link to="/dashboard/job-status" className="text-sm text-primary hover:underline">
+                    View all
+                  </Link>
+                </CardHeader>
+                <CardContent>
+                  {data.jobTracker.upcomingInterviews.length === 0 ? (
+                    <p className="py-8 text-center text-sm text-muted-foreground">No upcoming interviews.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {data.jobTracker.upcomingInterviews.map((interview) => (
+                        <Link
+                          key={interview.id}
+                          to={`/dashboard/job-status/${interview.jobId}`}
+                          className="block rounded-lg border border-border/40 bg-muted/10 px-3 py-2.5 transition-colors hover:bg-muted/30"
+                        >
+                          <p className="truncate text-sm font-medium">{interview.roleName}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {interview.companyName} · {formatDate(interview.interviewDate)}
+                            {interview.interviewTime ? ` · ${interview.interviewTime}` : ""} · {interview.mode}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card className="dashboard-surface-card">
+                <CardHeader className="flex flex-row items-center justify-between gap-2">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <TrendingUp className="h-4 w-4 text-primary" />
+                    Latest Job Activities
+                  </CardTitle>
+                  <Link to="/dashboard/job-status" className="text-sm text-primary hover:underline">
+                    View all
+                  </Link>
+                </CardHeader>
+                <CardContent>
+                  {data.jobTracker.latestJobActivities.length === 0 ? (
+                    <p className="py-8 text-center text-sm text-muted-foreground">No job activity yet.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {data.jobTracker.latestJobActivities.map((activity) => (
+                        <Link
+                          key={activity.id}
+                          to={`/dashboard/job-status/${activity.jobId}`}
+                          className="flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-muted/10 px-3 py-2.5 transition-colors hover:bg-muted/30"
+                        >
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-medium">{activity.roleName}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {activity.companyName} · {formatDate(activity.createdAt)}
+                            </p>
+                          </div>
+                          <StatusBadge status={activity.status} />
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </section>
+          </>
+        ) : null}
 
         {/* Charts */}
         <DashboardCharts data={data} />

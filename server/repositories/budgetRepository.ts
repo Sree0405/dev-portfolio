@@ -1,13 +1,12 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import { BUDGET_STATUS, currentBudgetPeriod } from "../budget/constants.js";
 import type { CreateBudgetInput } from "../lib/validation.js";
 
-export async function getActiveBudget(dataType: DataType, month?: number, year?: number) {
+export async function getActiveBudget(userId: string, month?: number, year?: number) {
   const period = month && year ? { month, year } : currentBudgetPeriod();
   return prisma.budget.findFirst({
     where: {
-      type: dataType,
+      userId,
       month: period.month,
       year: period.year,
       status: BUDGET_STATUS.ACTIVE,
@@ -16,25 +15,25 @@ export async function getActiveBudget(dataType: DataType, month?: number, year?:
   });
 }
 
-export async function getBudgetById(id: string, dataType: DataType) {
+export async function getBudgetById(id: string, userId: string) {
   return prisma.budget.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
     include: { categories: { orderBy: { sortOrder: "asc" } } },
   });
 }
 
-export async function listArchivedBudgets(dataType: DataType) {
+export async function listArchivedBudgets(userId: string) {
   return prisma.budget.findMany({
-    where: { type: dataType, status: BUDGET_STATUS.ARCHIVED },
+    where: { userId, status: BUDGET_STATUS.ARCHIVED },
     include: { categories: { orderBy: { sortOrder: "asc" } } },
     orderBy: [{ year: "desc" }, { month: "desc" }],
   });
 }
 
-export async function createBudget(dataType: DataType, input: CreateBudgetInput) {
+export async function createBudget(userId: string, input: CreateBudgetInput) {
   const { month, year } = currentBudgetPeriod();
 
-  const existing = await getActiveBudget(dataType, month, year);
+  const existing = await getActiveBudget(userId, month, year);
   if (existing) {
     throw new Error("BUDGET_EXISTS");
   }
@@ -48,7 +47,7 @@ export async function createBudget(dataType: DataType, input: CreateBudgetInput)
       ruleLabel: input.ruleLabel,
       notes: input.notes ?? null,
       status: BUDGET_STATUS.ACTIVE,
-      type: dataType,
+      userId,
       categories: {
         create: input.categories.map((cat, index) => ({
           name: cat.name,
@@ -64,13 +63,13 @@ export async function createBudget(dataType: DataType, input: CreateBudgetInput)
   });
 }
 
-export async function resetBudget(dataType: DataType, input: CreateBudgetInput) {
+export async function resetBudget(userId: string, input: CreateBudgetInput) {
   const { month, year } = currentBudgetPeriod();
 
   return prisma.$transaction(async (tx) => {
     const active = await tx.budget.findFirst({
       where: {
-        type: dataType,
+        userId,
         month,
         year,
         status: BUDGET_STATUS.ACTIVE,
@@ -93,7 +92,7 @@ export async function resetBudget(dataType: DataType, input: CreateBudgetInput) 
         ruleLabel: input.ruleLabel,
         notes: input.notes ?? null,
         status: BUDGET_STATUS.ACTIVE,
-        type: dataType,
+        userId,
         categories: {
           create: input.categories.map((cat, index) => ({
             name: cat.name,
@@ -110,9 +109,9 @@ export async function resetBudget(dataType: DataType, input: CreateBudgetInput) 
   });
 }
 
-export async function archiveAndClearBudget(dataType: DataType) {
+export async function archiveAndClearBudget(userId: string) {
   const { month, year } = currentBudgetPeriod();
-  const active = await getActiveBudget(dataType, month, year);
+  const active = await getActiveBudget(userId, month, year);
   if (!active) return null;
 
   return prisma.budget.update({

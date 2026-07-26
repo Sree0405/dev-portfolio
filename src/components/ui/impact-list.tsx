@@ -33,16 +33,16 @@ export function ImpactList({
       {items.map((item) => (
         <li
           key={item}
-          className="flex items-start gap-2.5 text-left text-sm leading-snug text-muted-foreground"
+          className="relative pl-3.5 text-left text-sm leading-snug portfolio-text-muted"
         >
           <span
             className={cn(
-              "mt-[0.4rem] h-1.5 w-1.5 shrink-0 rounded-full",
+              "absolute left-0 top-[0.4rem] h-1.5 w-1.5 rounded-full",
               dotClass[accent],
             )}
             aria-hidden
           />
-          <span>{item}</span>
+          {item}
         </li>
       ))}
     </ul>

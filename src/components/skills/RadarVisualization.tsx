@@ -61,13 +61,13 @@ export default function RadarVisualization({ onSelectSkill }: Props) {
       <div className="mb-10 md:mb-14 md:flex md:items-end md:justify-between md:gap-8">
         <div>
           <SectionTitle eyebrow="Map" accent="Technology" rest="radar" className="mb-0" />
-          <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
+          <p className="mt-3 max-w-xl text-sm portfolio-text-muted md:text-base">
             React and TypeScript at the center—plus APIs, WebSockets, and patterns
             for scaling codebases. Spring Boot is{" "}
-            <span className="text-foreground">additional</span> JVM depth.
+            <span className="page-title-accent">additional</span> JVM depth.
           </p>
         </div>
-        <p className="mt-4 hidden text-sm text-muted-foreground md:mt-0 md:block md:max-w-xs md:text-right">
+        <p className="mt-4 hidden text-sm portfolio-text-muted md:mt-0 md:block md:max-w-xs md:text-right">
           Tap a skill to open the inspector.
         </p>
       </div>
@@ -86,15 +86,15 @@ export default function RadarVisualization({ onSelectSkill }: Props) {
                 >
                   <Icon className="h-5 w-5" strokeWidth={1.75} />
                 </div>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                <span className="font-mono text-[10px] uppercase tracking-wider portfolio-text-muted">
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </div>
 
-              <h3 className="mb-2 text-base font-semibold leading-snug text-foreground md:text-lg">
+              <h3 className="page-title-accent mb-2 text-base font-semibold leading-snug md:text-lg">
                 {level.name}
               </h3>
-              <p className="mb-4 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              <p className="mb-4 text-xs leading-relaxed portfolio-text-muted sm:text-sm">
                 {level.blurb}
               </p>
 
@@ -104,7 +104,7 @@ export default function RadarVisualization({ onSelectSkill }: Props) {
                     key={skill}
                     type="button"
                     onClick={() => onSelectSkill(skill)}
-                    className="rounded-lg border border-border/80 bg-background/60 px-3 py-1.5 text-left text-xs font-medium text-foreground transition hover:border-primary/40 hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    className="page-title-accent rounded-lg border border-border/80 bg-background/60 px-3 py-1.5 text-left text-xs font-medium transition hover:border-primary/40 hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   >
                     {skill}
                   </button>

@@ -1,5 +1,4 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import { FINANCE_MODULES, FINANCE_PAYMENT_STATUS } from "../finance/constants.js";
 import {
   formatPeriodLabel,
@@ -36,9 +35,9 @@ export interface CreateSubscriptionInput {
   notes?: string | null;
 }
 
-export async function listRecords(moduleType: string, dataType: DataType) {
+export async function listRecords(moduleType: string, userId: string) {
   return prisma.financeRecord.findMany({
-    where: { moduleType, type: dataType },
+    where: { moduleType, userId },
     include: {
       payments: { orderBy: { dueDate: "desc" } },
     },
@@ -46,16 +45,16 @@ export async function listRecords(moduleType: string, dataType: DataType) {
   });
 }
 
-export async function getRecordById(id: string, dataType: DataType) {
+export async function getRecordById(id: string, userId: string) {
   return prisma.financeRecord.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
     include: {
       payments: { orderBy: { dueDate: "desc" } },
     },
   });
 }
 
-export async function createEmi(data: CreateEmiInput, dataType: DataType) {
+export async function createEmi(data: CreateEmiInput, userId: string) {
   const startDate = new Date(data.startDate);
   const dueDates = generateEmiDueDates(startDate, data.totalMonths, data.dueDay);
 
@@ -72,7 +71,7 @@ export async function createEmi(data: CreateEmiInput, dataType: DataType) {
         currentInstallment: 1,
         startDate,
         notes: data.notes || null,
-        type: dataType,
+        userId,
       },
     });
 
@@ -84,7 +83,7 @@ export async function createEmi(data: CreateEmiInput, dataType: DataType) {
         status: FINANCE_PAYMENT_STATUS.PENDING,
         periodLabel: `Installment ${index + 1}`,
         installmentNumber: index + 1,
-        type: dataType,
+        userId,
       })),
     });
 
@@ -95,7 +94,7 @@ export async function createEmi(data: CreateEmiInput, dataType: DataType) {
   });
 }
 
-export async function createRent(data: CreateRentInput, dataType: DataType) {
+export async function createRent(data: CreateRentInput, userId: string) {
   return prisma.$transaction(async (tx) => {
     const record = await tx.financeRecord.create({
       data: {
@@ -104,7 +103,7 @@ export async function createRent(data: CreateRentInput, dataType: DataType) {
         amount: data.monthlyAmount,
         dueDay: data.dueDay,
         notes: data.notes || null,
-        type: dataType,
+        userId,
       },
     });
 
@@ -116,7 +115,7 @@ export async function createRent(data: CreateRentInput, dataType: DataType) {
         dueDate,
         status: FINANCE_PAYMENT_STATUS.PENDING,
         periodLabel: formatPeriodLabel(dueDate),
-        type: dataType,
+        userId,
       },
     });
 
@@ -127,7 +126,7 @@ export async function createRent(data: CreateRentInput, dataType: DataType) {
   });
 }
 
-export async function createSubscription(data: CreateSubscriptionInput, dataType: DataType) {
+export async function createSubscription(data: CreateSubscriptionInput, userId: string) {
   const renewalDate = new Date(data.renewalDate);
 
   return prisma.$transaction(async (tx) => {
@@ -142,7 +141,7 @@ export async function createSubscription(data: CreateSubscriptionInput, dataType
         autoRenew: data.autoRenew ?? true,
         category: data.category || null,
         notes: data.notes || null,
-        type: dataType,
+        userId,
       },
     });
 
@@ -153,7 +152,7 @@ export async function createSubscription(data: CreateSubscriptionInput, dataType
         dueDate: renewalDate,
         status: FINANCE_PAYMENT_STATUS.PENDING,
         periodLabel: formatPeriodLabel(renewalDate),
-        type: dataType,
+        userId,
       },
     });
 
@@ -164,9 +163,9 @@ export async function createSubscription(data: CreateSubscriptionInput, dataType
   });
 }
 
-export async function ensureRentMonthlyEntries(recordId: string, dataType: DataType) {
+export async function ensureRentMonthlyEntries(recordId: string, userId: string) {
   const record = await prisma.financeRecord.findFirst({
-    where: { id: recordId, type: dataType, moduleType: FINANCE_MODULES.RENT },
+    where: { id: recordId, userId, moduleType: FINANCE_MODULES.RENT },
   });
   if (!record || !record.dueDay) return;
 
@@ -176,7 +175,7 @@ export async function ensureRentMonthlyEntries(recordId: string, dataType: DataT
   const existing = await prisma.financePaymentHistory.findFirst({
     where: {
       recordId,
-      type: dataType,
+      userId,
       periodLabel,
     },
   });
@@ -189,16 +188,16 @@ export async function ensureRentMonthlyEntries(recordId: string, dataType: DataT
         dueDate,
         status: FINANCE_PAYMENT_STATUS.PENDING,
         periodLabel,
-        type: dataType,
+        userId,
       },
     });
   }
 }
 
-export async function syncPaymentStatuses(dataType: DataType) {
+export async function syncPaymentStatuses(userId: string) {
   const pending = await prisma.financePaymentHistory.findMany({
     where: {
-      type: dataType,
+      userId,
       status: { in: [FINANCE_PAYMENT_STATUS.PENDING, FINANCE_PAYMENT_STATUS.OVERDUE] },
     },
   });
@@ -216,7 +215,7 @@ export async function syncPaymentStatuses(dataType: DataType) {
 
 export interface ListFinanceOptions {
   moduleType: string;
-  dataType: DataType;
+  userId: string;
   search?: string;
   status?: string;
   page?: number;
@@ -232,11 +231,11 @@ export interface MarkPaidDetails {
 }
 
 export async function listRecordsFiltered(options: ListFinanceOptions) {
-  const { moduleType, dataType, search = "", status, page = 1, pageSize = 10 } = options;
+  const { moduleType, userId, search = "", status, page = 1, pageSize = 10 } = options;
 
   const where = {
     moduleType,
-    type: dataType,
+    userId,
     ...(search
       ? {
           OR: [
@@ -273,10 +272,10 @@ export async function listRecordsFiltered(options: ListFinanceOptions) {
 
 export async function updateRecord(
   id: string,
-  dataType: DataType,
+  userId: string,
   data: Record<string, unknown>,
 ) {
-  const existing = await prisma.financeRecord.findFirst({ where: { id, type: dataType } });
+  const existing = await prisma.financeRecord.findFirst({ where: { id, userId } });
   if (!existing) return null;
 
   return prisma.financeRecord.update({
@@ -297,9 +296,9 @@ export async function updateRecord(
   });
 }
 
-export async function findPendingPayment(recordId: string, dataType: DataType) {
+export async function findPendingPayment(recordId: string, userId: string) {
   const record = await prisma.financeRecord.findFirst({
-    where: { id: recordId, type: dataType },
+    where: { id: recordId, userId },
     include: { payments: { orderBy: { dueDate: "asc" } } },
   });
   if (!record) return null;
@@ -316,9 +315,9 @@ export async function findPendingPayment(recordId: string, dataType: DataType) {
   }
 
   if (record.moduleType === FINANCE_MODULES.RENT) {
-    await ensureRentMonthlyEntries(recordId, dataType);
+    await ensureRentMonthlyEntries(recordId, userId);
     const refreshed = await prisma.financeRecord.findFirst({
-      where: { id: recordId, type: dataType },
+      where: { id: recordId, userId },
       include: { payments: { orderBy: { dueDate: "desc" } } },
     });
     const now = new Date();
@@ -335,16 +334,16 @@ export async function findPendingPayment(recordId: string, dataType: DataType) {
 
 export async function markRecordPaid(
   recordId: string,
-  dataType: DataType,
+  userId: string,
   details: MarkPaidDetails = {},
 ) {
-  const pending = await findPendingPayment(recordId, dataType);
+  const pending = await findPendingPayment(recordId, userId);
   if (!pending) return null;
-  return markPaymentPaid(pending.id, dataType, details);
+  return markPaymentPaid(pending.id, userId, details);
 }
 
 export async function getPaymentsInRange(
-  dataType: DataType,
+  userId: string,
   moduleType: string,
   from: Date,
   to: Date,
@@ -352,7 +351,7 @@ export async function getPaymentsInRange(
 ) {
   return prisma.financePaymentHistory.findMany({
     where: {
-      type: dataType,
+      userId,
       dueDate: { gte: from, lte: to },
       record: {
         moduleType,
@@ -366,11 +365,11 @@ export async function getPaymentsInRange(
 
 export async function markPaymentPaid(
   paymentId: string,
-  dataType: DataType,
+  userId: string,
   details: MarkPaidDetails = {},
 ) {
   const payment = await prisma.financePaymentHistory.findFirst({
-    where: { id: paymentId, type: dataType },
+    where: { id: paymentId, userId },
     include: { record: true },
   });
   if (!payment) return null;
@@ -418,7 +417,7 @@ export async function markPaymentPaid(
           dueDate: nextRenewal,
           status: FINANCE_PAYMENT_STATUS.PENDING,
           periodLabel: formatPeriodLabel(nextRenewal),
-          type: dataType,
+          userId,
         },
       });
     }
@@ -430,9 +429,9 @@ export async function markPaymentPaid(
   });
 }
 
-export async function markEmiCurrentMonthPaid(recordId: string, dataType: DataType) {
+export async function markEmiCurrentMonthPaid(recordId: string, userId: string) {
   const record = await prisma.financeRecord.findFirst({
-    where: { id: recordId, type: dataType, moduleType: FINANCE_MODULES.EMI },
+    where: { id: recordId, userId, moduleType: FINANCE_MODULES.EMI },
     include: { payments: { orderBy: { dueDate: "asc" } } },
   });
   if (!record) return null;
@@ -445,20 +444,20 @@ export async function markEmiCurrentMonthPaid(recordId: string, dataType: DataTy
   ) ?? record.payments.find((p) => p.status !== FINANCE_PAYMENT_STATUS.PAID);
 
   if (!current) return null;
-  return markPaymentPaid(current.id, dataType);
+  return markPaymentPaid(current.id, userId);
 }
 
-export async function deleteRecord(id: string, dataType: DataType) {
+export async function deleteRecord(id: string, userId: string) {
   return prisma.financeRecord.delete({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function getOverviewData(dataType: DataType) {
-  await syncPaymentStatuses(dataType);
+export async function getOverviewData(userId: string) {
+  await syncPaymentStatuses(userId);
 
   const records = await prisma.financeRecord.findMany({
-    where: { type: dataType },
+    where: { userId },
     include: { payments: true },
   });
 
@@ -578,10 +577,10 @@ export async function getOverviewData(dataType: DataType) {
   };
 }
 
-export async function getFinanceNotifications(dataType: DataType) {
-  await syncPaymentStatuses(dataType);
+export async function getFinanceNotifications(userId: string) {
+  await syncPaymentStatuses(userId);
   const payments = await prisma.financePaymentHistory.findMany({
-    where: { type: dataType },
+    where: { userId },
     include: { record: true },
   });
 

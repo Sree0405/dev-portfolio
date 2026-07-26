@@ -22,7 +22,7 @@ export default function ExperienceHero() {
             titleClassName="mb-5"
           />
 
-          <p className="mx-auto max-w-xl text-base text-muted-foreground sm:text-lg">
+          <p className="mx-auto max-w-xl text-base portfolio-text-muted sm:text-lg">
             EWall · freelance delivery · mentoring — told chapter by chapter.
           </p>
 
@@ -30,39 +30,39 @@ export default function ExperienceHero() {
             {highlights.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md bg-muted/50 px-3 py-1.5 font-mono text-xs text-muted-foreground sm:px-4 sm:py-2 sm:text-sm"
+                className="rounded-md bg-muted/50 px-3 py-1.5 font-mono text-xs portfolio-text-muted sm:px-4 sm:py-2 sm:text-sm"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground sm:gap-10">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm portfolio-text-muted sm:gap-10">
             <div className="flex items-center gap-2">
               <Briefcase className="h-4 w-4 text-primary" />
               <span>
-                <span className="font-semibold text-foreground">EWall</span>{" "}
+                <span className="page-title-accent font-semibold">EWall</span>{" "}
                 intern → junior
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Rocket className="h-4 w-4 text-primary" />
               <span>
-                <span className="font-semibold text-foreground">6+</span>{" "}
+                <span className="page-title-accent font-semibold">6+</span>{" "}
                 freelance projects
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 text-primary" />
               <span>
-                <span className="font-semibold text-foreground">Mentoring</span>{" "}
+                <span className="page-title-accent font-semibold">Mentoring</span>{" "}
                 & code review
               </span>
             </div>
             <div className="flex items-center gap-2">
               <GraduationCap className="h-4 w-4 text-primary" />
               <span>
-                <span className="font-semibold text-foreground">BSc</span> CS
+                <span className="page-title-accent font-semibold">BSc</span> CS
               </span>
             </div>
           </div>

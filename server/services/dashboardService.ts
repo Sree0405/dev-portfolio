@@ -1,5 +1,4 @@
 import * as dashboardRepo from "../repositories/dashboardRepository.js";
-import type { DataType } from "../auth/config.js";
 import { decimalToNumber } from "../lib/serializers.js";
 
 function statusCount(groups: { status: string; _count: { id: number } }[], status: string) {
@@ -16,8 +15,8 @@ function formatMonthLabel(key: string): string {
   return new Intl.DateTimeFormat("en-IN", { month: "short", year: "2-digit" }).format(date);
 }
 
-export async function getDashboardAnalytics(dataType: DataType) {
-  const data = await dashboardRepo.getDashboardAggregates(dataType);
+export async function getDashboardAnalytics(userId: string) {
+  const data = await dashboardRepo.getDashboardAggregates(userId);
 
   const totalProjects = data.projectAggregates._count.id;
   const totalPlannedAmount = decimalToNumber(data.projectAggregates._sum.plannedAmount);
@@ -121,6 +120,35 @@ export async function getDashboardAnalytics(dataType: DataType) {
 
   const latestProjects = projectsWithNumbers.slice(0, 8);
 
+  const jobTracker = data.jobTracker
+    ? {
+        totalCompanies: data.jobTracker.totalCompanies,
+        appliedCompanies: data.jobTracker.appliedCompanies,
+        totalJobApplications: data.jobTracker.totalJobApplications,
+        offersReceived: data.jobTracker.offersReceived,
+        rejectedJobs: data.jobTracker.rejectedJobs,
+        upcomingInterviews: data.jobTracker.upcomingInterviews.map((interview) => ({
+          id: interview.id,
+          interviewDate: interview.interviewDate.toISOString(),
+          interviewTime: interview.interviewTime,
+          mode: interview.mode,
+          jobId: interview.jobApplication.id,
+          roleName: interview.jobApplication.roleName,
+          companyId: interview.jobApplication.company.id,
+          companyName: interview.jobApplication.company.name,
+        })),
+        latestJobActivities: data.jobTracker.latestJobActivities.map((activity) => ({
+          id: activity.id,
+          status: activity.status,
+          createdAt: activity.createdAt.toISOString(),
+          jobId: activity.jobApplication.id,
+          roleName: activity.jobApplication.roleName,
+          companyId: activity.jobApplication.company.id,
+          companyName: activity.jobApplication.company.name,
+        })),
+      }
+    : null;
+
   return {
     totalProjects,
     totalCredentials: data.credentialCount,
@@ -158,5 +186,6 @@ export async function getDashboardAnalytics(dataType: DataType) {
       receivedPercent: totalPlannedAmount > 0 ? Math.round((totalPaidAmount / totalPlannedAmount) * 1000) / 10 : 0,
       pendingPercent: totalPlannedAmount > 0 ? Math.round((totalRemainingAmount / totalPlannedAmount) * 1000) / 10 : 0,
     },
+    jobTracker,
   };
 }

@@ -1,24 +1,23 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import type { CreatePaymentInput, UpdatePaymentInput } from "../lib/validation.js";
 
-export async function listPaymentsByProject(projectId: string, dataType: DataType) {
+export async function listPaymentsByProject(projectId: string, userId: string) {
   return prisma.payment.findMany({
-    where: { projectId, type: dataType },
+    where: { projectId, userId },
     orderBy: { paymentDate: "desc" },
   });
 }
 
-export async function getPaymentById(id: string, dataType: DataType) {
+export async function getPaymentById(id: string, userId: string) {
   return prisma.payment.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
 export async function createPayment(
   projectId: string,
   data: CreatePaymentInput,
-  dataType: DataType,
+  userId: string,
 ) {
   return prisma.payment.create({
     data: {
@@ -28,14 +27,14 @@ export async function createPayment(
       reference: data.reference || null,
       notes: data.notes || null,
       paymentDate: new Date(data.paymentDate),
-      type: dataType,
+      userId,
     },
   });
 }
 
-export async function updatePayment(id: string, data: UpdatePaymentInput, dataType: DataType) {
+export async function updatePayment(id: string, data: UpdatePaymentInput, userId: string) {
   return prisma.payment.update({
-    where: { id, type: dataType },
+    where: { id, userId },
     data: {
       ...(data.amount !== undefined && { amount: data.amount }),
       ...(data.paymentMethod !== undefined && { paymentMethod: data.paymentMethod }),
@@ -46,15 +45,15 @@ export async function updatePayment(id: string, data: UpdatePaymentInput, dataTy
   });
 }
 
-export async function deletePayment(id: string, dataType: DataType) {
+export async function deletePayment(id: string, userId: string) {
   return prisma.payment.delete({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function sumPaymentsByProject(projectId: string, dataType: DataType) {
+export async function sumPaymentsByProject(projectId: string, userId: string) {
   const result = await prisma.payment.aggregate({
-    where: { projectId, type: dataType },
+    where: { projectId, userId },
     _sum: { amount: true },
   });
   return Number(result._sum.amount ?? 0);

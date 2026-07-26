@@ -1,39 +1,38 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import type { CreateNoteInput, UpdateNoteInput } from "../lib/validation.js";
 
-export async function listNotesByProject(projectId: string, dataType: DataType) {
+export async function listNotesByProject(projectId: string, userId: string) {
   return prisma.projectNote.findMany({
-    where: { projectId, type: dataType },
+    where: { projectId, userId },
     orderBy: { createdAt: "desc" },
   });
 }
 
-export async function getNoteById(id: string, dataType: DataType) {
+export async function getNoteById(id: string, userId: string) {
   return prisma.projectNote.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function createNote(projectId: string, data: CreateNoteInput, dataType: DataType) {
+export async function createNote(projectId: string, data: CreateNoteInput, userId: string) {
   return prisma.projectNote.create({
     data: {
       projectId,
       content: data.content,
-      type: dataType,
+      userId,
     },
   });
 }
 
-export async function updateNote(id: string, data: UpdateNoteInput, dataType: DataType) {
+export async function updateNote(id: string, data: UpdateNoteInput, userId: string) {
   return prisma.projectNote.update({
-    where: { id, type: dataType },
+    where: { id, userId },
     data: { content: data.content },
   });
 }
 
-export async function deleteNote(id: string, dataType: DataType) {
+export async function deleteNote(id: string, userId: string) {
   return prisma.projectNote.delete({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }

@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
     const pageSize = req.query.pageSize ? Number(req.query.pageSize) : undefined;
 
     const result = await projectService.listProjects({
-      dataType: user.dataType,
+      userId: user.id,
       search,
       sortBy,
       sortOrder,
@@ -40,7 +40,8 @@ router.get("/:id/invoice", async (req, res, next) => {
     const user = getSessionUser(req);
     const { buffer, filename } = await invoiceService.generateProjectInvoice(
       req.params.id,
-      user.dataType,
+      user.id,
+      user.role,
     );
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
@@ -53,7 +54,7 @@ router.get("/:id/invoice", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const project = await projectService.getProject(req.params.id, user.dataType);
+    const project = await projectService.getProject(req.params.id, user.id);
     res.json(project);
   } catch (error) {
     next(error);
@@ -68,7 +69,7 @@ router.post("/", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const project = await projectService.createProject(parsed.data, user.dataType);
+    const project = await projectService.createProject(parsed.data, user.id);
     res.status(201).json(project);
   } catch (error) {
     next(error);
@@ -83,7 +84,7 @@ router.put("/:id", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const project = await projectService.updateProject(req.params.id, parsed.data, user.dataType);
+    const project = await projectService.updateProject(req.params.id, parsed.data, user.id);
     res.json(project);
   } catch (error) {
     next(error);
@@ -93,7 +94,7 @@ router.put("/:id", async (req, res, next) => {
 router.delete("/:id", blockDemoDelete, async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    await projectService.deleteProject(req.params.id, user.dataType);
+    await projectService.deleteProject(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);

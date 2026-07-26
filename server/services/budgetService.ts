@@ -1,4 +1,3 @@
-import type { DataType } from "../auth/config.js";
 import * as budgetRepo from "../repositories/budgetRepository.js";
 import {
   formatBudgetMonth,
@@ -98,20 +97,20 @@ export function serializeBudget(budget: NonNullable<Awaited<ReturnType<typeof bu
   };
 }
 
-export async function getCurrentBudget(dataType: DataType) {
-  const budget = await budgetRepo.getActiveBudget(dataType);
+export async function getCurrentBudget(userId: string) {
+  const budget = await budgetRepo.getActiveBudget(userId);
   if (!budget) return null;
   return serializeBudget(budget);
 }
 
-export async function getBudgetDetail(id: string, dataType: DataType) {
-  const budget = await budgetRepo.getBudgetById(id, dataType);
+export async function getBudgetDetail(id: string, userId: string) {
+  const budget = await budgetRepo.getBudgetById(id, userId);
   if (!budget) throw new Error("NOT_FOUND");
   return serializeBudget(budget);
 }
 
-export async function getBudgetHistory(dataType: DataType) {
-  const budgets = await budgetRepo.listArchivedBudgets(dataType);
+export async function getBudgetHistory(userId: string) {
+  const budgets = await budgetRepo.listArchivedBudgets(userId);
   return budgets.map((b) => {
     const income = decimalToNumber(b.income);
     const categories = b.categories.map(serializeCategory);
@@ -130,16 +129,16 @@ export async function getBudgetHistory(dataType: DataType) {
   });
 }
 
-export async function startNewBudget(dataType: DataType, input: import("../lib/validation.js").CreateBudgetInput) {
-  const budget = await budgetRepo.createBudget(dataType, input);
+export async function startNewBudget(userId: string, input: import("../lib/validation.js").CreateBudgetInput) {
+  const budget = await budgetRepo.createBudget(userId, input);
   return serializeBudget(budget);
 }
 
 export async function resetCurrentBudget(
-  dataType: DataType,
+  userId: string,
   input: import("../lib/validation.js").CreateBudgetInput,
 ) {
-  const budget = await budgetRepo.resetBudget(dataType, input);
+  const budget = await budgetRepo.resetBudget(userId, input);
   return serializeBudget(budget);
 }
 

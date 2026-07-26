@@ -12,7 +12,7 @@ const SkillsPage = () => {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden text-foreground">
+    <div className="relative min-h-screen overflow-x-hidden portfolio-text-muted">
       <main className="relative z-10 pb-24">
         <div className="mx-auto max-w-[1600px] px-5 sm:px-8 md:px-12 lg:px-16 xl:px-24">
           <SkillsHero />
@@ -25,7 +25,7 @@ const SkillsPage = () => {
 
           <EmergingTech onSelectSkill={setSelectedSkill} />
 
-          <p className="mt-14 border-t border-border/40 pt-8 text-center text-xs leading-relaxed text-muted-foreground sm:mt-16 sm:pt-10 sm:text-sm">
+          <p className="mt-14 border-t border-border/40 pt-8 text-center text-xs leading-relaxed portfolio-text-muted sm:mt-16 sm:pt-10 sm:text-sm">
             Primary depth in React, TypeScript, and JavaScript—rendering,
             optimization, REST APIs, and WebSockets. Java and Spring Boot are
             additional JVM experience when the stack calls for it.

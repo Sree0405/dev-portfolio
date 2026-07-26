@@ -1,18 +1,17 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import type { CreateResumeInput, UpdateResumeInput } from "../lib/validation.js";
 
 export interface ListResumesOptions {
-  dataType: DataType;
+  userId: string;
   search?: string;
 }
 
 export async function listResumes(options: ListResumesOptions) {
-  const { dataType, search = "" } = options;
+  const { userId, search = "" } = options;
 
   return prisma.resume.findMany({
     where: {
-      type: dataType,
+      userId,
       ...(search
         ? {
             OR: [
@@ -26,25 +25,25 @@ export async function listResumes(options: ListResumesOptions) {
   });
 }
 
-export async function getResumeById(id: string, dataType: DataType) {
+export async function getResumeById(id: string, userId: string) {
   return prisma.resume.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function createResume(data: CreateResumeInput, dataType: DataType) {
+export async function createResume(data: CreateResumeInput, userId: string) {
   return prisma.resume.create({
     data: {
       title: data.title,
       description: data.description ?? null,
       latexSource: data.latexSource,
-      type: dataType,
+      userId,
     },
   });
 }
 
-export async function updateResume(id: string, data: UpdateResumeInput, dataType: DataType) {
-  const existing = await getResumeById(id, dataType);
+export async function updateResume(id: string, data: UpdateResumeInput, userId: string) {
+  const existing = await getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
@@ -61,7 +60,7 @@ export async function updateResume(id: string, data: UpdateResumeInput, dataType
 
 export async function updateResumeCompiledPdf(
   id: string,
-  dataType: DataType,
+  userId: string,
   payload: {
     compiledPdf: Buffer;
     pdfFilename: string;
@@ -69,7 +68,7 @@ export async function updateResumeCompiledPdf(
     compileLog?: string | null;
   },
 ) {
-  const existing = await getResumeById(id, dataType);
+  const existing = await getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
@@ -88,10 +87,10 @@ export async function updateResumeCompiledPdf(
 
 export async function updateResumeCompileError(
   id: string,
-  dataType: DataType,
+  userId: string,
   compileLog: string,
 ) {
-  const existing = await getResumeById(id, dataType);
+  const existing = await getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
@@ -106,8 +105,8 @@ export async function updateResumeCompileError(
   });
 }
 
-export async function deleteResume(id: string, dataType: DataType) {
-  const existing = await getResumeById(id, dataType);
+export async function deleteResume(id: string, userId: string) {
+  const existing = await getResumeById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
@@ -117,9 +116,9 @@ export async function deleteResume(id: string, dataType: DataType) {
   });
 }
 
-export async function getResumePdf(id: string, dataType: DataType) {
+export async function getResumePdf(id: string, userId: string) {
   return prisma.resume.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
     select: {
       compiledPdf: true,
       pdfFilename: true,

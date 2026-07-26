@@ -18,7 +18,11 @@ export function DashboardHeader({ title, description, actions }: DashboardHeader
   const { user } = useAuth();
 
   const roleLabel =
-    user?.role === "demo" ? "Demo User" : user?.role === "owner" ? "Owner" : "Administrator";
+    user?.role === "demo"
+      ? "Demo User"
+      : user?.role === "admin"
+        ? "Administrator"
+        : "User";
 
   const logoutMutation = useMutation({
     mutationFn: api.logout,

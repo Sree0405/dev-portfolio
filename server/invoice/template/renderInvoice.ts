@@ -1,6 +1,6 @@
 import PDFDocument from "pdfkit";
+import type { UserRole } from "../../auth/config.js";
 import { getInvoiceBranding, INVOICE_PDF } from "../config.js";
-import type { DataType } from "../../auth/config.js";
 import type { InvoiceData } from "../types.js";
 import { InvoiceLayoutContext } from "./context.js";
 import { drawInvoiceHeader } from "./InvoiceHeader.js";
@@ -13,8 +13,12 @@ import { drawInvoiceNotes } from "./InvoiceNotes.js";
 import { drawInvoiceSummary } from "./InvoiceSummary.js";
 import { drawInvoiceFooter, drawPageNumbers } from "./InvoiceFooter.js";
 
-export function renderInvoicePdf(data: InvoiceData, dataType: DataType): Promise<Buffer> {
-  const branding = getInvoiceBranding(dataType);
+export function renderInvoicePdf(
+  data: InvoiceData,
+  userId: string,
+  role: UserRole = "user",
+): Promise<Buffer> {
+  const branding = getInvoiceBranding(userId, role);
 
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({

@@ -305,7 +305,7 @@ export default function Projects({ homepage = false }) {
 
                   <div className="flex flex-wrap items-center gap-2.5">
 
-                    <h3 className="text-xl font-bold sm:text-2xl">
+                    <h3 className="page-title-accent text-xl font-bold sm:text-2xl">
                       {project.title}
                     </h3>
 
@@ -313,13 +313,13 @@ export default function Projects({ homepage = false }) {
 
                   </div>
 
-                  <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  <p className="text-sm leading-relaxed portfolio-text-muted sm:text-base">
                     {project.description}
                   </p>
 
                   {/* HIGHLIGHTS */}
 
-                  <div className="grid grid-cols-1 gap-1.5 text-sm text-muted-foreground sm:grid-cols-2 sm:gap-2">
+                  <div className="grid grid-cols-1 gap-1.5 text-sm portfolio-text-muted sm:grid-cols-2 sm:gap-2">
 
                     {project.highlights.map((item) => (
                       <div key={item} className="flex items-center gap-2">

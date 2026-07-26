@@ -4,7 +4,7 @@ import ProjectsHero from "@/components/projects/ProjectsHero";
 
 const ProjectsPage = () => {
   return (
-    <div className="relative min-h-screen overflow-x-hidden text-foreground">
+    <div className="relative min-h-screen overflow-x-hidden portfolio-text-muted">
       <main>
         <ProjectsHero />
         <Projects />

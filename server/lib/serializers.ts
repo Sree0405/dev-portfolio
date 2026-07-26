@@ -58,6 +58,14 @@ export function serializeCredential<T extends { createdAt: Date; updatedAt: Date
   };
 }
 
+export function serializeFormSubmission<T extends { createdAt: Date; updatedAt: Date }>(form: T) {
+  return {
+    ...form,
+    createdAt: form.createdAt.toISOString(),
+    updatedAt: form.updatedAt.toISOString(),
+  };
+}
+
 export function serializeResume<
   T extends {
     createdAt: Date;
@@ -74,5 +82,113 @@ export function serializeResume<
     createdAt: resume.createdAt.toISOString(),
     updatedAt: resume.updatedAt.toISOString(),
     lastCompiledAt: resume.lastCompiledAt?.toISOString() ?? null,
+  };
+}
+
+function serializeSalaryFields<T extends {
+  expectedSalary?: Decimal | number | null;
+  currentSalary?: Decimal | number | null;
+  negotiatedSalary?: Decimal | number | null;
+  offeredSalary?: Decimal | number | null;
+  companyStandardSalary?: Decimal | number | null;
+}>(entity: T) {
+  return {
+    expectedSalary: entity.expectedSalary != null ? decimalToNumber(entity.expectedSalary) : null,
+    currentSalary: entity.currentSalary != null ? decimalToNumber(entity.currentSalary) : null,
+    negotiatedSalary: entity.negotiatedSalary != null ? decimalToNumber(entity.negotiatedSalary) : null,
+    offeredSalary: entity.offeredSalary != null ? decimalToNumber(entity.offeredSalary) : null,
+    companyStandardSalary:
+      entity.companyStandardSalary != null ? decimalToNumber(entity.companyStandardSalary) : null,
+  };
+}
+
+export function serializeCompanyContact<T extends { createdAt: Date; updatedAt: Date }>(contact: T) {
+  return {
+    ...contact,
+    createdAt: contact.createdAt.toISOString(),
+    updatedAt: contact.updatedAt.toISOString(),
+  };
+}
+
+export function serializeCompany<
+  T extends {
+    createdAt: Date;
+    updatedAt: Date;
+    jobApplications?: { currentStatus: string }[];
+    _count?: { jobApplications: number };
+  },
+>(company: T) {
+  const jobCount = company._count?.jobApplications ?? company.jobApplications?.length ?? 0;
+  const latestStatus =
+    company.jobApplications && company.jobApplications.length > 0
+      ? company.jobApplications[0].currentStatus
+      : null;
+
+  const { jobApplications: _jobs, _count: _count, ...rest } = company;
+
+  return {
+    ...rest,
+    jobApplicationCount: jobCount,
+    latestJobStatus: latestStatus,
+    createdAt: company.createdAt.toISOString(),
+    updatedAt: company.updatedAt.toISOString(),
+  };
+}
+
+export function serializeJobStatusHistory<T extends { createdAt: Date }>(entry: T) {
+  return {
+    ...entry,
+    createdAt: entry.createdAt.toISOString(),
+  };
+}
+
+export function serializeInterview<T extends { interviewDate: Date; createdAt: Date; updatedAt: Date }>(
+  interview: T,
+) {
+  return {
+    ...interview,
+    interviewDate: interview.interviewDate.toISOString(),
+    createdAt: interview.createdAt.toISOString(),
+    updatedAt: interview.updatedAt.toISOString(),
+  };
+}
+
+export function serializeJobNote<T extends { createdAt: Date; updatedAt: Date }>(note: T) {
+  return {
+    ...note,
+    createdAt: note.createdAt.toISOString(),
+    updatedAt: note.updatedAt.toISOString(),
+  };
+}
+
+export function serializeJobApplication<
+  T extends {
+    appliedDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    expectedSalary?: Decimal | number | null;
+    currentSalary?: Decimal | number | null;
+    negotiatedSalary?: Decimal | number | null;
+    offeredSalary?: Decimal | number | null;
+    companyStandardSalary?: Decimal | number | null;
+    company?: { id: string; name: string };
+    interviews?: { interviewDate: Date }[];
+  },
+>(job: T) {
+  const upcomingInterview =
+    job.interviews && job.interviews.length > 0
+      ? job.interviews.sort((a, b) => a.interviewDate.getTime() - b.interviewDate.getTime())[0]
+      : null;
+
+  const { interviews: _interviews, company: _company, ...rest } = job;
+
+  return {
+    ...rest,
+    ...serializeSalaryFields(job),
+    appliedDate: job.appliedDate.toISOString(),
+    companyName: job.company?.name ?? null,
+    nextInterviewDate: upcomingInterview?.interviewDate.toISOString() ?? null,
+    createdAt: job.createdAt.toISOString(),
+    updatedAt: job.updatedAt.toISOString(),
   };
 }

@@ -10,7 +10,7 @@ router.use(requireAuth);
 router.get("/preferences", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const preferences = await devUtilityService.getDevUtilityPreferences(user.dataType);
+    const preferences = await devUtilityService.getDevUtilityPreferences(user.id);
     res.json(preferences);
   } catch (error) {
     next(error);
@@ -25,7 +25,7 @@ router.put("/favorites/:utilityId", async (req, res, next) => {
       return res.status(400).json({ error: "Invalid utility id" });
     }
 
-    const result = await devUtilityService.toggleDevUtilityFavorite(parsed.data, user.dataType);
+    const result = await devUtilityService.toggleDevUtilityFavorite(parsed.data, user.id);
     res.json(result);
   } catch (error) {
     next(error);
@@ -40,7 +40,7 @@ router.post("/recent/:utilityId", async (req, res, next) => {
       return res.status(400).json({ error: "Invalid utility id" });
     }
 
-    const result = await devUtilityService.trackDevUtilityUse(parsed.data, user.dataType);
+    const result = await devUtilityService.trackDevUtilityUse(parsed.data, user.id);
     res.json(result);
   } catch (error) {
     next(error);

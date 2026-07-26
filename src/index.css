@@ -80,6 +80,14 @@
       hsl(195 100% 50%)
     );
 
+  --gradient-title-accent:
+    linear-gradient(
+      118deg,
+      hsl(var(--title-accent-start)) 0%,
+      hsl(var(--title-accent-mid)) 48%,
+      hsl(var(--title-accent-end)) 100%
+    );
+
   --gradient-glow:
     radial-gradient(
       circle at center,
@@ -331,7 +339,11 @@ code,pre {
 
 /* Premium page & section titles */
 .page-title {
-  @apply w-full font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-foreground/95 sm:text-5xl md:text-6xl;
+  @apply w-full font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-5xl md:text-6xl;
+  background: var(--gradient-title-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .page-title--center {
@@ -339,19 +351,24 @@ code,pre {
 }
 
 .page-title-accent {
-  background: linear-gradient(
-    118deg,
-    hsl(var(--title-accent-start)) 0%,
-    hsl(var(--title-accent-mid)) 48%,
-    hsl(var(--title-accent-end)) 100%
-  );
+  display: inline;
+  background: var(--gradient-title-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .section-title {
-  @apply font-display text-2xl font-semibold leading-tight tracking-[-0.03em] text-foreground/95 md:text-3xl;
+  @apply font-display text-2xl font-semibold leading-tight tracking-[-0.03em] md:text-3xl;
+  background: var(--gradient-title-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Portfolio frontend — readable copy on dark canvas */
+.portfolio-text-muted {
+  color: hsl(0 0% 100%);
 }
 
 /* Subtle noise-like grain via CSS only (very light) */
@@ -361,22 +378,41 @@ code,pre {
     radial-gradient(circle at 80% 70%, hsl(var(--accent) / 0.04) 0%, transparent 45%);
 }
 
-/* Premium gradient CTA */
+/* Primary CTA — solid neon purple, controlled here */
 .btn-gradient {
-  background: var(--gradient-primary);
+  background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
-  border: 1px solid hsl(var(--glass-border) / 0.15);
+  border: 1px solid hsl(var(--primary-light) / 0.35);
   box-shadow:
-    0 10px 28px hsl(var(--primary) / 0.35),
-    inset 0 1px 0 hsl(0 0% 100% / 0.15);
-  transition: box-shadow 0.35s ease, transform 0.25s ease, filter 0.25s ease;
+    0 8px 28px hsl(var(--primary) / 0.35),
+    inset 0 1px 0 hsl(0 0% 100% / 0.12);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
 }
 
 .btn-gradient:hover {
+  background: hsl(var(--primary-light));
   box-shadow:
     0 12px 36px hsl(var(--primary) / 0.45),
-    0 0 40px hsl(var(--primary-glow) / 0.25);
-  filter: brightness(1.05);
+    0 0 32px hsl(var(--primary-glow) / 0.25);
+}
+
+.btn-gradient:active {
+  transform: scale(0.98);
+}
+
+.btn-portfolio-primary {
+  @apply inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wide sm:w-auto;
+}
+
+.btn-portfolio-secondary {
+  @apply inline-flex min-h-[44px] items-center justify-center rounded-xl border border-border/60 px-4 py-3 font-mono text-xs font-medium uppercase tracking-wide sm:px-5 sm:text-sm;
+}
+
+.btn-portfolio-submit {
+  @apply mt-2 h-12 w-full font-mono text-sm uppercase tracking-wider;
 }
 
 /* Sree Dev Tool — subtle silver → purple */
@@ -441,7 +477,7 @@ code,pre {
     hsl(var(--background) / 0.25)
   );
   border: 1px solid hsl(var(--glass-border) / 0.18);
-  color: hsl(var(--foreground));
+  color: hsl(0 0% 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: inset 0 1px 0 hsl(var(--glass-border) / 0.08);

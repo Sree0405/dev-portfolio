@@ -92,12 +92,12 @@ export default function Footer() {
                     <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-primary sm:text-[11px]">
                       Full-stack · Frontend-led
                     </p>
-                    <h2 className="text-sm font-medium leading-snug text-muted-foreground sm:text-lg">
+                    <h2 className="text-sm font-medium leading-snug portfolio-text-muted sm:text-lg">
                       Engineer & product-focused builder
                     </h2>
                   </div>
 
-                  <p className="hidden max-w-lg text-sm leading-relaxed text-muted-foreground sm:block sm:text-[15px]">
+                  <p className="hidden max-w-lg text-sm leading-relaxed portfolio-text-muted sm:block sm:text-[15px]">
                     Frontend-focused full-stack engineer—strongest on interfaces,
                     React/Next systems, and UX—with Node.js & Express for APIs and
                     integrations when owning features end-to-end.
@@ -124,7 +124,7 @@ export default function Footer() {
                           {"to" in item ? (
                             <Link
                               to={item.to}
-                              className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground/85 transition hover:text-primary"
+                              className="group inline-flex items-center gap-1.5 text-sm font-medium page-title-accent transition hover:text-primary"
                             >
                               {item.label}
                               <ArrowUpRight className="h-3.5 w-3.5 opacity-50 transition group-hover:opacity-100" />
@@ -134,7 +134,7 @@ export default function Footer() {
                               href={item.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground/85 transition hover:text-primary"
+                              className="group inline-flex items-center gap-1.5 text-sm font-medium page-title-accent transition hover:text-primary"
                             >
                               {item.label}
                               <ExternalLink className="h-3 w-3 opacity-50 transition group-hover:opacity-100" />
@@ -161,7 +161,7 @@ export default function Footer() {
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="group inline-flex items-center gap-1.5 text-muted-foreground transition hover:text-foreground"
+                      className="group inline-flex items-center gap-1.5 portfolio-text-muted transition hover:text-primary"
                     >
                       {item.name}
                       <ArrowUpRight className="hidden h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100 sm:inline" />
@@ -192,7 +192,7 @@ export default function Footer() {
                             : undefined
                         }
                         aria-label={item.label}
-                        className="group inline-flex items-center gap-2 text-muted-foreground transition hover:text-foreground sm:gap-2.5"
+                        className="group inline-flex items-center gap-2 portfolio-text-muted transition hover:text-primary sm:gap-2.5"
                       >
                         <span className="hidden h-8 w-8 items-center justify-center rounded-lg border border-border/50 bg-background/60 text-primary shadow-sm sm:inline-flex">
                           <Icon className="h-3.5 w-3.5" />
@@ -216,7 +216,7 @@ export default function Footer() {
                 {stackPills.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-lg border border-border/50 bg-background/40 px-2.5 py-1 font-mono text-[10px] text-muted-foreground md:text-[11px]"
+                    className="rounded-lg border border-border/50 bg-background/40 px-2.5 py-1 font-mono text-[10px] portfolio-text-muted md:text-[11px]"
                   >
                     {tech}
                   </span>
@@ -228,17 +228,17 @@ export default function Footer() {
 
         <div className="w-full border-t border-border/40 bg-background/50">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-8 sm:py-6 md:px-12 lg:px-16">
-            <p className="w-full text-center text-[11px] text-muted-foreground sm:w-auto sm:text-left sm:text-sm">
+            <p className="w-full text-center text-[11px] portfolio-text-muted sm:w-auto sm:text-left sm:text-sm">
               © {year}{" "}
-              <span className="text-foreground/90">Sreekanth</span>. All rights
+              <span className="page-title-accent">Sreekanth</span>. All rights
               reserved.
             </p>
-            <div className="flex w-full flex-wrap items-center justify-between gap-3 text-[11px] text-muted-foreground sm:w-auto sm:justify-end sm:gap-6 sm:text-sm">
+            <div className="flex w-full flex-wrap items-center justify-between gap-3 text-[11px] portfolio-text-muted sm:w-auto sm:justify-end sm:gap-6 sm:text-sm">
               <a
                 href="https://github.com/Sree0405"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition hover:text-foreground"
+                className="portfolio-text-muted transition hover:text-primary"
               >
                 GitHub
               </a>
@@ -246,20 +246,20 @@ export default function Footer() {
                 href="https://linkedin.com/in/sreekanth04052005"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition hover:text-foreground"
+                className="portfolio-text-muted transition hover:text-primary"
               >
                 LinkedIn
               </a>
               <a
                 href="mailto:sreekanth04052005@gmail.com"
-                className="transition hover:text-foreground"
+                className="portfolio-text-muted transition hover:text-primary"
               >
                 Email
               </a>
               <button
                 type="button"
                 onClick={scrollTop}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/60 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-wider text-foreground transition hover:border-primary/35 sm:px-3 sm:py-1.5 sm:text-xs"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/60 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-wider page-title-accent transition hover:border-primary/35 sm:px-3 sm:py-1.5 sm:text-xs"
               >
                 <ArrowUp className="h-3.5 w-3.5" />
                 Top

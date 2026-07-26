@@ -1,10 +1,9 @@
 import * as devUtilityRepo from "../repositories/devUtilityRepository.js";
-import type { DataType } from "../auth/config.js";
 
-export async function getDevUtilityPreferences(dataType: DataType) {
+export async function getDevUtilityPreferences(userId: string) {
   const [favorites, recent] = await Promise.all([
-    devUtilityRepo.listFavorites(dataType),
-    devUtilityRepo.listRecent(dataType),
+    devUtilityRepo.listFavorites(userId),
+    devUtilityRepo.listRecent(userId),
   ]);
 
   return {
@@ -13,20 +12,20 @@ export async function getDevUtilityPreferences(dataType: DataType) {
   };
 }
 
-export async function toggleDevUtilityFavorite(utilityId: string, dataType: DataType) {
-  const isFavorite = await devUtilityRepo.isFavorite(utilityId, dataType);
+export async function toggleDevUtilityFavorite(utilityId: string, userId: string) {
+  const isFavorite = await devUtilityRepo.isFavorite(utilityId, userId);
 
   if (isFavorite) {
-    await devUtilityRepo.removeFavorite(utilityId, dataType);
+    await devUtilityRepo.removeFavorite(utilityId, userId);
     return { utilityId, isFavorite: false };
   }
 
-  await devUtilityRepo.addFavorite(utilityId, dataType);
+  await devUtilityRepo.addFavorite(utilityId, userId);
   return { utilityId, isFavorite: true };
 }
 
-export async function trackDevUtilityUse(utilityId: string, dataType: DataType) {
-  await devUtilityRepo.recordRecentUse(utilityId, dataType);
-  const recent = await devUtilityRepo.listRecent(dataType);
+export async function trackDevUtilityUse(utilityId: string, userId: string) {
+  await devUtilityRepo.recordRecentUse(utilityId, userId);
+  const recent = await devUtilityRepo.listRecent(userId);
   return { utilityId, recent: recent.map((row) => row.utilityId) };
 }

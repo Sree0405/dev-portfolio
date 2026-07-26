@@ -11,18 +11,15 @@ const buttonVariants = cva(
       variant: {
         sreeDev:
           "btn-sree-dev border-0 shadow-none hover:brightness-[1.02] active:scale-[0.98]",
-        default:
-          "btn-gradient border-0 text-primary-foreground shadow-[0_8px_28px_hsl(var(--primary)/0.35)] hover:shadow-[0_12px_36px_hsl(var(--primary)/0.42),0_0_32px_hsl(var(--primary-glow)/0.2)] hover:brightness-[1.06] active:scale-[0.98]",
+        default: "btn-gradient border-0",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "btn-glass border border-border/60 bg-transparent text-foreground hover:text-foreground",
+        outline: "btn-glass border border-border/60 bg-transparent",
         secondary:
           "border border-border/50 bg-secondary/80 text-secondary-foreground backdrop-blur-sm hover:bg-secondary hover:border-primary/25",
         ghost: "hover:bg-muted/50 hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        glass:
-          "btn-glass rounded-xl font-medium text-foreground shadow-[0_4px_24px_rgba(0,0,0,0.2)]",
+        glass: "btn-glass rounded-xl font-medium shadow-[0_4px_24px_rgba(0,0,0,0.2)]",
       },
       size: {
         default: "h-10 px-5 py-2",

@@ -79,7 +79,7 @@ export default function About() {
             rest="me"
             className="mb-3 text-center md:mb-4 [&_h2]:text-center"
           />
-          <p className="font-mono text-sm text-muted-foreground sm:text-base">
+          <p className="font-mono text-sm portfolio-text-muted sm:text-base">
             Frontend • Full-Stack • Modern Web
           </p>
         </motion.div>
@@ -101,7 +101,7 @@ export default function About() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-bold sm:text-2xl">
+                <h3 className="page-title-accent text-xl font-bold sm:text-2xl">
                   {aboutContent.name}
                 </h3>
                 <p className="font-mono text-sm text-primary">
@@ -109,7 +109,7 @@ export default function About() {
                 </p>
               </div>
 
-              <div className="flex w-full flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+              <div className="flex w-full flex-col gap-2 text-xs portfolio-text-muted sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
                 <div className="inline-flex items-center justify-center gap-1.5 lg:justify-start">
                   <Briefcase size={14} className="shrink-0 text-primary/80" />
                   <span className="text-center lg:text-left">
@@ -128,7 +128,7 @@ export default function About() {
                 {aboutContent.intro.map((paragraph, index) => (
                   <p
                     key={index}
-                    className="text-base leading-relaxed text-muted-foreground sm:text-[1.05rem]"
+                    className="text-base leading-relaxed portfolio-text-muted sm:text-[1.05rem]"
                   >
                     {paragraph}
                   </p>
@@ -159,10 +159,10 @@ export default function About() {
               className="glass-panel rounded-xl border border-primary/20 p-5 transition hover:border-primary/45"
             >
               <item.icon className="mb-3 h-7 w-7 text-primary" />
-              <h4 className="mb-1.5 text-sm font-semibold sm:text-base">
+              <h4 className="page-title-accent mb-1.5 text-sm font-semibold sm:text-base">
                 {item.title}
               </h4>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-sm leading-relaxed portfolio-text-muted">
                 {item.description}
               </p>
             </motion.div>

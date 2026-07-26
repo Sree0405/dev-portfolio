@@ -84,7 +84,7 @@ export default function CapabilityArchitecture({ onSelectSkill }: Props) {
     <section className="scroll-mt-24 pb-8 pt-12 md:pt-16">
       <div className="mb-10 md:mb-12">
         <SectionTitle eyebrow="Architecture" accent="System" rest="layers" className="mb-0" />
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">
+        <p className="mt-3 max-w-2xl text-sm portfolio-text-muted md:text-base">
           React and TypeScript first—then APIs, WebSockets, and patterns for
           scaling projects. Spring Boot is additional JVM experience when teams
           need it.
@@ -103,11 +103,11 @@ export default function CapabilityArchitecture({ onSelectSkill }: Props) {
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-primary">
                   <Icon className="h-5 w-5" strokeWidth={1.75} />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">
+                <h3 className="page-title-accent text-lg font-semibold">
                   {layer.title}
                 </h3>
               </div>
-              <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-5 text-sm leading-relaxed portfolio-text-muted">
                 {layer.description}
               </p>
               <div className="flex flex-wrap gap-2">

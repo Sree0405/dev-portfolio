@@ -1,10 +1,29 @@
-export type UserRole = "owner" | "demo";
+export type UserRole = "admin" | "user" | "demo";
 export type DataType = "Default" | "Demo";
 
 export interface SessionUser {
+  id: string;
   username: string;
+  email: string;
+  displayName: string | null;
   role: UserRole;
-  dataType: DataType;
+}
+
+export interface UserAccount {
+  id: string;
+  username: string;
+  email: string;
+  displayName: string | null;
+  role: UserRole;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedUsers {
+  items: UserAccount[];
+  total: number;
+  page: number;
+  pageSize: number;
 }
 
 export interface Project {
@@ -60,6 +79,26 @@ export interface CredentialsListResponse {
 
 export interface PaginatedProjects {
   items: Project[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface FormSubmission {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  source: string;
+  status: string;
+  type: DataType;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedFormSubmissions {
+  items: FormSubmission[];
   total: number;
   page: number;
   pageSize: number;
@@ -127,6 +166,12 @@ export interface DashboardAnalytics {
     receivedPercent: number;
     pendingPercent: number;
   };
+  jobTracker: import("./jobTracker/types").JobTrackerDashboardStats | null;
+}
+
+export interface MeResponse {
+  user: SessionUser;
+  features: import("./jobTracker/types").FeatureFlags;
 }
 
 export const DEMO_CREDENTIALS = {
@@ -138,3 +183,8 @@ export const DEMO_DELETE_MESSAGE =
   "Deleting demo data is disabled. This dashboard is intended for showcasing the application's capabilities.";
 
 export const DEMO_CREDENTIAL_DELETE_MESSAGE = "Deleting demo credentials is disabled.";
+
+export const DEMO_FORM_DELETE_MESSAGE = "Deleting demo form submissions is disabled.";
+
+export const DEMO_COMPANY_WRITE_MESSAGE =
+  "Company changes are disabled for the Demo account. Explore the showcase data in read-only mode.";

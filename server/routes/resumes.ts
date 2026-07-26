@@ -33,7 +33,7 @@ router.get("/", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
-    const items = await resumeService.listResumes({ dataType: user.dataType, search });
+    const items = await resumeService.listResumes({ userId: user.id, search });
     res.json({ items });
   } catch (error) {
     next(error);
@@ -43,7 +43,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const resume = await resumeService.getResume(req.params.id, user.dataType);
+    const resume = await resumeService.getResume(req.params.id, user.id);
     res.json(resume);
   } catch (error) {
     return handleResumeError(error, res, next);
@@ -55,7 +55,7 @@ router.get("/:id/pdf", async (req, res, next) => {
     const user = getSessionUser(req);
     const { buffer, filename } = await resumeService.getResumePdfBuffer(
       req.params.id,
-      user.dataType,
+      user.id,
     );
     sendPdf(res, buffer, filename);
   } catch (error) {
@@ -75,7 +75,7 @@ router.post("/", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const resume = await resumeService.createResume(parsed.data, user.dataType);
+    const resume = await resumeService.createResume(parsed.data, user.id);
     res.status(201).json(resume);
   } catch (error) {
     next(error);
@@ -91,7 +91,7 @@ router.put("/:id", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const resume = await resumeService.updateResume(req.params.id, parsed.data, user.dataType);
+    const resume = await resumeService.updateResume(req.params.id, parsed.data, user.id);
     res.json(resume);
   } catch (error) {
     next(error);
@@ -109,7 +109,7 @@ router.put("/:id/save", async (req, res, next) => {
 
     const resume = await resumeService.saveResumeWithPdf(
       req.params.id,
-      user.dataType,
+      user.id,
       parsed.data,
     );
     res.json(resume);
@@ -122,7 +122,7 @@ router.post("/:id/compile", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
 
-    const resume = await resumeService.compileResumePdf(req.params.id, user.dataType);
+    const resume = await resumeService.compileResumePdf(req.params.id, user.id);
     res.json(resume);
   } catch (error) {
     if (error instanceof Error && error.message === "LATEX_NOT_INSTALLED") {
@@ -144,7 +144,7 @@ router.delete("/:id", async (req, res, next) => {
       return res.status(403).json({ error: DEMO_RESUME_DELETE_ERROR });
     }
 
-    await resumeService.deleteResume(req.params.id, user.dataType);
+    await resumeService.deleteResume(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);

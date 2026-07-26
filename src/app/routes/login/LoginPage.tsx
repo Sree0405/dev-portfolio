@@ -543,6 +543,14 @@ export default function LoginPage() {
               compact
             />
 
+            <div className="mt-3 rounded-lg border border-emerald-500/20 bg-emerald-500/[0.06] p-2.5 lg:mt-4 lg:p-3">
+              <p className="text-[10px] leading-snug text-muted-foreground lg:text-xs">
+                Your workspace data is private to your account. Even administrators cannot view your
+                projects, finance, credentials, or other records — only your account profile is
+                visible to admins.
+              </p>
+            </div>
+
             <div className="mt-3 space-y-1.5 lg:hidden">
               <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/[0.06] px-2.5 py-2">
                 <Lock className="h-3.5 w-3.5 shrink-0 text-primary" />

@@ -1,15 +1,37 @@
 import {
   BarChart3,
+  Briefcase,
+  Building2,
   FileUser,
   FolderKanban,
+  Inbox,
   KeyRound,
   LayoutDashboard,
   LayoutGrid,
   PieChart,
   Settings2,
   TerminalSquare,
+  UserCircle,
+  Users,
   Wrench,
 } from "lucide-react";
+
+export const jobTrackerNavItems = [
+  {
+    label: "Companies",
+    to: "/dashboard/companies",
+    icon: Building2,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Job Tracker",
+    to: "/dashboard/job-status",
+    icon: Briefcase,
+    disabled: false,
+    end: false,
+  },
+] as const;
 
 export const dashboardNavItems = [
   {
@@ -51,6 +73,33 @@ export const dashboardNavItems = [
     label: "Playground",
     to: "/dashboard/playground",
     icon: TerminalSquare,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Forms",
+    to: "/dashboard/forms",
+    icon: Inbox,
+    disabled: false,
+    end: false,
+  },
+] as const;
+
+export const accountNavItems = [
+  {
+    label: "Profile",
+    to: "/dashboard/profile",
+    icon: UserCircle,
+    disabled: false,
+    end: false,
+  },
+] as const;
+
+export const adminNavItems = [
+  {
+    label: "Users",
+    to: "/dashboard/users",
+    icon: Users,
     disabled: false,
     end: false,
   },
@@ -100,6 +149,15 @@ export const mobileMoreNavItems = [
     disabled: false,
     end: false,
   },
+  {
+    label: "Forms",
+    to: "/dashboard/forms",
+    icon: Inbox,
+    disabled: false,
+    end: false,
+  },
+  ...jobTrackerNavItems,
+  ...accountNavItems,
   {
     label: "Analytics",
     to: "/dashboard/analytics",

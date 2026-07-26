@@ -37,7 +37,7 @@ function sendPdf(res: import("express").Response, buffer: Buffer, filename: stri
 router.get("/notifications", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.getFinanceNotifications(user.dataType));
+    res.json(await financeService.getFinanceNotifications(user.id));
   } catch (error) {
     next(error);
   }
@@ -46,7 +46,7 @@ router.get("/notifications", async (req, res, next) => {
 router.get("/overview", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.getFinanceOverview(user.dataType));
+    res.json(await financeService.getFinanceOverview(user.id));
   } catch (error) {
     next(error);
   }
@@ -56,7 +56,7 @@ router.get("/overview", async (req, res, next) => {
 router.get("/emi", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.listEmiRecords(user.dataType, listQuery(req)));
+    res.json(await financeService.listEmiRecords(user.id, listQuery(req)));
   } catch (error) {
     next(error);
   }
@@ -69,7 +69,7 @@ router.get("/emi/report/pdf", async (req, res, next) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Invalid report parameters" });
     }
-    const buffer = await generateModuleReportPdf(FINANCE_MODULES.EMI, user.dataType, parsed.data);
+    const buffer = await generateModuleReportPdf(FINANCE_MODULES.EMI, user.id, parsed.data, user.role);
     sendPdf(res, buffer, "EMI_Finance_Report.pdf");
   } catch (error) {
     next(error);
@@ -79,7 +79,7 @@ router.get("/emi/report/pdf", async (req, res, next) => {
 router.get("/emi/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.getFinanceRecord(req.params.id, user.dataType));
+    res.json(await financeService.getFinanceRecord(req.params.id, user.id));
   } catch (error) {
     next(error);
   }
@@ -92,7 +92,7 @@ router.post("/emi", async (req, res, next) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
-    res.status(201).json(await financeService.createEmi(parsed.data, user.dataType));
+    res.status(201).json(await financeService.createEmi(parsed.data, user.id));
   } catch (error) {
     next(error);
   }
@@ -101,7 +101,7 @@ router.post("/emi", async (req, res, next) => {
 router.put("/emi/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.updateFinanceRecord(req.params.id, user.dataType, req.body));
+    res.json(await financeService.updateFinanceRecord(req.params.id, user.id, req.body));
   } catch (error) {
     next(error);
   }
@@ -115,7 +115,7 @@ router.post("/emi/:id/mark-paid", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
     res.json(
-      await financeService.markEmiCurrentPaid(req.params.id, user.dataType, {
+      await financeService.markEmiCurrentPaid(req.params.id, user.id, {
         ...parsed.data,
         createdBy: user.username,
       }),
@@ -131,8 +131,9 @@ router.get("/emi/:id/pdf", async (req, res, next) => {
     const range = financeReportQuerySchema.safeParse(req.query);
     const buffer = await generateRecordReportPdf(
       req.params.id,
-      user.dataType,
+      user.id,
       range.success ? range.data : undefined,
+      user.role,
     );
     sendPdf(res, buffer, "EMI_Detail_Report.pdf");
   } catch (error) {
@@ -146,7 +147,7 @@ router.delete("/emi/:id", async (req, res, next) => {
     if (isDemoUser(user)) {
       return res.status(403).json({ error: DEMO_FINANCE_DELETE_ERROR });
     }
-    await financeService.deleteFinanceRecord(req.params.id, user.dataType);
+    await financeService.deleteFinanceRecord(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);
@@ -157,7 +158,7 @@ router.delete("/emi/:id", async (req, res, next) => {
 router.get("/rent", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.listRentRecords(user.dataType, listQuery(req)));
+    res.json(await financeService.listRentRecords(user.id, listQuery(req)));
   } catch (error) {
     next(error);
   }
@@ -170,7 +171,7 @@ router.get("/rent/report/pdf", async (req, res, next) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Invalid report parameters" });
     }
-    const buffer = await generateModuleReportPdf(FINANCE_MODULES.RENT, user.dataType, parsed.data);
+    const buffer = await generateModuleReportPdf(FINANCE_MODULES.RENT, user.id, parsed.data, user.role);
     sendPdf(res, buffer, "Rent_Finance_Report.pdf");
   } catch (error) {
     next(error);
@@ -180,7 +181,7 @@ router.get("/rent/report/pdf", async (req, res, next) => {
 router.get("/rent/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.getFinanceRecord(req.params.id, user.dataType));
+    res.json(await financeService.getFinanceRecord(req.params.id, user.id));
   } catch (error) {
     next(error);
   }
@@ -193,7 +194,7 @@ router.post("/rent", async (req, res, next) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
-    res.status(201).json(await financeService.createRent(parsed.data, user.dataType));
+    res.status(201).json(await financeService.createRent(parsed.data, user.id));
   } catch (error) {
     next(error);
   }
@@ -202,7 +203,7 @@ router.post("/rent", async (req, res, next) => {
 router.put("/rent/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.updateFinanceRecord(req.params.id, user.dataType, req.body));
+    res.json(await financeService.updateFinanceRecord(req.params.id, user.id, req.body));
   } catch (error) {
     next(error);
   }
@@ -216,7 +217,7 @@ router.post("/rent/:id/mark-paid", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
     res.json(
-      await financeService.markRentCurrentPaid(req.params.id, user.dataType, {
+      await financeService.markRentCurrentPaid(req.params.id, user.id, {
         ...parsed.data,
         createdBy: user.username,
       }),
@@ -232,8 +233,9 @@ router.get("/rent/:id/pdf", async (req, res, next) => {
     const range = financeReportQuerySchema.safeParse(req.query);
     const buffer = await generateRecordReportPdf(
       req.params.id,
-      user.dataType,
+      user.id,
       range.success ? range.data : undefined,
+      user.role,
     );
     sendPdf(res, buffer, "Rent_Detail_Report.pdf");
   } catch (error) {
@@ -247,7 +249,7 @@ router.delete("/rent/:id", async (req, res, next) => {
     if (isDemoUser(user)) {
       return res.status(403).json({ error: DEMO_FINANCE_DELETE_ERROR });
     }
-    await financeService.deleteFinanceRecord(req.params.id, user.dataType);
+    await financeService.deleteFinanceRecord(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);
@@ -258,7 +260,7 @@ router.delete("/rent/:id", async (req, res, next) => {
 router.get("/subscriptions", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.listSubscriptionRecords(user.dataType, listQuery(req)));
+    res.json(await financeService.listSubscriptionRecords(user.id, listQuery(req)));
   } catch (error) {
     next(error);
   }
@@ -273,8 +275,9 @@ router.get("/subscriptions/report/pdf", async (req, res, next) => {
     }
     const buffer = await generateModuleReportPdf(
       FINANCE_MODULES.SUBSCRIPTION,
-      user.dataType,
+      user.id,
       parsed.data,
+      user.role,
     );
     sendPdf(res, buffer, "Subscription_Finance_Report.pdf");
   } catch (error) {
@@ -285,7 +288,7 @@ router.get("/subscriptions/report/pdf", async (req, res, next) => {
 router.get("/subscriptions/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.getFinanceRecord(req.params.id, user.dataType));
+    res.json(await financeService.getFinanceRecord(req.params.id, user.id));
   } catch (error) {
     next(error);
   }
@@ -301,7 +304,7 @@ router.post("/subscriptions", async (req, res, next) => {
     res.status(201).json(
       await financeService.createSubscription(
         { ...parsed.data, websiteUrl: parsed.data.websiteUrl || null },
-        user.dataType,
+        user.id,
       ),
     );
   } catch (error) {
@@ -312,7 +315,7 @@ router.post("/subscriptions", async (req, res, next) => {
 router.put("/subscriptions/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await financeService.updateFinanceRecord(req.params.id, user.dataType, req.body));
+    res.json(await financeService.updateFinanceRecord(req.params.id, user.id, req.body));
   } catch (error) {
     next(error);
   }
@@ -326,7 +329,7 @@ router.post("/subscriptions/:id/mark-paid", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
     res.json(
-      await financeService.markSubscriptionPaid(req.params.id, user.dataType, {
+      await financeService.markSubscriptionPaid(req.params.id, user.id, {
         ...parsed.data,
         createdBy: user.username,
       }),
@@ -342,8 +345,9 @@ router.get("/subscriptions/:id/pdf", async (req, res, next) => {
     const range = financeReportQuerySchema.safeParse(req.query);
     const buffer = await generateRecordReportPdf(
       req.params.id,
-      user.dataType,
+      user.id,
       range.success ? range.data : undefined,
+      user.role,
     );
     sendPdf(res, buffer, "Subscription_Detail_Report.pdf");
   } catch (error) {
@@ -357,7 +361,7 @@ router.delete("/subscriptions/:id", async (req, res, next) => {
     if (isDemoUser(user)) {
       return res.status(403).json({ error: DEMO_FINANCE_DELETE_ERROR });
     }
-    await financeService.deleteFinanceRecord(req.params.id, user.dataType);
+    await financeService.deleteFinanceRecord(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);

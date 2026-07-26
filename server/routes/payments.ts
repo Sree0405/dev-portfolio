@@ -10,7 +10,7 @@ router.use(requireAuth);
 router.get("/", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const payments = await paymentService.listPayments(req.params.id, user.dataType);
+    const payments = await paymentService.listPayments(req.params.id, user.id);
     res.json(payments);
   } catch (error) {
     next(error);
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const result = await paymentService.createPayment(req.params.id, parsed.data, user.dataType);
+    const result = await paymentService.createPayment(req.params.id, parsed.data, user.id);
     res.status(201).json(result);
   } catch (error) {
     next(error);
@@ -44,7 +44,7 @@ paymentByIdRouter.put("/:id", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const result = await paymentService.updatePayment(req.params.id, parsed.data, user.dataType);
+    const result = await paymentService.updatePayment(req.params.id, parsed.data, user.id);
     res.json(result);
   } catch (error) {
     next(error);
@@ -54,7 +54,7 @@ paymentByIdRouter.put("/:id", async (req, res, next) => {
 paymentByIdRouter.delete("/:id", blockDemoDelete, async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const result = await paymentService.deletePayment(req.params.id, user.dataType);
+    const result = await paymentService.deletePayment(req.params.id, user.id);
     res.json(result);
   } catch (error) {
     next(error);

@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit";
-import type { DataType } from "../../../auth/config.js";
+import type { UserRole } from "../../../auth/config.js";
 import { getFinanceBranding, FINANCE_PDF } from "../config.js";
 import type { FinanceReportTemplateInput } from "../types.js";
 import { FinanceLayoutContext } from "./context.js";
@@ -24,9 +24,10 @@ import {
  */
 export function renderFinanceReportTemplate(
   data: FinanceReportTemplateInput,
-  dataType: DataType,
+  userId: string,
+  role: UserRole = "user",
 ): Promise<Buffer> {
-  const branding = getFinanceBranding(dataType);
+  const branding = getFinanceBranding(userId, role);
 
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({

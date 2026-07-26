@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 const ExperiencePage = () => {
   return (
-    <div className="relative min-h-screen w-full min-w-0 overflow-x-clip text-foreground">
+    <div className="relative min-h-screen w-full min-w-0 overflow-x-clip portfolio-text-muted">
       <main>
         <ExperienceHero />
         <Experience />

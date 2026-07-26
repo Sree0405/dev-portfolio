@@ -142,10 +142,10 @@ function TechTile({
         )}
       </span>
       <div>
-        <span className="block text-sm font-semibold leading-tight text-foreground">
+        <span className="page-title-accent block text-sm font-semibold leading-tight">
           {t.name}
         </span>
-        <span className="mt-0.5 block text-[11px] text-muted-foreground">
+        <span className="mt-0.5 block text-[11px] portfolio-text-muted">
           {t.hint}
         </span>
       </div>
@@ -158,11 +158,11 @@ export default function TechnologyExplorer({ onSelectSkill }: Props) {
     <section className="scroll-mt-24 pb-8 pt-12 md:pt-16">
       <div className="mb-10 md:mb-12">
         <SectionTitle eyebrow="Stack" accent="Technology" rest="explorer" className="mb-0" />
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">
-          <span className="text-foreground">Primary depth</span> in React,
+        <p className="mt-3 max-w-2xl text-sm portfolio-text-muted md:text-base">
+          <span className="page-title-accent">Primary depth</span> in React,
           TypeScript, and JavaScript—rendering, optimization, REST APIs, and
           WebSockets. Java and Spring Boot are{" "}
-          <span className="text-foreground">additional</span> JVM experience.
+          <span className="page-title-accent">additional</span> JVM experience.
         </p>
       </div>
 

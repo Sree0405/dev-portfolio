@@ -1,5 +1,4 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import type { CreateProjectInput, UpdateProjectInput } from "../lib/validation.js";
 import { normalizeProjectLinks } from "../lib/projectLinks.js";
 
@@ -12,7 +11,7 @@ export type ProjectSortField =
   | "createdAt";
 
 export interface ListProjectsOptions {
-  dataType: DataType;
+  userId: string;
   search?: string;
   sortBy?: ProjectSortField;
   sortOrder?: "asc" | "desc";
@@ -22,7 +21,7 @@ export interface ListProjectsOptions {
 
 export async function listProjects(options: ListProjectsOptions) {
   const {
-    dataType,
+    userId,
     search = "",
     sortBy = "createdAt",
     sortOrder = "desc",
@@ -31,7 +30,7 @@ export async function listProjects(options: ListProjectsOptions) {
   } = options;
 
   const where = {
-    type: dataType,
+    userId,
     ...(search
       ? {
           OR: [
@@ -57,13 +56,13 @@ export async function listProjects(options: ListProjectsOptions) {
   return { items, total, page, pageSize };
 }
 
-export async function getProjectById(id: string, dataType: DataType) {
+export async function getProjectById(id: string, userId: string) {
   return prisma.project.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function createProject(data: CreateProjectInput, dataType: DataType) {
+export async function createProject(data: CreateProjectInput, userId: string) {
   return prisma.project.create({
     data: {
       name: data.name,
@@ -73,14 +72,14 @@ export async function createProject(data: CreateProjectInput, dataType: DataType
       projectType: data.projectType,
       status: data.status,
       plannedAmount: data.plannedAmount,
-      type: dataType,
+      userId,
     },
   });
 }
 
-export async function updateProject(id: string, data: UpdateProjectInput, dataType: DataType) {
+export async function updateProject(id: string, data: UpdateProjectInput, userId: string) {
   return prisma.project.update({
-    where: { id, type: dataType },
+    where: { id, userId },
     data: {
       ...(data.name !== undefined && { name: data.name }),
       ...(data.clientName !== undefined && { clientName: data.clientName }),
@@ -95,15 +94,15 @@ export async function updateProject(id: string, data: UpdateProjectInput, dataTy
   });
 }
 
-export async function deleteProject(id: string, dataType: DataType) {
+export async function deleteProject(id: string, userId: string) {
   return prisma.project.delete({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function updateProjectTotalPaid(projectId: string, totalPaid: number, dataType: DataType) {
+export async function updateProjectTotalPaid(projectId: string, totalPaid: number, userId: string) {
   return prisma.project.update({
-    where: { id: projectId, type: dataType },
+    where: { id: projectId, userId },
     data: { totalPaid },
   });
 }

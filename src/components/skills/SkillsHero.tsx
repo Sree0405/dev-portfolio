@@ -31,9 +31,9 @@ export default function SkillsHero() {
           titleClassName="mb-5"
         />
 
-        <p className="mx-auto max-w-xl text-base text-muted-foreground sm:text-lg">
+        <p className="mx-auto max-w-xl text-base portfolio-text-muted sm:text-lg">
           Deepest work in{" "}
-          <span className="text-foreground">React, TypeScript, and JavaScript</span>
+          <span className="page-title-accent">React, TypeScript, and JavaScript</span>
           —rendering behavior, performance, scalable project design, REST APIs, and
           WebSockets when products need real-time or full-stack depth.
         </p>
@@ -42,14 +42,14 @@ export default function SkillsHero() {
           {pillars.map((tag) => (
             <span
               key={tag}
-              className="rounded-md bg-muted/50 px-3 py-1.5 text-xs text-muted-foreground sm:px-4 sm:py-2 sm:text-sm"
+              className="rounded-md bg-muted/50 px-3 py-1.5 text-xs portfolio-text-muted sm:px-4 sm:py-2 sm:text-sm"
             >
               {tag}
             </span>
           ))}
         </div>
 
-        <p className="mt-8 flex items-center justify-center gap-1 text-xs text-muted-foreground sm:mt-10">
+        <p className="mt-8 flex items-center justify-center gap-1 text-xs portfolio-text-muted sm:mt-10">
           <span>Explore below</span>
           <ChevronDown className="h-4 w-4 animate-bounce" aria-hidden />
         </p>

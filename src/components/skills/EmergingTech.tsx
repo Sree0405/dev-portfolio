@@ -29,7 +29,7 @@ export default function EmergingTech({ onSelectSkill }: Props) {
       <div className="mb-10 md:mb-12 md:flex md:items-end md:justify-between md:gap-8">
         <div>
           <SectionTitle eyebrow="Horizon" accent="Currently" rest="exploring" className="mb-0" />
-          <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
+          <p className="mt-3 max-w-xl text-sm portfolio-text-muted md:text-base">
             Engineering themes that shape how upcoming systems are designed—tap
             any card for a snapshot.
           </p>
@@ -48,10 +48,10 @@ export default function EmergingTech({ onSelectSkill }: Props) {
               <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 bg-primary/10 text-primary">
                 <Compass className="h-4 w-4" strokeWidth={1.75} />
               </span>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition group-hover:opacity-100" />
+              <ArrowUpRight className="h-4 w-4 portfolio-text-muted opacity-0 transition group-hover:opacity-100" />
             </div>
-            <span className="font-semibold text-foreground">{item.name}</span>
-            <span className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+            <span className="page-title-accent font-semibold">{item.name}</span>
+            <span className="mt-2 text-xs leading-relaxed portfolio-text-muted sm:text-sm">
               {item.detail}
             </span>
           </button>

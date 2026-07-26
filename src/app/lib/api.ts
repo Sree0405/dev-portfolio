@@ -37,8 +37,19 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  signup: (body: {
+    username: string;
+    email: string;
+    password: string;
+    displayName?: string;
+  }) =>
+    request<import("./types").MeResponse>("/api/signup", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
   login: (body: { username: string; password: string }) =>
-    request<{ user: import("./types").SessionUser }>("/api/login", {
+    request<import("./types").MeResponse>("/api/login", {
       method: "POST",
       body: JSON.stringify(body),
     }),
@@ -48,7 +59,34 @@ export const api = {
       method: "POST",
     }),
 
-  me: () => request<{ user: import("./types").SessionUser }>("/api/me"),
+  me: () => request<import("./types").MeResponse>("/api/me"),
+
+  updateProfile: (body: { displayName?: string | null; email?: string }) =>
+    request<{ user: import("./types").SessionUser }>("/api/me/profile", {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+
+  changePassword: (body: { currentPassword: string; newPassword: string }) =>
+    request<{ success: boolean }>("/api/me/password", {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+
+  getUsers: (params?: Record<string, string | number | undefined>) => {
+    const searchParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          searchParams.set(key, String(value));
+        }
+      });
+    }
+    const query = searchParams.toString();
+    return request<import("./types").PaginatedUsers>(
+      `/api/users${query ? `?${query}` : ""}`,
+    );
+  },
 
   getDashboard: () => request<import("./types").DashboardAnalytics>("/api/dashboard"),
 
@@ -500,6 +538,193 @@ export const api = {
       `/api/dev-utilities/recent/${utilityId}`,
       { method: "POST" },
     ),
+
+  submitContactForm: (body: unknown) =>
+    request<{ success: boolean; id: string }>("/api/contact", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  getForms: (params?: Record<string, string | number | undefined>) => {
+    const searchParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          searchParams.set(key, String(value));
+        }
+      });
+    }
+    const query = searchParams.toString();
+    return request<import("./types").PaginatedFormSubmissions>(
+      `/api/forms${query ? `?${query}` : ""}`,
+    );
+  },
+
+  getForm: (id: string) => request<import("./types").FormSubmission>(`/api/forms/${id}`),
+
+  createForm: (body: unknown) =>
+    request<import("./types").FormSubmission>("/api/forms", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateForm: (id: string, body: unknown) =>
+    request<import("./types").FormSubmission>(`/api/forms/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  deleteForm: (id: string) =>
+    request<{ success: boolean }>(`/api/forms/${id}`, {
+      method: "DELETE",
+    }),
+
+  getCompanies: (params?: Record<string, string | number | undefined>) => {
+    const searchParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          searchParams.set(key, String(value));
+        }
+      });
+    }
+    const query = searchParams.toString();
+    return request<import("./jobTracker/types").PaginatedCompanies>(
+      `/api/companies${query ? `?${query}` : ""}`,
+    );
+  },
+
+  getCompanyFilters: () =>
+    request<import("./jobTracker/types").CompanyFilterOptions>("/api/companies/filters"),
+
+  getCompany: (id: string) =>
+    request<import("./jobTracker/types").CompanyDetail>(`/api/companies/${id}`),
+
+  createCompany: (body: unknown) =>
+    request<import("./jobTracker/types").Company>("/api/companies", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateCompany: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").Company>(`/api/companies/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  deleteCompany: (id: string) =>
+    request<{ success: boolean }>(`/api/companies/${id}`, {
+      method: "DELETE",
+    }),
+
+  importCompanies: (body: unknown) =>
+    request<import("./jobTracker/types").CompanyImportSummary>("/api/companies/import", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  createCompanyContact: (companyId: string, body: unknown) =>
+    request<import("./jobTracker/types").CompanyContact>(`/api/companies/${companyId}/contacts`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateCompanyContact: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").CompanyContact>(`/api/company-contacts/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  deleteCompanyContact: (id: string) =>
+    request<{ success: boolean }>(`/api/company-contacts/${id}`, {
+      method: "DELETE",
+    }),
+
+  createCompanyJob: (companyId: string, body: unknown) =>
+    request<import("./jobTracker/types").JobApplication>(`/api/companies/${companyId}/jobs`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  getJobs: (params?: Record<string, string | number | undefined>) => {
+    const searchParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          searchParams.set(key, String(value));
+        }
+      });
+    }
+    const query = searchParams.toString();
+    return request<import("./jobTracker/types").PaginatedJobs>(
+      `/api/jobs${query ? `?${query}` : ""}`,
+    );
+  },
+
+  getJob: (id: string) => request<import("./jobTracker/types").JobDetail>(`/api/jobs/${id}`),
+
+  createJob: (body: unknown) =>
+    request<import("./jobTracker/types").JobApplication>("/api/jobs", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateJob: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").JobApplication>(`/api/jobs/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  deleteJob: (id: string) =>
+    request<{ success: boolean }>(`/api/jobs/${id}`, {
+      method: "DELETE",
+    }),
+
+  updateJobStatus: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").JobDetail>(`/api/jobs/${id}/status`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateJobSalaries: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").JobApplication>(`/api/jobs/${id}/salaries`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  createInterview: (jobId: string, body: unknown) =>
+    request<import("./jobTracker/types").InterviewSchedule>(`/api/jobs/${jobId}/interviews`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateInterview: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").InterviewSchedule>(`/api/interviews/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  deleteInterview: (id: string) =>
+    request<{ success: boolean }>(`/api/interviews/${id}`, {
+      method: "DELETE",
+    }),
+
+  createJobNote: (jobId: string, body: unknown) =>
+    request<import("./jobTracker/types").JobNote>(`/api/jobs/${jobId}/notes`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateJobNote: (id: string, body: unknown) =>
+    request<import("./jobTracker/types").JobNote>(`/api/job-notes/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  deleteJobNote: (id: string) =>
+    request<{ success: boolean }>(`/api/job-notes/${id}`, {
+      method: "DELETE",
+    }),
 };
 
 export { ApiClientError };

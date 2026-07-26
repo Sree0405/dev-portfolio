@@ -1,11 +1,10 @@
 import * as projectRepo from "../repositories/projectRepository.js";
 import { serializeProject } from "../lib/serializers.js";
-import type { DataType } from "../auth/config.js";
 import type { CreateProjectInput, UpdateProjectInput } from "../lib/validation.js";
 import type { ProjectSortField } from "../repositories/projectRepository.js";
 
 export async function listProjects(params: {
-  dataType: DataType;
+  userId: string;
   search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
@@ -26,7 +25,7 @@ export async function listProjects(params: {
     : "createdAt";
 
   const result = await projectRepo.listProjects({
-    dataType: params.dataType,
+    userId: params.userId,
     search: params.search,
     sortBy,
     sortOrder: params.sortOrder ?? "desc",
@@ -40,32 +39,32 @@ export async function listProjects(params: {
   };
 }
 
-export async function getProject(id: string, dataType: DataType) {
-  const project = await projectRepo.getProjectById(id, dataType);
+export async function getProject(id: string, userId: string) {
+  const project = await projectRepo.getProjectById(id, userId);
   if (!project) {
     throw new Error("NOT_FOUND");
   }
   return serializeProject(project);
 }
 
-export async function createProject(data: CreateProjectInput, dataType: DataType) {
-  const project = await projectRepo.createProject(data, dataType);
+export async function createProject(data: CreateProjectInput, userId: string) {
+  const project = await projectRepo.createProject(data, userId);
   return serializeProject(project);
 }
 
-export async function updateProject(id: string, data: UpdateProjectInput, dataType: DataType) {
-  const existing = await projectRepo.getProjectById(id, dataType);
+export async function updateProject(id: string, data: UpdateProjectInput, userId: string) {
+  const existing = await projectRepo.getProjectById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
-  const project = await projectRepo.updateProject(id, data, dataType);
+  const project = await projectRepo.updateProject(id, data, userId);
   return serializeProject(project);
 }
 
-export async function deleteProject(id: string, dataType: DataType) {
-  const existing = await projectRepo.getProjectById(id, dataType);
+export async function deleteProject(id: string, userId: string) {
+  const existing = await projectRepo.getProjectById(id, userId);
   if (!existing) {
     throw new Error("NOT_FOUND");
   }
-  await projectRepo.deleteProject(id, dataType);
+  await projectRepo.deleteProject(id, userId);
 }

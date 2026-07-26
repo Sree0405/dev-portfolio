@@ -1,17 +1,16 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import { MAX_RECENT_UTILITIES } from "../lib/devUtilityIds.js";
 
-export async function listFavorites(dataType: DataType) {
+export async function listFavorites(userId: string) {
   return prisma.devUtilityFavorite.findMany({
-    where: { type: dataType },
+    where: { userId },
     orderBy: { createdAt: "asc" },
   });
 }
 
-export async function listRecent(dataType: DataType, limit = MAX_RECENT_UTILITIES) {
+export async function listRecent(userId: string, limit = MAX_RECENT_UTILITIES) {
   const rows = await prisma.devUtilityRecent.findMany({
-    where: { type: dataType },
+    where: { userId },
     orderBy: { usedAt: "desc" },
     take: limit,
   });
@@ -24,39 +23,39 @@ export async function listRecent(dataType: DataType, limit = MAX_RECENT_UTILITIE
   });
 }
 
-export async function isFavorite(utilityId: string, dataType: DataType) {
+export async function isFavorite(utilityId: string, userId: string) {
   const row = await prisma.devUtilityFavorite.findFirst({
-    where: { utilityId, type: dataType },
+    where: { utilityId, userId },
   });
   return Boolean(row);
 }
 
-export async function addFavorite(utilityId: string, dataType: DataType) {
+export async function addFavorite(utilityId: string, userId: string) {
   return prisma.devUtilityFavorite.upsert({
-    where: { type_utilityId: { type: dataType, utilityId } },
-    create: { utilityId, type: dataType },
+    where: { userId_utilityId: { userId, utilityId } },
+    create: { utilityId, userId },
     update: {},
   });
 }
 
-export async function removeFavorite(utilityId: string, dataType: DataType) {
+export async function removeFavorite(utilityId: string, userId: string) {
   return prisma.devUtilityFavorite.deleteMany({
-    where: { utilityId, type: dataType },
+    where: { utilityId, userId },
   });
 }
 
-export async function recordRecentUse(utilityId: string, dataType: DataType) {
+export async function recordRecentUse(utilityId: string, userId: string) {
   await prisma.$transaction(async (tx) => {
     await tx.devUtilityRecent.deleteMany({
-      where: { utilityId, type: dataType },
+      where: { utilityId, userId },
     });
 
     await tx.devUtilityRecent.create({
-      data: { utilityId, type: dataType },
+      data: { utilityId, userId },
     });
 
     const overflow = await tx.devUtilityRecent.findMany({
-      where: { type: dataType },
+      where: { userId },
       orderBy: { usedAt: "desc" },
       skip: MAX_RECENT_UTILITIES,
       select: { id: true },

@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { TOOL_NAME } from "@/app/lib/brand";
-import { dashboardNavItems, financeNavGroup } from "./dashboardNavItems";
+import { useAuth } from "@/app/hooks/useAuth";
+import { dashboardNavItems, financeNavGroup, jobTrackerNavItems, accountNavItems, adminNavItems } from "./dashboardNavItems";
 import { PieChart } from "lucide-react";
 
 interface DashboardSidebarProps {
@@ -9,7 +10,14 @@ interface DashboardSidebarProps {
 }
 
 export function DashboardSidebar({ className }: DashboardSidebarProps) {
+  const { isJobTrackerEnabled, isAdmin } = useAuth();
   const FinanceIcon = financeNavGroup.icon;
+  const navItems = [
+    ...dashboardNavItems,
+    ...(isJobTrackerEnabled ? jobTrackerNavItems : []),
+    ...accountNavItems,
+    ...(isAdmin ? adminNavItems : []),
+  ];
 
   return (
     <aside
@@ -24,7 +32,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto p-4">
-        {dashboardNavItems.map((item) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink

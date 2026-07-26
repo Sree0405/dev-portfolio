@@ -30,7 +30,7 @@ router.get("/rules", (_req, res) => {
 router.get("/current", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await budgetService.getCurrentBudget(user.dataType));
+    res.json(await budgetService.getCurrentBudget(user.id));
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ router.get("/current", async (req, res, next) => {
 router.get("/history", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json({ items: await budgetService.getBudgetHistory(user.dataType) });
+    res.json({ items: await budgetService.getBudgetHistory(user.id) });
   } catch (error) {
     next(error);
   }
@@ -48,7 +48,7 @@ router.get("/history", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    res.json(await budgetService.getBudgetDetail(req.params.id, user.dataType));
+    res.json(await budgetService.getBudgetDetail(req.params.id, user.id));
   } catch (error) {
     next(error);
   }
@@ -57,7 +57,7 @@ router.get("/:id", async (req, res, next) => {
 router.get("/:id/pdf", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const buffer = await generateBudgetReportPdf(req.params.id, user.dataType);
+    const buffer = await generateBudgetReportPdf(req.params.id, user.id, user.role);
     sendPdf(res, buffer, "Budget_Report.pdf");
   } catch (error) {
     next(error);
@@ -74,7 +74,7 @@ router.post("/", async (req, res, next) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
-    res.status(201).json(await budgetService.startNewBudget(user.dataType, parsed.data));
+    res.status(201).json(await budgetService.startNewBudget(user.id, parsed.data));
   } catch (error) {
     if (error instanceof Error && error.message === "BUDGET_EXISTS") {
       return res.status(409).json({ error: "A budget already exists for this month." });
@@ -93,7 +93,7 @@ router.post("/reset", async (req, res, next) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
-    res.json(await budgetService.resetCurrentBudget(user.dataType, parsed.data));
+    res.json(await budgetService.resetCurrentBudget(user.id, parsed.data));
   } catch (error) {
     next(error);
   }

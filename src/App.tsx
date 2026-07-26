@@ -23,6 +23,7 @@ const SreeDevToolPage = lazy(() => import("./pages/SreeDevTool"));
 
 // Dashboard
 import LoginPage from "./app/routes/login/LoginPage";
+import SignupPage from "./app/routes/signup/SignupPage";
 import DashboardLayout from "./app/routes/dashboard/layout/DashboardLayout";
 import DashboardPage from "./app/routes/dashboard/DashboardPage";
 import DashboardProjectsPage from "./app/routes/dashboard/projects/ProjectsPage";
@@ -40,6 +41,15 @@ import ResumeEditorPage from "./app/routes/dashboard/resume/ResumeEditorPage";
 import DevUtilitiesHubPage from "./app/routes/dashboard/devUtilities/DevUtilitiesHubPage";
 import DevUtilityPage from "./app/routes/dashboard/devUtilities/DevUtilityPage";
 import DeveloperPlaygroundPage from "./app/routes/dashboard/playground/DeveloperPlaygroundPage";
+import FormsPage from "./app/routes/dashboard/forms/FormsPage";
+import CompaniesPage from "./app/routes/dashboard/companies/CompaniesPage";
+import CompanyDetailsPage from "./app/routes/dashboard/companies/CompanyDetailsPage";
+import JobStatusPage from "./app/routes/dashboard/jobTracker/JobStatusPage";
+import JobDetailsPage from "./app/routes/dashboard/jobTracker/JobDetailsPage";
+import ProfilePage from "./app/routes/dashboard/profile/ProfilePage";
+import UsersPage from "./app/routes/dashboard/users/UsersPage";
+import { JobTrackerFeatureRoute } from "./app/components/Common/JobTrackerFeatureRoute";
+import { AdminRoute } from "./app/components/Common/AdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +93,8 @@ const App = () => (
 
           {/* Project Management Dashboard */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/profile" element={<Navigate to="/dashboard/profile" replace />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path="projects" element={<DashboardProjectsPage />} />
@@ -93,6 +105,48 @@ const App = () => (
             <Route path="dev-utilities" element={<DevUtilitiesHubPage />} />
             <Route path="dev-utilities/:utilityId" element={<DevUtilityPage />} />
             <Route path="playground" element={<DeveloperPlaygroundPage />} />
+            <Route path="forms" element={<FormsPage />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route
+              path="users"
+              element={
+                <AdminRoute>
+                  <UsersPage />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="companies"
+              element={
+                <JobTrackerFeatureRoute>
+                  <CompaniesPage />
+                </JobTrackerFeatureRoute>
+              }
+            />
+            <Route
+              path="companies/:companyId"
+              element={
+                <JobTrackerFeatureRoute>
+                  <CompanyDetailsPage />
+                </JobTrackerFeatureRoute>
+              }
+            />
+            <Route
+              path="job-status"
+              element={
+                <JobTrackerFeatureRoute>
+                  <JobStatusPage />
+                </JobTrackerFeatureRoute>
+              }
+            />
+            <Route
+              path="job-status/:jobId"
+              element={
+                <JobTrackerFeatureRoute>
+                  <JobDetailsPage />
+                </JobTrackerFeatureRoute>
+              }
+            />
             <Route path="budget-planner" element={<BudgetPlannerPage />} />
             <Route path="finance" element={<FinanceLayout />}>
               <Route index element={<FinanceOverviewPage />} />

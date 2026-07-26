@@ -10,15 +10,21 @@ export function useAuth() {
   });
 
   const user = query.data?.user;
+  const features = query.data?.features;
   const isDemo = user?.role === "demo";
-  const isOwner = user?.role === "owner";
-  const canDelete = isOwner;
+  const isAdmin = user?.role === "admin";
+  const canDelete = !isDemo;
+  const canWriteCompanies = !isDemo && (features?.jobTracker ?? false);
+  const isJobTrackerEnabled = features?.jobTracker ?? false;
 
   return {
     ...query,
     user,
+    features,
     isDemo,
-    isOwner,
+    isAdmin,
     canDelete,
+    canWriteCompanies,
+    isJobTrackerEnabled,
   };
 }

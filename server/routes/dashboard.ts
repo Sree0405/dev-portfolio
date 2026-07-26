@@ -9,7 +9,7 @@ router.use(requireAuth);
 router.get("/", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const analytics = await dashboardService.getDashboardAnalytics(user.dataType);
+    const analytics = await dashboardService.getDashboardAnalytics(user.id);
     res.json(analytics);
   } catch (error) {
     next(error);

@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
     const category = typeof req.query.category === "string" ? req.query.category : undefined;
 
     const items = await credentialService.listCredentials({
-      dataType: user.dataType,
+      userId: user.id,
       search,
       category,
     });
@@ -32,7 +32,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = getSessionUser(req);
-    const credential = await credentialService.getCredential(req.params.id, user.dataType);
+    const credential = await credentialService.getCredential(req.params.id, user.id);
     res.json(credential);
   } catch (error) {
     next(error);
@@ -47,7 +47,7 @@ router.post("/", async (req, res, next) => {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
 
-    const credential = await credentialService.createCredential(parsed.data, user.dataType);
+    const credential = await credentialService.createCredential(parsed.data, user.id);
     res.status(201).json(credential);
   } catch (error) {
     next(error);
@@ -65,7 +65,7 @@ router.put("/:id", async (req, res, next) => {
     const credential = await credentialService.updateCredential(
       req.params.id,
       parsed.data,
-      user.dataType,
+      user.id,
     );
     res.json(credential);
   } catch (error) {
@@ -80,7 +80,7 @@ router.delete("/:id", async (req, res, next) => {
       return res.status(403).json({ error: DEMO_CREDENTIAL_DELETE_ERROR });
     }
 
-    await credentialService.deleteCredential(req.params.id, user.dataType);
+    await credentialService.deleteCredential(req.params.id, user.id);
     res.json({ success: true });
   } catch (error) {
     next(error);

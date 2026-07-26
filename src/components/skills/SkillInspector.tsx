@@ -261,24 +261,24 @@ export default function SkillInspector({ skill, onClose }: Props) {
             </p>
             <h3
               id="skill-inspector-title"
-              className="mt-1 text-2xl font-bold tracking-tight text-foreground"
+              className="page-title-accent mt-1 text-2xl font-bold tracking-tight"
             >
               {detail.title}
             </h3>
-            <p className="mt-1 text-sm font-medium text-muted-foreground">
+            <p className="mt-1 text-sm font-medium portfolio-text-muted">
               {detail.role}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-background/50 text-muted-foreground transition hover:border-primary/40 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-background/50 portfolio-text-muted transition hover:border-primary/40 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <p className="text-sm leading-relaxed text-muted-foreground">
+        <p className="text-sm leading-relaxed portfolio-text-muted">
           {detail.description}
         </p>
 
@@ -297,14 +297,14 @@ export default function SkillInspector({ skill, onClose }: Props) {
           <Link
             to="/projects"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_8px_24px_hsl(var(--primary)/0.35)] transition hover:opacity-95"
+            className="btn-gradient inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold normal-case"
           >
             See projects
           </Link>
           <Link
             to="/contact"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-xl border border-border/80 bg-background/60 px-4 py-2.5 text-sm font-medium text-foreground transition hover:border-primary/40"
+            className="btn-glass inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium normal-case"
           >
             Hire / contact
           </Link>

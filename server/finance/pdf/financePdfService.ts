@@ -1,3 +1,4 @@
+import type { UserRole } from "../../auth/config.js";
 import { FINANCE_MODULES } from "../constants.js";
 import {
   formatPeriodLabel,
@@ -12,7 +13,6 @@ import {
   formatFinanceTime,
 } from "./format.js";
 import { decimalToNumber } from "../../lib/serializers.js";
-import type { DataType } from "../../auth/config.js";
 
 export type FinanceReportRange =
   | "current_month"
@@ -103,13 +103,14 @@ function buildReportMeta(periodLabel: string) {
 
 export async function generateModuleReportPdf(
   moduleType: string,
-  dataType: DataType,
+  userId: string,
   rangeParams: Parameters<typeof resolveDateRange>[0],
+  role: UserRole = "user",
 ) {
   const { from, to, label } = resolveDateRange(rangeParams);
-  await financeRepo.syncPaymentStatuses(dataType);
+  await financeRepo.syncPaymentStatuses(userId);
 
-  const payments = await financeRepo.getPaymentsInRange(dataType, moduleType, from, to);
+  const payments = await financeRepo.getPaymentsInRange(userId, moduleType, from, to);
   const rows = payments.map((p) => {
     const payment = p as typeof p & {
       notes?: string | null;
@@ -162,18 +163,19 @@ export async function generateModuleReportPdf(
     },
   };
 
-  return renderFinanceReportTemplate(input, dataType);
+  return renderFinanceReportTemplate(input, userId, role);
 }
 
 export async function generateRecordReportPdf(
   recordId: string,
-  dataType: DataType,
+  userId: string,
   rangeParams?: Parameters<typeof resolveDateRange>[0],
+  role: UserRole = "user",
 ) {
-  const record = await financeRepo.getRecordById(recordId, dataType);
+  const record = await financeRepo.getRecordById(recordId, userId);
   if (!record) throw new Error("NOT_FOUND");
 
-  await financeRepo.syncPaymentStatuses(dataType);
+  await financeRepo.syncPaymentStatuses(userId);
 
   let payments = record.payments;
   if (rangeParams) {
@@ -243,5 +245,5 @@ export async function generateRecordReportPdf(
     },
   };
 
-  return renderFinanceReportTemplate(input, dataType);
+  return renderFinanceReportTemplate(input, userId, role);
 }

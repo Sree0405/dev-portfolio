@@ -28,6 +28,7 @@ Each feature area is implemented as an independent **module** with its own:
 | **Resume** | `/dashboard/resume` | [Resume Dashboard](./RESUME_DASHBOARD.md) |
 | **Dev Utilities** | `/dashboard/dev-utilities` | [Dev Utilities Dashboard](./DEV_UTILITIES_DASHBOARD.md) |
 | **Playground** | `/dashboard/playground` | [Developer Playground](./PLAYGROUND.md) |
+| **Forms** | `/dashboard/forms` | [Forms Module](./FORMS.md) |
 | **Finance Hub** | `/dashboard/finance` | [Finance Management Dashboard](./FINANCE_MANAGEMENT_DASHBOARD.md) |
 | **Budget Planner** | `/dashboard/budget-planner` | Monthly income planning & spending tracker |
 
@@ -203,6 +204,7 @@ docs/
   RESUME_DASHBOARD.md                   ← Resume (LaTeX editor) module
   DEV_UTILITIES_DASHBOARD.md            ← Dev Utilities module
   PLAYGROUND.md                         ← Developer Playground (client-only IDE)
+  FORMS.md                              ← Contact form submissions module
 ```
 
 ---

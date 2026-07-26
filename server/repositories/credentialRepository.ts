@@ -1,18 +1,17 @@
 import prisma from "../prisma/client.js";
-import type { DataType } from "../auth/config.js";
 import type { CreateCredentialInput, UpdateCredentialInput } from "../lib/validation.js";
 
 export interface ListCredentialsOptions {
-  dataType: DataType;
+  userId: string;
   search?: string;
   category?: string;
 }
 
 export async function listCredentials(options: ListCredentialsOptions) {
-  const { dataType, search = "", category } = options;
+  const { userId, search = "", category } = options;
 
   const where = {
-    type: dataType,
+    userId,
     ...(category && category !== "All" ? { category } : {}),
     ...(search
       ? {
@@ -32,17 +31,17 @@ export async function listCredentials(options: ListCredentialsOptions) {
   });
 }
 
-export async function countCredentials(dataType: DataType) {
-  return prisma.credential.count({ where: { type: dataType } });
+export async function countCredentials(userId: string) {
+  return prisma.credential.count({ where: { userId } });
 }
 
-export async function getCredentialById(id: string, dataType: DataType) {
+export async function getCredentialById(id: string, userId: string) {
   return prisma.credential.findFirst({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
 
-export async function createCredential(data: CreateCredentialInput, dataType: DataType) {
+export async function createCredential(data: CreateCredentialInput, userId: string) {
   return prisma.credential.create({
     data: {
       serviceName: data.serviceName,
@@ -51,7 +50,7 @@ export async function createCredential(data: CreateCredentialInput, dataType: Da
       password: data.password,
       category: data.category,
       notes: data.notes || null,
-      type: dataType,
+      userId,
     },
   });
 }
@@ -59,10 +58,10 @@ export async function createCredential(data: CreateCredentialInput, dataType: Da
 export async function updateCredential(
   id: string,
   data: UpdateCredentialInput,
-  dataType: DataType,
+  userId: string,
 ) {
   return prisma.credential.update({
-    where: { id, type: dataType },
+    where: { id, userId },
     data: {
       ...(data.serviceName !== undefined && { serviceName: data.serviceName }),
       ...(data.websiteUrl !== undefined && { websiteUrl: data.websiteUrl }),
@@ -74,8 +73,8 @@ export async function updateCredential(
   });
 }
 
-export async function deleteCredential(id: string, dataType: DataType) {
+export async function deleteCredential(id: string, userId: string) {
   return prisma.credential.delete({
-    where: { id, type: dataType },
+    where: { id, userId },
   });
 }
