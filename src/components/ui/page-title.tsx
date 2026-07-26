@@ -17,12 +17,20 @@ export function PageTitle({
   titleClassName,
   align = "center",
 }: PageTitleProps) {
+  const centered = align === "center";
+
   return (
-    <div
-      className={cn(align === "center" && "text-center", className)}
-    >
-      {eyebrow ? <p className="section-eyebrow mb-3">{eyebrow}</p> : null}
-      <h1 className={cn("page-title", titleClassName)}>
+    <div className={cn("w-full", centered && "text-center", className)}>
+      {eyebrow ? (
+        <p className={cn("section-eyebrow mb-3", centered && "text-center")}>{eyebrow}</p>
+      ) : null}
+      <h1
+        className={cn(
+          "page-title",
+          centered && "page-title--center text-center",
+          titleClassName,
+        )}
+      >
         <span className="page-title-accent">{accent}</span>
         {rest ? <> {rest}</> : null}
       </h1>

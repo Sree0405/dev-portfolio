@@ -139,3 +139,39 @@ model BudgetCategory {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Resume {
+  id             String    @id @default(cuid())
+  title          String
+  description    String?
+  latexSource    String    @db.Text
+  compileStatus  String    @default("idle")
+  compileLog     String?   @db.Text
+  compiledPdf    Bytes?
+  pdfFilename    String?
+  lastCompiledAt DateTime?
+  type           DataType  @default(Default)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([type, updatedAt])
+}
+
+model DevUtilityFavorite {
+  id        String   @id @default(cuid())
+  utilityId String
+  type      DataType @default(Default)
+  createdAt DateTime @default(now())
+
+  @@unique([type, utilityId])
+  @@index([type])
+}
+
+model DevUtilityRecent {
+  id        String   @id @default(cuid())
+  utilityId String
+  type      DataType @default(Default)
+  usedAt    DateTime @default(now())
+
+  @@index([type, usedAt])
+}

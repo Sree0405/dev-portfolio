@@ -13,10 +13,15 @@ const PORT = Number(process.env.PORT) || 8080;
 async function startServer() {
   const app = createApp();
   const server = http.createServer(app);
+  const publicDir = path.resolve(__dirname, "../public");
+
+  // Serve /public assets (devtool screenshots, branding, etc.) before Vite/SPA
+  app.use(express.static(publicDir));
 
   if (!isProduction) {
     const { createServer } = await import("vite");
     const vite = await createServer({
+      configFile: path.resolve(__dirname, "../vite.config.ts"),
       server: {
         middlewareMode: true,
         hmr: { server },
@@ -27,7 +32,7 @@ async function startServer() {
   } else {
     const distPath = path.resolve(__dirname, "../dist");
     app.use(express.static(distPath));
-    app.get("*", (_req, res) => {
+    app.get(/.*/, (_req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

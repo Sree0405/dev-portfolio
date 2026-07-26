@@ -73,7 +73,7 @@ export default function Hero() {
           <motion.div
             {...fadeUp}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto flex w-full max-w-[36rem] flex-col items-center text-center lg:mx-0 lg:items-start lg:text-left xl:max-w-[38rem]"
+            className="flex w-full max-w-[36rem] flex-col items-start text-left xl:max-w-[38rem]"
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-primary sm:px-4 sm:text-xs">
               <Radio className="h-3.5 w-3.5 shrink-0" aria-hidden />
@@ -121,7 +121,7 @@ export default function Hero() {
               })}
             </div>
 
-            <div className="mt-4 flex w-full flex-wrap justify-center gap-1.5 md:hidden lg:justify-start">
+            <div className="mt-4 flex w-full flex-wrap justify-start gap-1.5 md:hidden">
               {stackTags.slice(0, 6).map((item, i) => (
                 <motion.span
                   key={item}
@@ -135,7 +135,7 @@ export default function Hero() {
               ))}
             </div>
 
-            <div className="mt-6 hidden w-full flex-wrap justify-center gap-2 md:flex lg:justify-start">
+            <div className="mt-6 hidden w-full flex-wrap justify-start gap-2 md:flex">
               {stackTags.map((item, i) => (
                 <motion.span
                   key={item}
@@ -151,7 +151,7 @@ export default function Hero() {
 
             <nav
               aria-label="Explore site"
-              className="mt-5 flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-border/40 pt-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground sm:hidden"
+              className="mt-5 flex w-full flex-wrap items-center justify-start gap-x-4 gap-y-2 border-t border-border/40 pt-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground sm:hidden"
             >
               <Link to="/experience" className="transition hover:text-primary">
                 Experience
@@ -170,7 +170,7 @@ export default function Hero() {
               </Link>
             </nav>
 
-            <div className="mt-7 flex w-full flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3 lg:justify-start">
+            <div className="mt-7 flex w-full flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-start sm:gap-3">
               <Link
                 to="/projects"
                 className="btn-gradient group inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wide text-primary-foreground sm:w-auto"
@@ -201,7 +201,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="mt-6 flex w-full max-w-sm items-center justify-center gap-1 rounded-xl border border-border/50 bg-background/40 p-1.5 sm:mt-7 sm:max-w-none sm:gap-2 lg:justify-start">
+            <div className="mt-6 flex w-full max-w-sm items-center justify-start gap-1 rounded-xl border border-border/50 bg-background/40 p-1.5 sm:mt-7 sm:max-w-none sm:gap-2">
               {[
                 {
                   href: "https://github.com/Sree0405",

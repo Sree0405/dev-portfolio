@@ -1,11 +1,14 @@
 import {
   BarChart3,
+  FileUser,
   FolderKanban,
   KeyRound,
   LayoutDashboard,
   LayoutGrid,
   PieChart,
   Settings2,
+  TerminalSquare,
+  Wrench,
 } from "lucide-react";
 
 export const dashboardNavItems = [
@@ -27,6 +30,27 @@ export const dashboardNavItems = [
     label: "Credentials",
     to: "/dashboard/credentials",
     icon: KeyRound,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Resume",
+    to: "/dashboard/resume",
+    icon: FileUser,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Dev Utilities",
+    to: "/dashboard/dev-utilities",
+    icon: Wrench,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Playground",
+    to: "/dashboard/playground",
+    icon: TerminalSquare,
     disabled: false,
     end: false,
   },
@@ -54,6 +78,27 @@ export const mobileMoreNavItems = [
     to: "/dashboard/budget-planner",
     icon: PieChart,
     disabled: false,
+  },
+  {
+    label: "Resume",
+    to: "/dashboard/resume",
+    icon: FileUser,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Dev Utilities",
+    to: "/dashboard/dev-utilities",
+    icon: Wrench,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Playground",
+    to: "/dashboard/playground",
+    icon: TerminalSquare,
+    disabled: false,
+    end: false,
   },
   {
     label: "Analytics",

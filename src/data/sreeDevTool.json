@@ -1,0 +1,439 @@
+{
+  "slug": "sree-dev-tool",
+  "projectName": "Sree Dev Tool",
+  "tagline": "All-in-One Operations Platform",
+  "description": "Built into the portfolio website — one software that replaces separate budget trackers, credential vaults, note apps, finance tools, resume editors, and developer utilities. No juggling multiple apps; everything lives in a single session-authenticated dashboard.",
+  "techStack": ["React 18", "TypeScript", "Express 5", "Prisma 6", "Neon PostgreSQL", "Tailwind CSS", "shadcn/ui", "Monaco Editor", "Vite"],
+  "status": "Live",
+  "demoUrl": "/login",
+  "docsUrl": "/project/sree-dev-tool",
+
+  "tabs": [
+    { "id": "overview", "label": "Overview", "icon": "home" },
+    { "id": "modules", "label": "Modules", "icon": "layers" },
+    { "id": "module", "label": "Module Detail", "icon": "layers" },
+    { "id": "architecture", "label": "Architecture", "icon": "code" },
+    { "id": "security", "label": "Security", "icon": "shield" },
+    { "id": "workflow", "label": "Workflow", "icon": "workflow" }
+  ],
+
+  "overview": {
+    "whyBuilt": "We set out to build a portfolio website — but quickly realized that day-to-day work scatters across too many separate tools: a budget tracker here, a credentials vault there, notes in one app, finance in another, resume editing elsewhere, and developer utilities on random websites. Instead of relying on five or six different solutions, we built one unified software directly into the site. Sree Dev Tool solves every problem in a single place — no context-switching, no duplicate logins, no scattered data.",
+    "whatWeDo": "Sree Dev Tool is a modular all-in-one platform embedded in the portfolio. Track projects and payments, store credentials securely, plan monthly budgets, monitor EMIs and subscriptions, edit LaTeX resumes with live preview, run developer utilities, and experiment with code in a sandboxed playground — all behind one login with owner/demo data isolation.",
+    "howWeDo": "Each capability is an independent module following a repeatable pattern: Prisma models, repository → service → route layers on the backend, and dedicated React pages under /dashboard/*. Client-only modules (Playground) skip the API entirely. A shared Express server on port 8080 serves both the Vite SPA and REST API, with Neon PostgreSQL via Prisma for persistence.",
+    "highlights": [
+      { "title": "One Software, Every Problem", "description": "No separate budget tracker, credentials app, notes tool, or finance spreadsheet — one dashboard handles it all." },
+      { "title": "Built Into the Website", "description": "Not a third-party SaaS — a custom platform running on the same Express server as the portfolio." },
+      { "title": "Modular Architecture", "description": "8 independent modules with their own routes, services, and documentation — add new modules via a repeatable checklist." },
+      { "title": "Data Isolation", "description": "Owner and Demo accounts use separate DataType scopes — demo users explore fictional seeded data safely." },
+      { "title": "PDF Generation", "description": "Professional PDF exports for project invoices, finance reports, and budget plans via server-side PDFKit templates." },
+      { "title": "Client-Only IDE", "description": "Developer Playground runs entirely in the browser with Monaco Editor, Web Worker sandboxing, and localStorage persistence." }
+    ],
+    "targetUsers": [
+      "Anyone tired of switching between budget trackers, password managers, and note apps",
+      "Developers who want project management, utilities, and a code playground in one place",
+      "People who prefer a single custom platform over multiple subscription tools",
+      "Portfolio visitors exploring the demo mode with safe fictional data"
+    ],
+    "platformGoals": [
+      "Replace multiple standalone apps with one unified software solution",
+      "Keep all financial calculations server-side — never trust client totals",
+      "Provide a safe demo mode for portfolio visitors without exposing real data",
+      "Scale by adding modules without restructuring the core platform",
+      "Maintain fast page loads with lazy rendering and query-param tab navigation"
+    ]
+  },
+
+  "modules": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "route": "/dashboard",
+      "type": "full-stack",
+      "icon": "layout-dashboard",
+      "tagline": "Analytics home & business overview",
+      "summary": "The default landing page after login. A single API call returns aggregated stats, chart data, and recent activity — giving instant visibility into projects, finances, and credentials.",
+      "why": "Instead of opening separate analytics tools or spreadsheets, the dashboard gives a quick snapshot of everything in one screen. All key metrics are centralized so you know what needs attention at a glance.",
+      "what": [
+        "8 statistic cards covering projects, amounts, and status counts",
+        "Money Yet To Receive highlight card with collection rate insights",
+        "Donut, pie, bar, and line charts for financial and project visualization",
+        "Latest projects table with progress bars",
+        "Recent payments and notes activity feed"
+      ],
+      "how": [
+        "GET /api/dashboard returns all analytics in a single request via dashboardService",
+        "dashboardRepository aggregates data from projects, payments, credentials, and finance tables",
+        "Frontend renders Recharts visualizations with data from TanStack React Query",
+        "Stats are scoped by session user's DataType (Default or Demo)"
+      ],
+      "features": [
+        "Financial insights: collection rate, averages, top projects",
+        "Revenue by project bar chart",
+        "Monthly payments line chart",
+        "Project status distribution pie chart",
+        "Received vs pending donut chart"
+      ],
+      "apiBase": "/api/dashboard",
+      "screenshots": [
+        { "id": "dash-overview", "label": "Dashboard Overview", "description": "Stat cards, upcoming payments, and financial insights", "src": "", "alt": "Dashboard overview" },
+        { "id": "dash-charts", "label": "Analytics Charts", "description": "Donut, pie, bar charts and revenue by project", "src": "", "alt": "Dashboard charts" },
+        { "id": "dash-recent", "label": "Recent Activity", "description": "Monthly payments line chart and latest projects grid", "src": "", "alt": "Dashboard recent activity" }
+      ],
+      "techStack": ["Recharts", "TanStack React Query", "Prisma"]
+    },
+    {
+      "id": "projects",
+      "name": "Projects",
+      "route": "/dashboard/projects",
+      "type": "full-stack",
+      "icon": "folder-kanban",
+      "tagline": "Client project & payment management",
+      "summary": "Full CRUD for projects with per-project payment tracking, notes, search/sort/pagination, and professional PDF invoice generation. Financial totals are computed server-side only.",
+      "why": "Tracking client projects, planned amounts, and payment history in spreadsheets is error-prone. This module provides structured project management with automatic totalPaid recalculation on every payment change.",
+      "what": [
+        "Projects table with search, sort, column ordering, and pagination",
+        "Project details page with payments and notes CRUD",
+        "Automatic totalPaid and remainingAmount recalculation on payment changes",
+        "Professional PDF invoice download per project",
+        "Status tracking: Planning, In Progress, Completed, On Hold, Cancelled"
+      ],
+      "how": [
+        "Prisma Project, Payment, and ProjectNote models with DataType isolation",
+        "paymentService recalculates SUM(amount) on create/update/delete",
+        "remainingAmount = plannedAmount - totalPaid — never stored in DB",
+        "invoiceService generates A4 PDF via modular template components in server/invoice/",
+        "Frontend displays API-returned totals — never calculates financial values"
+      ],
+      "features": [
+        "Debounced search across project name and client",
+        "Payment methods: Cash, Bank Transfer, UPI, Cheque, Other",
+        "Project types: Fixed Cost, Hourly, Maintenance, Internal, Other",
+        "Confirmation dialogs for deletes (owner only)",
+        "Toast notifications via Sonner"
+      ],
+      "apiBase": "/api/projects",
+      "screenshots": [
+        { "id": "proj-list", "label": "Projects List", "description": "Searchable card grid with status badges", "src": "", "alt": "Projects list" },
+        { "id": "proj-detail", "label": "Project Details", "description": "Financial summary, project info, and payment history", "src": "", "alt": "Project details" },
+        { "id": "proj-payments", "label": "Payments & Notes", "description": "Payment cards and project milestone notes", "src": "", "alt": "Project payments and notes" }
+      ],
+      "techStack": ["PDFKit", "Zod", "React Hook Form", "Prisma"]
+    },
+    {
+      "id": "credentials",
+      "name": "Credentials",
+      "route": "/dashboard/credentials",
+      "type": "full-stack",
+      "icon": "key-round",
+      "tagline": "Secure credentials vault",
+      "summary": "A lightweight password manager for website logins, server credentials, database accounts, and third-party services. Passwords are masked by default with show/hide toggle and copy-to-clipboard actions.",
+      "why": "Developers accumulate dozens of service accounts across hosting, databases, APIs, and domains. Centralizing credentials with category filtering and masked display reduces the risk of scattered plain-text passwords.",
+      "what": [
+        "Responsive card grid with service logos and category badges",
+        "Masked passwords with show/hide and copy buttons",
+        "Search across service name, URL, username, and category",
+        "Category filter dropdown with 14 predefined categories",
+        "View modal with Open Website, Copy Username, Copy Password actions"
+      ],
+      "how": [
+        "Credential Prisma model with DataType field for owner/demo isolation",
+        "credentialRepository filters all queries by session dataType",
+        "Category type labels derived via getCategoryTypeLabel() mapping",
+        "Demo account seeded with 12 fictional credentials via prisma/seed.ts",
+        "Delete blocked for Demo users (403 Forbidden)"
+      ],
+      "features": [
+        "Categories: Development, Hosting, Database, Server, Domain, Email, Cloud, API, and more",
+        "Favicon display via service logo resolver",
+        "Glassmorphism modals for add/edit flows",
+        "Demo banner explaining fictional sample data",
+        "Stored Credentials stat on main dashboard"
+      ],
+      "apiBase": "/api/credentials",
+      "screenshots": [
+        { "id": "cred-grid", "label": "Credentials Grid", "description": "Service cards with masked passwords and categories", "src": "", "alt": "Credentials grid" },
+        { "id": "cred-modal", "label": "Credential Detail Modal", "description": "View modal with copy actions and open website", "src": "", "alt": "Credential view modal" }
+      ],
+      "techStack": ["Zod", "Prisma", "Sonner"]
+    },
+    {
+      "id": "resume",
+      "name": "Resume",
+      "route": "/dashboard/resume",
+      "type": "hybrid",
+      "icon": "file-user",
+      "tagline": "LaTeX resume editor with live preview",
+      "summary": "Overleaf-style resume editor with CodeMirror LaTeX syntax highlighting, live A4 PDF preview powered by latex.js, save with optional PDF attachment, and server-side compile when TeX Live is available.",
+      "why": "Professional resumes in LaTeX produce superior typography but require complex tooling. This module brings LaTeX editing into the dashboard with instant browser preview — no external editor needed.",
+      "what": [
+        "Resume list page with search, compile status badges, and create modal",
+        "Split-pane editor: LaTeX source + live A4 preview",
+        "Ctrl+S save with optional client-generated PDF attachment",
+        "Server LaTeX compile with fallback to preview PDF",
+        "Curated supported package set for reliable browser preview"
+      ],
+      "how": [
+        "Resume model stores latexSource, compileStatus, and optional compiledPdf bytes",
+        "prepareLatexForPreview pipeline: normalize → strip incompatible packages → render via latex.js",
+        "Preamble theme parsed to CSS variables (margins, fonts, section spacing)",
+        "Font Awesome macros replaced with plain glyphs for browser compatibility",
+        "PDF download via html2pdf.js on rendered A4 preview page"
+      ],
+      "features": [
+        "Resizable split panels between editor and preview",
+        "Error line highlighting in CodeMirror",
+        "A4 preview with zoom and fit-to-page",
+        "Default LaTeX template with supported packages",
+        "15 MB request body limit for PDF attachments"
+      ],
+      "apiBase": "/api/resumes",
+      "screenshots": [
+        { "id": "resume-list", "label": "Resume Editor", "description": "Split-pane LaTeX source and live A4 preview", "src": "", "alt": "Resume LaTeX editor" },
+        { "id": "resume-editor", "label": "LaTeX Workspace", "description": "CodeMirror editor with compile and PDF download", "src": "", "alt": "Resume editor workspace" },
+        { "id": "resume-preview", "label": "Live PDF Preview", "description": "Rendered A4 resume with zoom controls", "src": "", "alt": "Resume live preview" }
+      ],
+      "techStack": ["CodeMirror", "latex.js", "html2pdf.js", "Prisma"]
+    },
+    {
+      "id": "dev-utilities",
+      "name": "Dev Utilities",
+      "route": "/dashboard/dev-utilities",
+      "type": "hybrid",
+      "icon": "wrench",
+      "tagline": "12 in-browser developer tools",
+      "summary": "A hub of client-side developer tools with favorites, recently-used tracking, and a modular registry. Tool inputs and outputs are never stored — only preference metadata is persisted.",
+      "why": "Developers constantly need quick tools for JSON formatting, JWT decoding, UUID generation, and more. Scattering across external sites wastes time — this module provides them in one searchable hub.",
+      "what": [
+        "12 utilities: JSON Formatter, JWT Decoder, UUID Generator, Base64, URL Codec, Password Generator, QR Code, Unix Timestamp, Markdown Preview, SQL Formatter, HTML Preview, Regex Tester",
+        "Favorites with star toggle persisted per workspace",
+        "Recently used utilities (last 10) persisted per workspace",
+        "Search across name, description, category, and keywords",
+        "Consistent tool shell UI with copy-to-clipboard"
+      ],
+      "how": [
+        "Registry source of truth: src/app/lib/devUtilities/registry.ts",
+        "Server validates utility IDs via devUtilityIdSchema (Zod enum)",
+        "DevUtilityFavorite and DevUtilityRecent Prisma models scoped by DataType",
+        "Tool components registered in utilityComponentMap.ts",
+        "Adding a new utility requires only registry + component wiring — no migration"
+      ],
+      "features": [
+        "Hub page with Favorites, Recently Used, and All Utilities sections",
+        "Individual tool pages at /dashboard/dev-utilities/:utilityId",
+        "Auto-records recent usage on tool open",
+        "Demo banner on hub page",
+        "CopyButton with toast feedback on supported tools"
+      ],
+      "apiBase": "/api/dev-utilities",
+      "screenshots": [
+        { "id": "util-hub", "label": "Utilities Hub", "description": "All 12 tools with favorites and recently used", "src": "", "alt": "Dev utilities hub" },
+        { "id": "util-tool", "label": "QR Code Generator", "description": "Individual utility page with download action", "src": "", "alt": "QR code generator utility" }
+      ],
+      "techStack": ["React", "Zod", "Prisma"]
+    },
+    {
+      "id": "playground",
+      "name": "Playground",
+      "route": "/dashboard/playground",
+      "type": "client-only",
+      "icon": "terminal-square",
+      "tagline": "In-browser IDE with sandboxed execution",
+      "summary": "A Monaco-based code editor with sandboxed JavaScript/TypeScript execution in a Web Worker, DevTools-style console, live diagnostics, and an extensible registry architecture for future languages.",
+      "why": "Quick code experiments shouldn't require setting up a local environment. The Playground provides a VS Code-inspired IDE directly in the dashboard with safe sandboxed execution.",
+      "what": [
+        "JavaScript (ES2022+) and TypeScript support with live syntax/type diagnostics",
+        "Monaco Editor with IntelliSense, bracket matching, folding, and minimap",
+        "DevTools-style console capturing log, warn, error, table, and timers",
+        "Toolbar: Run, Stop, Format, New, Copy, Download, Upload, Theme, Fullscreen",
+        "Auto-save to localStorage with configurable settings"
+      ],
+      "how": [
+        "Code never executes with eval() on main thread — runs in sandbox.worker.ts",
+        "TypeScript workflow: compile → JavaScript → execute in Web Worker",
+        "Live validation via useLiveDiagnostics with 200ms debounce",
+        "Extensible registries: languages, runtimes, formatters, toolbar actions, console renderers, themes",
+        "No Prisma, Express routes, or server persistence — all state in localStorage"
+      ],
+      "features": [
+        "Ctrl+Enter / Cmd+Enter to run code",
+        "Prettier formatting for JS/TS",
+        "Light and dark Monaco themes",
+        "Resizable editor + console layout",
+        "File upload (.js, .ts, .txt) and download with correct extension"
+      ],
+      "screenshots": [
+        { "id": "play-ide", "label": "JavaScript Playground", "description": "Monaco editor with console output", "src": "", "alt": "Playground JavaScript" },
+        { "id": "play-console", "label": "TypeScript Playground", "description": "Live diagnostics and sandboxed execution", "src": "", "alt": "Playground TypeScript" }
+      ],
+      "techStack": ["Monaco Editor", "Prettier", "TypeScript", "Web Workers"]
+    },
+    {
+      "id": "finance-hub",
+      "name": "Finance Hub",
+      "route": "/dashboard/finance",
+      "type": "full-stack",
+      "icon": "wallet",
+      "tagline": "EMI, rent & subscription tracking",
+      "summary": "Modular personal finance tracking with a shared financial engine, unified payment history, color-coded urgency indicators, and premium PDF report generation across EMI, Rent, and Subscriptions.",
+      "why": "EMIs, rent cycles, and SaaS subscriptions each have different due dates and payment patterns — usually tracked in separate apps or spreadsheets. A unified finance hub with shared payment logic eliminates duplicate tools and inconsistent status tracking.",
+      "what": [
+        "Finance Overview with stats, charts, upcoming/overdue payments, and calendar",
+        "EMI module with installment schedule generation and progress tracking",
+        "Rent module with monthly due date generation",
+        "Subscriptions module with renewal date generation",
+        "Mark as Paid modal with append-only payment history",
+        "Module and record-level PDF report generation"
+      ],
+      "how": [
+        "Shared engine at server/finance/engine.ts handles status, urgency, and schedule generation",
+        "FinanceRecord + FinancePaymentHistory models — no duplicate payment tables per module",
+        "Payment history is append-only — never overwritten when marking paid",
+        "Color indicators: green (>10 days), orange (≤10 days), red (due today), dark red (overdue)",
+        "Single FinanceReportTemplate for all module PDFs via financePdfService"
+      ],
+      "features": [
+        "Finance sidebar group always expanded on desktop",
+        "Search and status filters on module list pages",
+        "Pagination, loading skeletons, and empty states",
+        "Delete hidden for Demo user",
+        "Report PDF with range filters: current month, last 2/3/6/12, custom"
+      ],
+      "apiBase": "/api/finance",
+      "subPages": [
+        { "name": "Overview", "route": "/dashboard/finance", "description": "Dashboard stats, charts, calendar, upcoming payments" },
+        { "name": "EMI", "route": "/dashboard/finance/emi", "description": "EMI records with installment schedules and progress" },
+        { "name": "Rent", "route": "/dashboard/finance/rent", "description": "Monthly rent tracking with due date generation" },
+        { "name": "Subscriptions", "route": "/dashboard/finance/subscriptions", "description": "SaaS and service subscription renewal tracking" }
+      ],
+      "screenshots": [
+        { "id": "fin-overview", "label": "Finance Overview", "description": "Expense stats, charts, and payment calendar", "src": "", "alt": "Finance overview" },
+        { "id": "fin-timeline", "label": "Payment Timeline", "description": "Recently paid, upcoming renewals, and due dates", "src": "", "alt": "Finance payment timeline" },
+        { "id": "fin-emi", "label": "EMI Module", "description": "EMI records with installment progress", "src": "", "alt": "EMI module list" },
+        { "id": "fin-emi-detail", "label": "EMI Record Detail", "description": "Payment logs and mark-as-paid workflow", "src": "", "alt": "EMI record detail" },
+        { "id": "fin-rent", "label": "Rent Module", "description": "Monthly rent tracking with overdue status", "src": "", "alt": "Rent module list" },
+        { "id": "fin-rent-detail", "label": "Rent Record Detail", "description": "Rent payment history and summary", "src": "", "alt": "Rent record detail" },
+        { "id": "fin-mark-paid", "label": "Mark as Paid Modal", "description": "Record payment with amount, date, and reference", "src": "", "alt": "Mark as paid modal" },
+        { "id": "fin-subscriptions", "label": "Subscriptions Module", "description": "SaaS and service renewal tracking", "src": "", "alt": "Subscriptions list" },
+        { "id": "fin-subscription-detail", "label": "Subscription Detail", "description": "GitHub Copilot subscription payment history", "src": "", "alt": "Subscription detail" }
+      ],
+      "techStack": ["PDFKit", "Recharts", "Prisma", "Zod"]
+    },
+    {
+      "id": "budget-planner",
+      "name": "Budget Planner",
+      "route": "/dashboard/budget-planner",
+      "type": "full-stack",
+      "icon": "pie-chart",
+      "tagline": "Monthly income planning & spending tracker",
+      "summary": "Monthly budget planning module for tracking income sources, planned spending categories, and actual expenses. Syncs with the Finance Hub and supports PDF export for monthly budget reports.",
+      "why": "Monthly budget planning usually means another standalone app or spreadsheet. The Budget Planner lives inside the same platform — structured income and spending tracking without leaving the dashboard.",
+      "what": [
+        "Monthly budget creation with income and expense categories",
+        "Planned vs actual spending comparison",
+        "Category-level breakdown with progress tracking",
+        "Sync with Finance Hub payment data via financeSync",
+        "PDF export for monthly budget reports"
+      ],
+      "how": [
+        "Budget Prisma models with DataType isolation",
+        "budgetService handles monthly budget CRUD and calculations",
+        "financeSync integrates payment data from Finance Hub records",
+        "budgetPdfService generates structured monthly reports",
+        "Frontend page at src/app/routes/dashboard/budget/BudgetPlannerPage.tsx"
+      ],
+      "features": [
+        "Month selector for navigating budget history",
+        "Income source tracking with planned amounts",
+        "Expense categories with actual vs planned comparison",
+        "Visual progress indicators per category",
+        "PDF download for personal records"
+      ],
+      "apiBase": "/api/budget",
+      "screenshots": [
+        { "id": "budget-main", "label": "Budget Planner", "description": "Monthly income, category tracking, and overspend alerts", "src": "", "alt": "Budget planner overview" }
+      ],
+      "techStack": ["PDFKit", "Prisma", "Zod"]
+    }
+  ],
+
+  "architecture": {
+    "summary": "Sree Dev Tool runs on the same Express server as the portfolio. In development, Vite middleware serves the React SPA; in production, Express serves the built dist/ folder. All API routes live under /api/* with session-based authentication.",
+    "diagram": [
+      "Browser (React SPA)",
+      "       │",
+      "       ▼",
+      "Express (port 8080)",
+      "  ├── /api/*     → REST API (auth, modules)",
+      "  └── /*         → Vite (dev) or static dist (prod)",
+      "       │",
+      "       ▼",
+      "Prisma → Neon PostgreSQL"
+    ],
+    "layers": [
+      { "label": "Frontend", "value": "React 18 + TypeScript + Tailwind CSS + shadcn/ui under src/app/" },
+      { "label": "Routing", "value": "React Router v6 with protected /dashboard/* routes" },
+      { "label": "API Client", "value": "src/app/lib/api.ts with credentials: include for session cookies" },
+      { "label": "Backend", "value": "Express 5 with layered routes → services → repositories" },
+      { "label": "Database", "value": "Prisma 6 ORM connected to Neon PostgreSQL" },
+      { "label": "Auth", "value": "express-session with HTTP-only cookies, owner/demo accounts" }
+    ],
+    "backendPattern": [
+      "routes/<module>.ts → HTTP handlers",
+      "services/<module>Service.ts → Business logic",
+      "repositories/<module>Repository.ts → Prisma data access",
+      "lib/validation.ts → Shared Zod schemas",
+      "middleware/auth.ts → requireAuth, blockDemoDelete"
+    ],
+    "frontendPattern": [
+      "src/app/routes/dashboard/<module>/<Module>Page.tsx → Page components",
+      "src/app/components/ → Shared UI (Modal, Table, Forms, Sidebar)",
+      "src/app/lib/api.ts → API client methods",
+      "dashboardNavItems.ts → Sidebar + mobile navigation"
+    ],
+    "dataFlow": [
+      "User logs in via POST /api/login — session stored in HTTP-only cookie",
+      "Frontend fetches data with credentials: include on all API calls",
+      "Repository layer filters all queries by session user's DataType",
+      "Business logic (totals, status, schedules) computed server-side only",
+      "Serialized responses returned via server/lib/serializers.ts",
+      "Frontend renders with TanStack React Query for caching and refetching"
+    ]
+  },
+
+  "security": {
+    "summary": "Security is built around session authentication, strict data isolation between owner and demo accounts, server-side financial calculations, and masked credential display in the UI.",
+    "authentication": [
+      "Session-based auth with HTTP-only cookies — no JWT or OAuth",
+      "Owner account configured via OWNER_USERNAME and OWNER_PASSWORD env vars",
+      "Demo account (username: Demo) for safe portfolio exploration",
+      "POST /api/logout destroys session; unauthenticated /dashboard/* redirects to /login",
+      "Session cookies are secure in production (NODE_ENV=production)"
+    ],
+    "dataIsolation": [
+      "Every data model includes a type field (DataType enum: Default | Demo)",
+      "Owner sees only Default data; Demo sees only Demo data",
+      "Demo users cannot delete records — UI hides delete buttons and API returns 403",
+      "Demo data seeded via prisma/seed.ts with fictional credentials and finance records",
+      "type field set automatically from session — never accepted from client"
+    ],
+    "practices": [
+      "Never commit .env or real credentials to the repository",
+      "Change SESSION_SECRET before production deployment",
+      "All API routes validate input with Zod on the server",
+      "Passwords masked in UI by default — reveal requires explicit user action",
+      "Financial calculations never trusted from the client",
+      "15 MB body limit on resume save for PDF attachments"
+    ]
+  },
+
+  "workflow": [
+    { "step": 1, "title": "Login", "description": "User navigates to /login and authenticates with owner or demo credentials. Session cookie is set and user is redirected to /dashboard." },
+    { "step": 2, "title": "Dashboard Overview", "description": "Analytics home loads aggregated stats, charts, and recent activity in a single API call. User gets instant visibility into business health." },
+    { "step": 3, "title": "Module Navigation", "description": "User selects a module from the sidebar (Projects, Credentials, Finance, Resume, etc.). Each module loads its own page with scoped data." },
+    { "step": 4, "title": "CRUD Operations", "description": "User creates, views, edits, or deletes records within a module. Forms validate with Zod; mutations invalidate React Query caches." },
+    { "step": 5, "title": "Financial Actions", "description": "For projects: add payments with automatic total recalculation. For finance: mark payments as paid with append-only history. Download PDF reports." },
+    { "step": 6, "title": "Developer Tools", "description": "User opens Dev Utilities for quick encoding/formatting tasks, or Playground for sandboxed code execution — both without leaving the dashboard." },
+    { "step": 7, "title": "Logout", "description": "POST /api/logout destroys the session. User is redirected to /login. All dashboard routes become inaccessible." }
+  ]
+}

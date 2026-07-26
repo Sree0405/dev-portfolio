@@ -1,4 +1,5 @@
 import type { Decimal } from "@prisma/client/runtime/library";
+import { normalizeLatexSource } from "../resume/normalizeLatex.js";
 
 export function decimalToNumber(value: Decimal | number | string | null | undefined): number {
   if (value === null || value === undefined) return 0;
@@ -54,5 +55,24 @@ export function serializeCredential<T extends { createdAt: Date; updatedAt: Date
     ...credential,
     createdAt: credential.createdAt.toISOString(),
     updatedAt: credential.updatedAt.toISOString(),
+  };
+}
+
+export function serializeResume<
+  T extends {
+    createdAt: Date;
+    updatedAt: Date;
+    lastCompiledAt: Date | null;
+    compiledPdf?: Buffer | Uint8Array | null;
+  },
+>(resume: T) {
+  const { compiledPdf: _compiledPdf, ...rest } = resume;
+  return {
+    ...rest,
+    latexSource: normalizeLatexSource(rest.latexSource as string),
+    hasCompiledPdf: Boolean(resume.compiledPdf && resume.compiledPdf.length > 0),
+    createdAt: resume.createdAt.toISOString(),
+    updatedAt: resume.updatedAt.toISOString(),
+    lastCompiledAt: resume.lastCompiledAt?.toISOString() ?? null,
   };
 }

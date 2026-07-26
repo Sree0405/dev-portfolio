@@ -166,7 +166,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={ref}
-      className="page-hero-pt relative overflow-hidden border-t border-border/30 bg-transparent pb-16 sm:pb-20 md:pb-28 lg:pb-32"
+      className="page-hero-pt relative overflow-hidden border-t border-border/30 bg-transparent pb-16 text-center sm:pb-20 md:pb-28 lg:pb-32"
     >
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <div className="particle-bg absolute inset-0" />
@@ -193,7 +193,7 @@ export default function Contact() {
             </p>
           </motion.header>
 
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10 lg:items-center xl:gap-14">
+          <div className="grid grid-cols-1 gap-8 text-left lg:grid-cols-2 lg:gap-10 lg:items-center xl:gap-14">
             {/* Form first on mobile for quicker reach */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

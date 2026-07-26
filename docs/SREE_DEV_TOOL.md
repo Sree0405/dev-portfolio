@@ -25,10 +25,28 @@ Each feature area is implemented as an independent **module** with its own:
 | **Dashboard** (analytics home) | `/dashboard` | [Project Management Dashboard](./PROJECT_MANAGEMENT_DASHBOARD.md#frontend-routes) |
 | **Projects** | `/dashboard/projects` | [Project Management Dashboard](./PROJECT_MANAGEMENT_DASHBOARD.md) |
 | **Credentials** | `/dashboard/credentials` | [Credential Management Dashboard](./CREDENTIAL_MANAGEMENT_DASHBOARD.md) |
+| **Resume** | `/dashboard/resume` | [Resume Dashboard](./RESUME_DASHBOARD.md) |
+| **Dev Utilities** | `/dashboard/dev-utilities` | [Dev Utilities Dashboard](./DEV_UTILITIES_DASHBOARD.md) |
+| **Playground** | `/dashboard/playground` | [Developer Playground](./PLAYGROUND.md) |
 | **Finance Hub** | `/dashboard/finance` | [Finance Management Dashboard](./FINANCE_MANAGEMENT_DASHBOARD.md) |
 | **Budget Planner** | `/dashboard/budget-planner` | Monthly income planning & spending tracker |
 
-When adding a new module, register it in this table and create a matching `docs/<MODULE>_DASHBOARD.md` file.
+When adding a new module:
+
+1. Register it in this table.
+2. Create a dedicated doc in `docs/` (see [Module documentation](#module-documentation) below).
+
+---
+
+## Module Types
+
+Not every module needs the full backend stack. Pick the pattern that fits:
+
+| Type | Backend (Prisma/API) | Example modules | Doc naming |
+|------|----------------------|-----------------|------------|
+| **Full-stack** | Yes — model, repository, service, route | Projects, Credentials, Finance | `docs/<NAME>_DASHBOARD.md` |
+| **Client-only** | No — browser-only logic & storage | Playground | `docs/<NAME>.md` or `docs/<NAME>_MODULE.md` |
+| **Hybrid** | Partial — some API, some client-only | Resume, Dev Utilities | `docs/<NAME>.md` |
 
 ---
 
@@ -64,6 +82,8 @@ src/app/lib/api.ts                          (API client methods)
 src/app/lib/types.ts                        (shared types)
 src/app/components/Sidebar/dashboardNavItems.ts
 ```
+
+For larger **client-only** modules, colocate feature code under a dedicated folder (example: `src/app/playground/`) and keep the route page thin. See [Developer Playground](./PLAYGROUND.md#module-structure).
 
 ---
 
@@ -107,6 +127,8 @@ Button styling: use `variant="sree-dev"` for primary module actions.
 
 ## Adding a New Module (Checklist)
 
+### Full-stack module (Projects, Credentials, Finance, …)
+
 1. **Database** — Add Prisma model(s) with `type DataType @default(Default)` where data isolation is needed.
 2. **Validation** — Add Zod schemas in `server/lib/validation.ts` and mirror in `src/app/lib/validation.ts` if forms are used.
 3. **Backend** — Create repository, service, and route; register in `server/routes/index.ts`.
@@ -114,7 +136,27 @@ Button styling: use `variant="sree-dev"` for primary module actions.
 5. **Navigation** — Add entry to `dashboardNavItems.ts` (sidebar + mobile nav pick it up automatically).
 6. **Dashboard stats** — Extend `dashboardRepository.ts` / `dashboardService.ts` if the home page needs a new metric.
 7. **Demo seed** — Add fictional `Demo` data in `prisma/seed.ts` if the module should be explorable via the demo account.
-8. **Documentation** — Create `docs/<MODULE>_DASHBOARD.md` and add a row to the Module Registry above.
+8. **Documentation** — Create `docs/<MODULE>_DASHBOARD.md` and add a row to the [Module Registry](#module-registry).
+
+### Client-only module (Playground, …)
+
+1. **Feature folder** — Create `src/app/<module>/` with components, hooks, registries, and a public `index.ts` API.
+2. **Route page** — Add a thin page under `src/app/routes/dashboard/<module>/`.
+3. **Navigation** — Add entry to `dashboardNavItems.ts`.
+4. **Route** — Register in `src/App.tsx`.
+5. **Documentation** — Create `docs/<MODULE>.md` (architecture, registries, file reference) and add a row to the [Module Registry](#module-registry).
+
+> Example: [Developer Playground](./PLAYGROUND.md)
+
+### Module documentation
+
+Every new module **must** include a doc file in `docs/` that covers at minimum:
+
+- Overview and route/navigation
+- Architecture or folder structure
+- How to extend the module (registries, APIs, hooks)
+- File reference (key paths)
+- Link back to this file (`SREE_DEV_TOOL.md`)
 
 ---
 
@@ -158,6 +200,9 @@ docs/
   PROJECT_MANAGEMENT_DASHBOARD.md       ← Projects module
   CREDENTIAL_MANAGEMENT_DASHBOARD.md    ← Credentials module
   FINANCE_MANAGEMENT_DASHBOARD.md       ← Finance Hub modules
+  RESUME_DASHBOARD.md                   ← Resume (LaTeX editor) module
+  DEV_UTILITIES_DASHBOARD.md            ← Dev Utilities module
+  PLAYGROUND.md                         ← Developer Playground (client-only IDE)
 ```
 
 ---

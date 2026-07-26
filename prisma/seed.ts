@@ -193,6 +193,7 @@ async function main() {
   await prisma.projectNote.deleteMany({ where: { type: DEMO_TYPE } });
   await prisma.payment.deleteMany({ where: { type: DEMO_TYPE } });
   await prisma.credential.deleteMany({ where: { type: DEMO_TYPE } });
+  await prisma.resume.deleteMany({ where: { type: DEMO_TYPE } });
   await prisma.project.deleteMany({ where: { type: DEMO_TYPE } });
 
   console.log("Creating demo projects...");
@@ -528,6 +529,19 @@ async function seedBudgetDemo() {
   });
 
   console.log(`Created demo budget ${active.id} with ${demoCategories.length} categories.`);
+
+  console.log("Creating demo resume...");
+  const { DEMO_RESUME_LATEX } = await import("../server/resume/defaultTemplate.js");
+  await prisma.resume.create({
+    data: {
+      title: "Alex Developer — Demo Resume",
+      description: "Showcase LaTeX resume for the demo account.",
+      latexSource: DEMO_RESUME_LATEX,
+      compileStatus: "idle",
+      type: DEMO_TYPE,
+    },
+  });
+  console.log("Created demo resume.");
 }
 
 main()

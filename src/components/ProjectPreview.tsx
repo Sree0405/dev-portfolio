@@ -1,11 +1,17 @@
 import { useState } from "react";
 
-export function ProjectPreview({ project, compact = false }) {
+function resolveMediaSrc(src: string | { default: string } | undefined) {
+  if (!src) return undefined;
+  return typeof src === "string" ? src : src.default;
+}
 
+export function ProjectPreview({ project, compact = false }) {
   const [loaded, setLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
-  const showVideo = project.video && !videoError;
+  const imageSrc = resolveMediaSrc(project.image);
+  const videoSrc = resolveMediaSrc(project.video);
+  const showVideo = Boolean(videoSrc) && !videoError;
 
   return (
     <div
@@ -13,20 +19,20 @@ export function ProjectPreview({ project, compact = false }) {
         compact ? "h-[220px] sm:h-[240px]" : "h-[260px] sm:h-[300px]"
       }`}
     >
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt={project.title}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+            showVideo && loaded ? "opacity-0" : "opacity-100"
+          }`}
+        />
+      )}
 
-      {/* Image fallback */}
-      <img
-        src={project.image}
-        alt={project.title}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-          loaded ? "opacity-0" : "opacity-100"
-        }`}
-      />
-
-      {/* Video */}
       {showVideo && (
         <video
-          src={project.video}
+          src={videoSrc}
+          poster={imageSrc}
           autoPlay
           muted
           loop
@@ -34,7 +40,7 @@ export function ProjectPreview({ project, compact = false }) {
           preload="metadata"
           onCanPlay={() => setLoaded(true)}
           onError={() => setVideoError(true)}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
         />

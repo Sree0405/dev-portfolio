@@ -14,6 +14,9 @@ import My3DUIVideo from "@/assets/videos/my3dui.mp4";
 import FieldstackImage from "@/assets/Dashboard.png";
 import FieldstackVideo from "@/assets/videos/fieldstack.mp4";
 
+const SREE_DEV_TOOL_POSTER = "/devtool/dashboard-overview.png";
+const SREE_DEV_TOOL_VIDEO = "/videos/SreeDevToolPortfolio.mp4";
+
 import EVPortalImage from "@/assets/evpic.png";
 import EVPortalVideo from "@/assets/videos/evPortal.mp4";
 
@@ -32,6 +35,30 @@ import SriThanigaiImage from "@/assets/srithanigaiGarments.png";
 /* ============================= */
 
 const projects = [
+  {
+    title: "Sree Dev Tool",
+    subtitle: "All-in-One Operations Platform",
+    type: "Full-Stack Dashboard",
+    featured: true,
+
+    description:
+      "One software built into the portfolio website — replacing separate budget trackers, credential vaults, note apps, finance tools, and developer utilities with a single session-authenticated dashboard.",
+
+    highlights: [
+      "One Software, Every Problem Solved",
+      "8 Modular Dashboard Features",
+      "Session Auth with Demo Mode",
+      "PDF Invoices & Finance Reports",
+    ],
+
+    tech: ["React", "TypeScript", "Express", "Prisma", "PostgreSQL", "Monaco Editor"],
+
+    image: SREE_DEV_TOOL_POSTER,
+    video: SREE_DEV_TOOL_VIDEO,
+    live: "/login",
+    docs: "/project/sree-dev-tool",
+  },
+
   {
     title: "Sri Thanigai Garments",
     subtitle: "Garments Landing Page",
@@ -237,7 +264,7 @@ export default function Projects({ homepage = false }) {
       <div className="w-full">
 
         {homepage && (
-          <div className="mb-10 md:mb-12">
+          <div className="mb-10 text-center md:mb-12">
             <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-primary">
               Selected work
             </p>
@@ -257,9 +284,10 @@ export default function Projects({ homepage = false }) {
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={homepage ? undefined : { opacity: 1, y: 0 }}
+                whileInView={homepage ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: 0.65 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.15 }}
                 className={`grid items-center gap-6 py-10 first:pt-0 last:pb-0 sm:gap-8 lg:grid-cols-2 lg:gap-10 ${
                   homepage ? "lg:py-12" : "lg:py-14"
                 }`}
@@ -312,7 +340,11 @@ export default function Projects({ homepage = false }) {
 
                     {project.live && (
                       <Button
-                        onClick={() => window.open(project.live)}
+                        onClick={() =>
+                          project.live.startsWith("/")
+                            ? navigate(project.live)
+                            : window.open(project.live)
+                        }
                       >
                         <ExternalLink size={16} className="mr-2" />
                         Live
@@ -332,7 +364,11 @@ export default function Projects({ homepage = false }) {
                     {project.docs && (
                       <Button
                         variant="outline"
-                        onClick={() => window.open(project.docs)}
+                        onClick={() =>
+                          project.docs.startsWith("/")
+                            ? navigate(project.docs)
+                            : window.open(project.docs)
+                        }
                       >
                         <FileText size={16} className="mr-2" />
                         Docs

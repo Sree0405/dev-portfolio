@@ -109,8 +109,8 @@ const DocumentationPage: React.FC<DocumentationPageProps> = ({ data, isMobile = 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
         {/* ── Header ───────────────────────────────────────────────────────── */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+        <div className="text-center mb-16 mt-16">
+          <h1 className="text-5xl text-center md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
             {data.projectName}
           </h1>
           {data.tagline && (

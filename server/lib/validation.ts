@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEV_UTILITY_IDS } from "./devUtilityIds.js";
 
 export const PROJECT_STATUSES = [
   "Planning",
@@ -172,3 +173,25 @@ export const createBudgetSchema = z
   );
 
 export type CreateBudgetInput = z.infer<typeof createBudgetSchema>;
+
+export const createResumeSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional().nullable(),
+  latexSource: z.string().optional(),
+});
+
+export const updateResumeSchema = z.object({
+  title: z.string().min(1, "Title is required").optional(),
+  description: z.string().optional().nullable(),
+  latexSource: z.string().min(1, "LaTeX source is required").optional(),
+});
+
+export const saveResumeSchema = updateResumeSchema.extend({
+  compiledPdfBase64: z.string().optional(),
+});
+
+export type CreateResumeInput = z.infer<typeof createResumeSchema>;
+export type UpdateResumeInput = z.infer<typeof updateResumeSchema>;
+export type SaveResumeInput = z.infer<typeof saveResumeSchema>;
+
+export const devUtilityIdSchema = z.enum(DEV_UTILITY_IDS);

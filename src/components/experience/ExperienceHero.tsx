@@ -11,11 +11,10 @@ const highlights = [
 
 export default function ExperienceHero() {
   return (
-    <section className="page-hero-pt page-hero-pb relative overflow-hidden border-b border-border/25 text-center">
+    <section className="page-hero-band">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,hsl(var(--primary)/0.12),transparent_55%)]" />
 
-      <div className="page-container-x relative">
-        <div className="mx-auto max-w-3xl">
+      <div className="page-hero-inner max-w-3xl">
           <PageTitle
             eyebrow="Career"
             accent="Professional"
@@ -67,7 +66,6 @@ export default function ExperienceHero() {
               </span>
             </div>
           </div>
-        </div>
       </div>
     </section>
   );

@@ -74,6 +74,8 @@ export const DEMO_FINANCE_DELETE_ERROR = "Deleting demo finance records is disab
 export const DEMO_BUDGET_WRITE_ERROR =
   "Budget changes are disabled for the Demo account. Explore the showcase data in read-only mode.";
 
+export const DEMO_RESUME_DELETE_ERROR = "Deleting demo resumes is disabled.";
+
 export function authenticateUser(
   username: string,
   password: string,

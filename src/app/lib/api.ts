@@ -410,6 +410,96 @@ export const api = {
 
     return filename;
   },
+
+  getResumes: (params?: Record<string, string | undefined>) => {
+    const searchParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          searchParams.set(key, String(value));
+        }
+      });
+    }
+    const query = searchParams.toString();
+    return request<import("./resume/types").ResumesListResponse>(
+      `/api/resumes${query ? `?${query}` : ""}`,
+    );
+  },
+
+  getResume: (id: string) => request<import("./resume/types").Resume>(`/api/resumes/${id}`),
+
+  createResume: (body: unknown) =>
+    request<import("./resume/types").Resume>("/api/resumes", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  updateResume: (id: string, body: unknown) =>
+    request<import("./resume/types").Resume>(`/api/resumes/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  saveResume: (id: string, body: unknown) =>
+    request<import("./resume/types").Resume>(`/api/resumes/${id}/save`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  compileResume: (id: string) =>
+    request<import("./resume/types").Resume>(`/api/resumes/${id}/compile`, {
+      method: "POST",
+    }),
+
+  deleteResume: (id: string) =>
+    request<{ success: boolean }>(`/api/resumes/${id}`, {
+      method: "DELETE",
+    }),
+
+  downloadResumePdf: async (id: string, suggestedFilename?: string) => {
+    const response = await fetch(`/api/resumes/${id}/pdf`, {
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new ApiClientError(
+        (data as ApiError).error || "Failed to download resume PDF",
+        response.status,
+      );
+    }
+
+    const blob = await response.blob();
+    const disposition = response.headers.get("Content-Disposition") ?? "";
+    const match = disposition.match(/filename="(.+)"/);
+    const filename = match?.[1] ?? suggestedFilename ?? `Resume_${id}.pdf`;
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    return filename;
+  },
+
+  getDevUtilityPreferences: () =>
+    request<import("./devUtilities/types").DevUtilityPreferences>("/api/dev-utilities/preferences"),
+
+  toggleDevUtilityFavorite: (utilityId: string) =>
+    request<import("./devUtilities/types").ToggleFavoriteResponse>(
+      `/api/dev-utilities/favorites/${utilityId}`,
+      { method: "PUT" },
+    ),
+
+  trackDevUtilityUse: (utilityId: string) =>
+    request<import("./devUtilities/types").TrackRecentResponse>(
+      `/api/dev-utilities/recent/${utilityId}`,
+      { method: "POST" },
+    ),
 };
 
 export { ApiClientError };

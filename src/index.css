@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap');
 
+@import "../node_modules/latex.js/dist/css/base.css";
+@import "../node_modules/latex.js/dist/css/katex.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -312,6 +315,15 @@ code,pre {
   @apply py-20 md:py-28 lg:py-32;
 }
 
+/* Hero band — centered title + intro (Projects, Experience, Skills, Contact, …) */
+.page-hero-band {
+  @apply page-hero-pt page-hero-pb relative overflow-hidden border-b border-border/25 text-center;
+}
+
+.page-hero-inner {
+  @apply page-container-x relative mx-auto flex w-full max-w-4xl flex-col items-center text-center;
+}
+
 /* Section label — use with mono capitals */
 .section-eyebrow {
   @apply font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-primary/90 sm:text-xs;
@@ -319,7 +331,11 @@ code,pre {
 
 /* Premium page & section titles */
 .page-title {
-  @apply font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-foreground/95 sm:text-5xl md:text-6xl;
+  @apply w-full font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-foreground/95 sm:text-5xl md:text-6xl;
+}
+
+.page-title--center {
+  @apply text-center;
 }
 
 .page-title-accent {
@@ -588,4 +604,122 @@ code,pre {
     transform: translateY(0);
   }
 
+}
+
+.latex-preview-viewport {
+  background: #525659;
+}
+
+.latex-preview-page {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.28),
+    0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.latex-preview {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 1123px;
+  padding: var(--preview-padding-top, 24px) var(--preview-padding-x, 64px)
+    var(--preview-padding-bottom, 64px) var(--preview-padding-x, 64px);
+  font-family: "Computer Modern Serif", Georgia, "Times New Roman", serif;
+  font-size: var(--preview-font-size, 10pt);
+  line-height: 1.45;
+}
+
+.latex-preview > :first-child {
+  margin-top: 0;
+}
+
+.latex-preview-themed .latex-preview-section,
+.latex-preview-themed h2 {
+  font-size: 1.12em;
+  font-weight: 700;
+  margin-top: var(--preview-section-before, 4pt);
+  margin-bottom: var(--preview-section-after, 4pt);
+}
+
+.latex-preview-themed.latex-preview-section-rule .latex-preview-section,
+.latex-preview-themed.latex-preview-section-rule h2 {
+  padding-bottom: var(--preview-section-after, 4pt);
+  border-bottom: 0.4pt solid #111;
+}
+
+.latex-preview-themed.latex-preview-parskip .paragraph + .paragraph,
+.latex-preview-themed.latex-preview-parskip p + p {
+  margin-top: 0.55em;
+}
+
+.latex-preview-themed ul,
+.latex-preview-themed .latex-preview-itemize {
+  padding-left: 1.25rem;
+  margin-top: 0.15em;
+  margin-bottom: 0.35em;
+}
+
+.latex-preview-themed.latex-preview-list-left-star ul,
+.latex-preview-themed.latex-preview-list-left-star .latex-preview-itemize {
+  padding-left: 1.05em;
+  margin-left: 0;
+  list-style-position: outside;
+}
+
+.latex-preview-themed ul li,
+.latex-preview-themed .latex-preview-itemize li {
+  margin-bottom: var(--preview-list-itemsep, 2pt);
+}
+
+.latex-preview h1,
+.latex-preview h2,
+.latex-preview h3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.latex-preview ul {
+  padding-left: 1.25rem;
+}
+
+.latex-preview .latex-preview-hrule {
+  border: 0;
+  border-top: 0.4pt solid currentColor;
+  margin: 0.75rem 0;
+}
+
+.latex-preview .latex-preview-hrulefill {
+  display: inline-block;
+  min-width: 2em;
+  border-bottom: 0.4pt solid currentColor;
+  vertical-align: baseline;
+}
+
+.latex-preview p:has(.latex-preview-hfill),
+.latex-preview .paragraph:has(.latex-preview-hfill) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.latex-preview .latex-preview-hfill {
+  flex: 1 1 auto;
+  min-width: 1rem;
+}
+
+.latex-preview .latex-preview-fa-icon {
+  display: inline-block;
+  margin-right: 0.2em;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+.latex-preview a {
+  color: var(--preview-link-color, rgb(0, 0.2, 0.6));
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
 }

@@ -15,3 +15,14 @@ export { default as DesignSection } from './Designsection';
 export { default as FutureScopeSection } from './Futurescopesection';
 export { default as CodeExamplesSection } from './Codeexamplessection';
 export * from './types';
+export { TabbedDocumentationPage, useDocTabs } from './tabbed';
+export type {
+  TabbedDocumentationData,
+  DevToolModule,
+  DocTabId,
+  DocTabDefinition,
+  ScreenshotItem,
+  OverviewContent,
+  ArchitectureContent,
+  SecurityContent,
+} from './tabbed/types';

@@ -5,6 +5,8 @@ import dashboardRoutes from "./dashboard.js";
 import credentialRoutes from "./credentials.js";
 import financeRoutes from "./finance.js";
 import budgetRoutes from "./budget.js";
+import resumeRoutes from "./resumes.js";
+import devUtilityRoutes from "./devUtilities.js";
 import { projectPaymentsRouter, paymentByIdRouter } from "./payments.js";
 import { projectNotesRouter, noteByIdRouter } from "./notes.js";
 
@@ -16,6 +18,8 @@ export function createApiRouter() {
   router.use("/credentials", credentialRoutes);
   router.use("/finance", financeRoutes);
   router.use("/budget", budgetRoutes);
+  router.use("/resumes", resumeRoutes);
+  router.use("/dev-utilities", devUtilityRoutes);
   router.use("/projects", projectRoutes);
   router.use("/projects/:id/payments", projectPaymentsRouter);
   router.use("/projects/:id/notes", projectNotesRouter);
