@@ -4,10 +4,10 @@ import { PageTitle } from "@/components/ui/page-title";
 import { Reveal } from "@/components/portfolio";
 
 const highlights = [
-  "Platform module ownership",
-  "Auth, APIs & Linux deploys",
-  "Named client sites live",
-  "Code review & mentoring",
+  "Feature lifecycle ownership",
+  "Deadline delivery (3-eng · ~600h)",
+  "Technical mentoring (~8-eng team)",
+  "Auth, config & deploy tooling",
 ];
 
 export default function ExperienceHero() {
@@ -27,9 +27,10 @@ export default function ExperienceHero() {
 
         <Reveal delay={0.08}>
           <p className="mx-auto max-w-xl text-sm portfolio-text-muted sm:text-[15px]">
-            Ownership on the EWall platform, plus freelance client sites shipped to
-            production — evidence over titles. Junior title; module-level scope,
-            not invented company metrics.
+            Junior Full-Stack Engineer at EWall — feature ownership from
+            planning through integration and deploy, including collaborative
+            delivery on a ~600-hour client project with three engineers. Not a
+            lead title; evidence over invented metrics.
           </p>
         </Reveal>
 
@@ -65,8 +66,8 @@ export default function ExperienceHero() {
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-primary" />
               <span>
-                <span className="page-title-accent font-semibold">Auth</span> &
-                module ownership
+                <span className="page-title-accent font-semibold">Feature</span>{" "}
+                lifecycle ownership
               </span>
             </div>
             <div className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen, Briefcase, Code2 } from "lucide-react";
+import { ArrowUpRight, BookOpen, Briefcase, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import {
@@ -10,36 +10,36 @@ import {
 
 const steps = [
   {
-    id: "product",
-    step: "01",
-    icon: BookOpen,
-    title: "Product proof",
-    description:
-      "Sree Dev Tool — built into a portfolio monorepo designed to scale from day one. Demo + docs; multi-tenant-capable modules without a second stack.",
-    href: "/project/sree-dev-tool",
-    cta: "Open case study",
-    external: false,
-  },
-  {
-    id: "source",
-    step: "02",
-    icon: Code2,
-    title: "Open source",
-    description:
-      "dev-portfolio (Dev Tool + this site), plus My3DUI and Fieldstack — clone what you want to review.",
-    href: "https://github.com/Sree0405/dev-portfolio",
-    cta: "Open monorepo",
-    external: true,
-  },
-  {
     id: "ownership",
-    step: "03",
+    step: "01",
     icon: Briefcase,
     title: "Ownership story",
     description:
-      "Platform modules at EWall — UI, APIs, auth edges, and Linux releases. Named client sites live in production.",
+      "EWall: feature lifecycle ownership, collaborative deadline delivery (3-eng · ~600h), technical mentoring, plus auth/config/deploy tooling.",
     href: "/experience",
     cta: "Read experience",
+    external: false,
+  },
+  {
+    id: "resume",
+    step: "02",
+    icon: FileText,
+    title: "Resume",
+    description:
+      "Printable HTML resume aligned with Experience — download a current PDF from the page when you need a file.",
+    href: "/cv",
+    cta: "Open resume",
+    external: false,
+  },
+  {
+    id: "product",
+    step: "03",
+    icon: BookOpen,
+    title: "Product proof",
+    description:
+      "Sree Dev Tool — monorepo case study with demo + docs. Open source (My3DUI, Fieldstack) from Projects when you want code.",
+    href: "/project/sree-dev-tool",
+    cta: "Open case study",
     external: false,
   },
 ] as const;
@@ -64,8 +64,8 @@ export default function ReviewerPath() {
             </h2>
           </div>
           <p className="mb-8 max-w-2xl text-sm leading-relaxed portfolio-text-muted sm:mb-10 sm:text-[15px]">
-            Skip the scroll if you&apos;re short on time. Start with the live
-            system, then open-source code, then production ownership.
+            Hire-first path: production ownership, then resume, then a product
+            case study — under five minutes.
           </p>
         </Reveal>
 

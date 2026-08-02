@@ -22,26 +22,26 @@ import devImg from "@/assets/sree_img.jpg";
 
 const aboutContent = {
   name: "Sreekanth",
-  role: "Junior Software Developer · EWall",
+  role: "Junior Full-Stack Engineer · EWall",
   company: "EWall Solutions Pvt Ltd",
   location: "India",
 
   intro: [
-    "At EWall I own platform modules end to end — React/Next.js UI, Node APIs, auth edges, and Linux releases. Outside work I ship named client sites and open-source systems reviewers can open on GitHub.",
+    "At EWall I work on a resort and restaurant management platform (React + Directus) across multiple client deployments. As a Junior Full-Stack Engineer on a ~8-engineer team I grew into owning features end to end — clarifying requirements, planning and estimating, building, reviewing, deploying, and supporting production — plus technical mentoring for newer developers. I also own auth flows, admin configuration, and Directus deploy/backup tooling. Outside work I ship named client sites and open-source systems reviewers can open on GitHub.",
   ],
 };
 
 const focusAreas = [
-  "Production platform modules at EWall",
-  "React / Next.js + Node APIs with clear ownership",
-  "Live client deploys and reviewable open-source proof",
+  "Feature lifecycle: plan → task breakdown → parallel build → review → integrate → deploy",
+  "Deadline delivery with a 3-engineer team on ~600h client work (collaborative, not solo)",
+  "Auth, station/banner config, and Directus deploy automation (~80% / ~70% effort cuts)",
 ];
 
 const capabilities = [
   {
     icon: Code2,
     title: "Frontend Engineering",
-    description: "Dense admin UIs in React/Next.js that stay usable in production.",
+    description: "Production React admin UIs on a multi-deployment platform.",
   },
   {
     icon: Layers,
@@ -51,12 +51,13 @@ const capabilities = [
   {
     icon: Server,
     title: "Full-Stack Delivery",
-    description: "APIs, Prisma/PostgreSQL, session/JWT auth, and real deploys.",
+    description: "Directus + PostgreSQL at work; Express/Prisma on personal systems.",
   },
   {
     icon: PackageCheck,
-    title: "Product Ownership",
-    description: "Brief → ship → maintain — platform modules and client sites.",
+    title: "Feature ownership",
+    description:
+      "Plan through deploy for features I own — plus technical mentoring, not a lead title.",
   },
 ];
 

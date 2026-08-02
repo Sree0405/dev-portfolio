@@ -11,44 +11,49 @@ type MetaEntry = {
 
 const ROUTE_META: Record<string, MetaEntry> = {
   "/": {
-    title: "Sreekanth — Frontend-Focused Full-Stack Engineer",
+    title: "Sreekanth — Frontend Engineer | React & Full-Stack Developer",
     description:
-      "Junior engineer at EWall on the EWall platform — React/Next.js, Node APIs, Linux deploys, plus live client sites and open-source systems.",
+      "Sreekanth is a Junior Full-Stack Engineer at EWall who owns features from requirements through deployment — React + Directus, technical mentoring, live client sites.",
   },
   "/projects": {
-    title: "Projects — Sreekanth",
+    title: "Projects by Sreekanth — Frontend & Full-Stack Work",
     description:
-      "Ownership case studies: Sree Dev Tool, Fieldstack, My3DUI, and production client sites — demo, docs, or public code.",
+      "Sreekanth's ownership case studies: Sree Dev Tool, Fieldstack, My3DUI, and production client sites — demo, docs, or public code.",
   },
   "/experience": {
-    title: "Experience — Sreekanth",
+    title: "Experience — Sreekanth, Junior Full-Stack Engineer",
     description:
-      "EWall platform modules (Kitchen, Voting, Campaign, Auth) and freelance deliveries live in production.",
+      "EWall: feature ownership under deadlines (3-eng · ~600h delivery), technical mentoring, auth/config modules, and Directus deploy tooling (~80% / ~70%).",
   },
   "/skills": {
-    title: "Engineering Expertise — Sreekanth",
+    title: "Skills — Sreekanth, React & Full-Stack Developer",
     description:
-      "Stack with Daily / Production / Building depth, plus delivery tooling (Linux, Nginx, PM2) — each capability links to proof.",
+      "Sreekanth's stack with Daily / Production / Building depth — React, Directus, PostgreSQL, and delivery tooling — each capability links to proof.",
   },
   "/contact": {
-    title: "Contact — Sreekanth",
+    title: "Contact Sreekanth — Frontend Engineer",
     description:
-      "Open to full-time frontend / full-stack roles — short note on role and stack; typically replies within 24 hours.",
+      "Contact Sreekanth for full-time frontend / full-stack roles — short note on role and stack; typically replies within 24 hours.",
+  },
+  "/cv": {
+    title: "Resume — Sreekanth | Junior Full-Stack Engineer",
+    description:
+      "Printable resume for Sreekanth — EWall feature ownership, React + Directus, collaborative deadline delivery, and open-source projects.",
   },
   "/project/sree-dev-tool": {
     title: "Sree Dev Tool Case Study — Sreekanth",
     description:
-      "Ops platform in a scalable portfolio monorepo: multi-tenant-capable modules, session auth, Express/Prisma — demo isolates private ops data.",
+      "Ops platform by Sreekanth in a scalable portfolio monorepo: multi-tenant-capable modules, session auth, Express/Prisma — demo isolates private ops data.",
   },
   "/project/fieldstack": {
     title: "Fieldstack Case Study — Sreekanth",
     description:
-      "Early-stage open-source NestJS + Prisma CMS/admin with JWT/RBAC — public GitHub and demo.",
+      "Early-stage open-source NestJS + Prisma CMS/admin by Sreekanth with JWT/RBAC — public GitHub and demo.",
   },
   "/project/lifeAdmin": {
     title: "LifeAdmin Pro Case Study — Sreekanth",
     description:
-      "React Native renewal tracker — architecture and flows while in active development.",
+      "React Native renewal tracker by Sreekanth — architecture and flows while in active development.",
   },
 };
 

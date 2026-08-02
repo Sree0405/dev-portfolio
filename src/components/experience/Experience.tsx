@@ -11,12 +11,20 @@ import { ImpactList } from "@/components/ui/impact-list";
 import { TechStack } from "@/components/ui/tech-stack";
 import { PortfolioCard, Reveal, Stagger, StaggerItem } from "@/components/portfolio";
 
+type ImpactGroup = {
+  title: string;
+  items: string[];
+};
+
 type RoleBlock = {
   id: string;
   role: string;
   duration: string;
   focus: string;
-  impacts: string[];
+  /** Flat list — used when impactGroups is absent (e.g. Intern). */
+  impacts?: string[];
+  /** Labeled sections for scannable Junior ownership. */
+  impactGroups?: ImpactGroup[];
   technologies: string[];
 };
 
@@ -42,43 +50,58 @@ const ewallChapter: Chapter = {
   eyebrow: "Current company",
   title: "EWall Solutions Pvt. Ltd.",
   tagline:
-    "Production SaaS delivery on a multi-module company platform — React/Next.js UI through Node APIs and Linux deploys.",
+    "Resort and restaurant management platform — React frontend, Directus CMS, shared core with client-specific customization across deployments.",
   location: "India",
   icon: Building2,
   accent: "primary",
   stats: [
     { label: "Path", value: "Intern → Junior" },
-    { label: "Product", value: "EWall platform" },
-    { label: "Ships via", value: "Nginx · PM2 · Linux" },
+    { label: "Team", value: "~8 engineers" },
+    { label: "Deploy effort", value: "~80% less" },
   ],
   roles: [
     {
       id: "ewall-junior",
-      role: "Junior Software Developer",
+      role: "Junior Full-Stack Engineer",
       duration: "Aug 2025 — Present",
       focus:
-        "Own production features across platform modules — UI, APIs, auth edges, and release.",
-      impacts: [
-        "Owned Kitchen Module delivery end to end — React surfaces, API contracts, and production fixes so operators run kitchen workflows without filing tickets for routine changes",
-        "Delivered Voting Module as a full slice (UI states, permissions, API) so campaign voting runs on the live platform environment",
-        "Owned Contract & Location Management UI + API integration used when ops configures multi-location contracts — fewer ambiguous handoffs between teams",
-        "Designed Timezone Management behavior so scheduled actions and displays stay correct across regions instead of drifting on server-local time",
-        "Led Campaign Module work wired to ScreenCloud Integration and the Print System pipeline — display/print paths that ops depends on in production",
-        "Hardened Authentication and RBAC edges shared across modules — role checks that keep tenant-scoped data isolated at the API boundary",
-        "Optimized dense admin views with memoization, lazy routes, and code splitting so hot admin screens stay usable under real data",
-        "Shipped releases to Linux via Nginx + PM2 on the same cadence as the team; mentored freshers through code review on production modules",
+        "Grew into end-to-end feature ownership on a ~8-engineer team — including collaborative delivery on high-effort client work under fixed deadlines — plus technical mentoring (not people management).",
+      impactGroups: [
+        {
+          title: "Delivery & collaboration",
+          items: [
+            "Own larger features end to end: clarify requirements with clients/stakeholders, plan the approach, estimate effort, design frontend and backend, build, test, deploy, and handle post-release fixes when needed",
+            "Join technical discussions before coding — review tickets and refinement requests, flag ambiguity, identify dependencies and risks, and break larger features into smaller tasks",
+            "One of three engineers on a large client delivery (~600 estimated development hours, strict deadline): planned parallel workstreams, mapped feature dependencies, coordinated implementation, reviewed work before integration, resolved merge conflicts, prioritized against the deadline, and supported deployment readiness — delivered on timeline through planning and collaboration, not solo ownership or project management",
+            "Collaborate on a ~8-engineer team: break down work for newer developers, explain approaches, unblock technical questions, review PRs before merge, verify completed work before deploy, and coordinate deployments for features I own",
+            "Within features I own, drive technical discussions, suggest implementation approaches, and often coordinate related tasks with about two developers — growing responsibility, not a Team Lead or Engineering Manager role",
+          ],
+        },
+        {
+          title: "Platform features",
+          items: [
+            "Built authentication flows used in production: password reset, forgot password, three-month password expiry, and scheduled password-expiry emails; integrated Microsoft Authentication",
+            "Owned Contract Management, Location Management, and Group Management features on the shared platform",
+            "Designed and built Station Configuration so admins create and manage stations in-app — replacing backend constant mapping and developer intervention for station setup",
+            "Designed and implemented Banner Configuration, Screen Configuration, and Banner Composition so screen/banner setup scales across client deployments instead of staying static",
+          ],
+        },
+        {
+          title: "Internal tooling & outcomes",
+          items: [
+            "Designed and developed an internal Directus deployment tool: connect staging and production, compare schemas, detect added/modified/deleted collections and field dependencies, and run selective schema sync",
+            "Built backup management APIs (list, create PostgreSQL backup, restore) with automatic pruning of the oldest dump when the configured limit is reached — workflow: backup → sync schema → restore if needed",
+            "These changes cut deployment and backup workflow effort by ~80%, and station creation plus banner configuration effort by ~70%",
+          ],
+        },
       ],
       technologies: [
         "React",
-        "Next.js",
         "TypeScript",
-        "Node.js",
-        "Express",
+        "Directus",
+        "PostgreSQL",
+        "Microsoft Auth",
         "REST APIs",
-        "RBAC",
-        "Nginx",
-        "PM2",
-        "Linux",
         "Git",
       ],
     },
@@ -87,22 +110,21 @@ const ewallChapter: Chapter = {
       role: "Software Developer Intern",
       duration: "May 2025 — Aug 2025",
       focus:
-        "Shipped platform UI slices and API integrations under review — earned ownership of production modules.",
+        "Joined with existing React experience from client projects — internship centered on learning the product domain and contributing under review.",
       impacts: [
-        "Built React/TypeScript UI for platform surfaces that shipped in live client environments",
-        "Integrated REST APIs for module data (including early Kitchen and location-related flows) with production bug fixes under mentor review",
-        "Delivered responsive admin layouts that stayed consistent with the platform design system",
-        "Translated requirements into HLD/LLD notes before coding — reducing rework on shared modules",
+        "Learned the resort/restaurant platform domain and how multi-location modules fit together across client deployments",
+        "Contributed to React platform work under review while ramping on Directus-backed workflows",
+        "Built familiarity with admin configuration surfaces that later became owned Junior work (stations, locations, auth-adjacent flows)",
       ],
-      technologies: ["React", "TypeScript", "Next.js", "REST APIs", "Git"],
+      technologies: ["React", "TypeScript", "Directus", "Git"],
     },
   ],
 };
 
 const freelanceChapter: Chapter = {
   id: "freelance",
-  eyebrow: "Chapter · Freelance",
-  title: "Freelance Full Stack Developer",
+  eyebrow: "Chapter · Client work",
+  title: "Full Stack Developer",
   tagline:
     "Owned client delivery from discovery to deploy — Sri Thanigai Garments and GB Fitness live in production.",
   duration: "Nov 2024 — May 2025",
@@ -160,7 +182,7 @@ const educationChapter: Chapter = {
   icon: GraduationCap,
   accent: "cyan",
   focusAreas: [
-    "Applied software engineering and system design fundamentals to freelance and internship delivery",
+    "Applied software engineering and system design fundamentals to client and internship delivery",
     "Used data structures and algorithms where they affected product performance and correctness",
     "Built academic automation projects that required APIs, persistence, and clear ownership of delivery",
   ],
@@ -260,6 +282,8 @@ function RoleBlockCard({
   role: RoleBlock;
   accent: keyof typeof accentStyles;
 }) {
+  const listAccent = accentStyles[accent].list;
+
   return (
     <PortfolioCard as="article">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -274,7 +298,25 @@ function RoleBlockCard({
         <MetaChips duration={role.duration} />
       </div>
 
-      <ImpactList items={role.impacts} accent={accentStyles[accent].list} />
+      {role.impactGroups && role.impactGroups.length > 0 ? (
+        <div className="space-y-5">
+          {role.impactGroups.map((group) => (
+            <div key={group.title}>
+              <p className="mb-2.5 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
+                {group.title}
+              </p>
+              <ImpactList
+                items={group.items}
+                accent={listAccent}
+                columns={false}
+              />
+            </div>
+          ))}
+        </div>
+      ) : role.impacts && role.impacts.length > 0 ? (
+        <ImpactList items={role.impacts} accent={listAccent} />
+      ) : null}
+
       <TechStack items={role.technologies} />
     </PortfolioCard>
   );
@@ -374,6 +416,16 @@ function ExperienceChapter({ chapter }: { chapter: Chapter }) {
   );
 }
 
+const FEATURE_LIFECYCLE = [
+  "Requirements",
+  "Planning",
+  "Task breakdown",
+  "Parallel build",
+  "Code review",
+  "Integration",
+  "Deployment",
+] as const;
+
 function OwnershipScopeNote() {
   return (
     <Reveal className="relative z-10 mb-12 md:mb-16">
@@ -382,11 +434,31 @@ function OwnershipScopeNote() {
           Scope of ownership
         </p>
         <p className="mt-2 text-sm leading-relaxed text-foreground sm:text-[15px]">
-          Title is Junior. Scope is module ownership — UI, API contracts, auth
-          edges, and release on platform slices I ship — not company-wide
-          architecture or headcount. Claims below stay at that level; no
-          invented traffic or revenue numbers.
+          Title is Junior Full-Stack Engineer on a ~8-engineer team. I grew from
+          implementation-focused work into end-to-end{" "}
+          <span className="font-medium text-foreground">feature</span> ownership
+          — planning, parallel delivery, code review, integration, and deploy
+          readiness for work I share with teammates — plus technical mentoring
+          for newer developers. On one large client delivery (~600 estimated
+          hours), I was one of three engineers who shipped on a fixed deadline —
+          collaborative engineering accountability, not Project Manager or Team
+          Lead. The only public metrics below are the ~80% / ~70% effort
+          reductions I can defend in interview.
         </p>
+        <div className="mt-4 flex flex-wrap gap-1.5" aria-label="Feature lifecycle">
+          {FEATURE_LIFECYCLE.map((step, i) => (
+            <span key={step} className="inline-flex items-center gap-1.5">
+              {i > 0 ? (
+                <span className="font-mono text-[10px] text-primary/50" aria-hidden>
+                  →
+                </span>
+              ) : null}
+              <span className="rounded-md border border-primary/20 bg-[hsl(var(--surface))] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-primary sm:text-[11px]">
+                {step}
+              </span>
+            </span>
+          ))}
+        </div>
       </PortfolioCard>
     </Reveal>
   );

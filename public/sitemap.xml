@@ -26,6 +26,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.sreekanth.pro/cv</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://www.sreekanth.pro/project/sree-dev-tool</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -47,7 +47,7 @@ const stackPills = [
   "TypeScript",
   "Node.js",
   "PostgreSQL",
-  "Linux",
+  "Directus",
 ] as const;
 
 export default function Footer() {
@@ -75,7 +75,7 @@ export default function Footer() {
                 <div className="min-w-0 space-y-3 sm:space-y-4">
                   <div className="space-y-1 sm:space-y-2">
                     <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                      EWall · Junior engineer
+                      EWall · Junior full-stack
                     </p>
                     <h2 className="text-sm font-medium leading-snug text-secondary-foreground sm:text-base">
                       Ships React products end to end
@@ -83,9 +83,9 @@ export default function Footer() {
                   </div>
 
                   <p className="hidden max-w-lg text-sm leading-relaxed portfolio-text-muted sm:block">
-                    Platform module ownership at EWall — React/Next.js through
-                    Node APIs and Linux deploys. Proof on Projects; public code
-                    on GitHub (My3DUI, Fieldstack).
+                    Feature ownership at EWall — React + Directus, from planning
+                    through deploy. Proof on Projects; public code on GitHub
+                    (My3DUI, Fieldstack).
                   </p>
 
                   <nav

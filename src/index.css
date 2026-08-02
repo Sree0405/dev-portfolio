@@ -520,6 +520,21 @@ html[data-theme="light"] .portfolio-theme-scope {
   background-color: hsl(var(--surface));
 }
 
+/* Print — clean resume / CV pages (nav chrome hidden via print:hidden) */
+@media print {
+  .app-canvas {
+    background: white !important;
+    background-image: none !important;
+    color: black !important;
+    font-size: 11pt;
+  }
+
+  .app-canvas,
+  .app-canvas *:not(img):not(svg):not(video) {
+    transition: none !important;
+  }
+}
+
 /* Theme color transitions ≤200ms (THEMES.md) — no layout props */
 .app-canvas,
 .app-canvas *:not(img):not(svg):not(video),

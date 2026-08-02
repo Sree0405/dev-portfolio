@@ -20,34 +20,34 @@ Frontend SDE | React \& Next.js | Full Stack Developer \\[4pt]
 
 %================ SUMMARY =================
 \section{Summary}
-Frontend-focused full-stack engineer. At EWall I own production platform modules end to end — React/Next.js UI, Node APIs, auth edges, and Linux releases. Outside work I ship named client sites and open-source systems with public demos and GitHub.
+Frontend-focused full-stack engineer. Junior Full-Stack Engineer at EWall on a ~8-engineer team — own features from requirements through deployment and production support, with technical mentoring (not people management). React + Directus platform work plus named client sites and open-source systems.
 
 %================ SKILLS =================
 \section{Skills}
 
 \textbf{Frontend:} React, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS \\
-\textbf{Backend:} Node.js, Express.js, NestJS (building), PostgreSQL, Prisma, Directus, REST APIs \\
-\textbf{Tools \& Deployment:} Git, Linux, Nginx, PM2, Vercel, Docker \\
+\textbf{Backend:} Directus, PostgreSQL, Node.js, Express.js, Prisma, NestJS (building), REST APIs \\
+\textbf{Tools \& Deployment:} Git, Vercel, Docker \\
 \textit{Depth labels on portfolio skills page: Daily / Production / Building.}
 
 %================ EXPERIENCE =================
 \section{Experience}
 
-\textbf{Junior Software Developer — EWall Solutions Pvt. Ltd.} \hfill Aug 2025 – Present
+\textbf{Junior Full-Stack Engineer — EWall Solutions Pvt. Ltd.} \hfill Aug 2025 – Present
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Own platform modules end to end — Kitchen, Voting, Contract \& Location, Timezone, and Campaign paths wired to ScreenCloud/Print
-\item Ship React/Next.js admin UI with Node/Express API contracts and shared Auth/RBAC edges for tenant-scoped data
-\item Optimize dense admin views with memoization, lazy routes, and code splitting under real production data
-\item Release to Linux via Nginx + PM2; mentor freshers through code review on production modules
+\item Own larger features end to end: clarify requirements, plan/estimate, design frontend \& backend, build, test, deploy, and post-release fixes
+\item One of three engineers on a $\sim$600-hour client delivery with a fixed deadline — parallel task planning, dependency mapping, PR/integration review, merge conflict resolution; shipped on timeline (collaborative role, not PM)
+\item Technical mentoring on a $\sim$8-engineer team — task breakdown for newer developers, PR reviews, verify work before deploy (not people management)
+\item Built auth flows (password reset/expiry, Microsoft Auth), Station/Banner config modules, and Directus deploy/backup tooling ($\sim$80\% / $\sim$70\% effort cuts)
 \end{itemize}
 
 \textbf{Software Developer Intern — EWall Solutions Pvt. Ltd.} \hfill May 2025 – Aug 2025
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Shipped React/TypeScript platform UI slices and REST integrations (including early Kitchen/location flows) under review
-\item Delivered responsive admin layouts aligned with the platform design system; wrote HLD/LLD notes before coding shared modules
+\item Joined with prior React experience from client projects; focused on learning the product domain and Directus-backed platform
+\item Contributed to React platform work under review while ramping toward Junior ownership
 \end{itemize}
 
-\textbf{Freelance Full Stack Developer (Part-time)} \hfill Nov 2024 – May 2025
+\textbf{Full Stack Developer (Part-time)} \hfill Nov 2024 – May 2025
 \begin{itemize}[leftmargin=*, itemsep=1pt]
 \item Delivered two named production sites — Sri Thanigai Garments (CMS-backed company site) and GB Fitness (Vercel deploy)
 \item Owned discovery through deploy and post-launch fixes for both clients

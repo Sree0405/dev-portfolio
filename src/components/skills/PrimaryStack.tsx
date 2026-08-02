@@ -23,7 +23,7 @@ export default function PrimaryStack() {
             </h2>
           </div>
           <p className="mx-auto mb-6 max-w-xl text-center text-sm portfolio-text-muted md:mb-8">
-            Includes how work ships (Linux, Nginx, PM2, Vercel) — not only the
+            Includes how work ships (Directus workflows, Git, Vercel) — not only the
             framework row. Labels match the legend above.
           </p>
         </Reveal>

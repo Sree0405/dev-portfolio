@@ -38,18 +38,18 @@ import {
 const interviewPath = [
   {
     label: "Ownership",
-    detail: "Platform modules at EWall — UI through Linux release",
+    detail: "EWall — deadline delivery + feature lifecycle ownership",
     to: "/experience",
+  },
+  {
+    label: "Resume",
+    detail: "Printable HTML resume matching current Experience SoT",
+    to: "/cv",
   },
   {
     label: "Proof",
     detail: "Case studies, demos, and public GitHub (My3DUI, Fieldstack)",
     to: "/projects",
-  },
-  {
-    label: "Stack depth",
-    detail: "Daily / Production / Building — not a bingo card",
-    to: "/skills",
   },
 ] as const;
 

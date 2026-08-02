@@ -132,14 +132,19 @@ export default function Hero() {
                 </Link>
               </PortfolioButton>
               <PortfolioButton asChild variant="secondary" className={ctaScale}>
-                <a
-                  href={heroCtas.resume.href}
-                  download={heroCtas.resume.download}
-                >
-                  <Download className="h-4 w-4" aria-hidden />
-                  {heroCtas.resume.label}
-                </a>
+                <Link to={heroCtas.viewResume.to}>
+                  {heroCtas.viewResume.label}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
               </PortfolioButton>
+              <a
+                href={heroCtas.resume.href}
+                download={heroCtas.resume.download}
+                className="inline-flex min-h-[44px] items-center gap-2 px-1 text-sm font-semibold text-primary transition-colors hover:text-[hsl(var(--primary-light))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Download className="h-4 w-4" aria-hidden />
+                {heroCtas.resume.label}
+              </a>
             </motion.div>
 
             <motion.nav

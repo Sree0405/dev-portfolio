@@ -4,9 +4,9 @@ export const heroContent = {
   greeting: "Hi, I'm",
   availability: "Available for full-time",
   valueLine:
-    "I ship React and Next.js products end to end — UI, APIs, and production deploys.",
+    "I own features through delivery — requirements, planning, build, review, and deploy.",
   description:
-    "Junior engineer at EWall Solutions. I own production platform modules from React UI through Node APIs and Linux deploys, with named freelance client sites live in production.",
+    "Junior Full-Stack Engineer at EWall Solutions on a multi-deployment resort/restaurant platform (React + Directus). I clarify requirements, plan and estimate, ship features end to end, and collaborate under fixed deadlines — including a ~600-hour client delivery with three engineers — plus named client sites live in production.",
   role: "Frontend-focused full-stack engineer",
 } as const;
 
@@ -45,6 +45,8 @@ export const heroCtas = {
     download: "Sreekanth_SDE.pdf",
     label: "Download resume",
   },
+  /** Printable HTML resume — current SoT while public PDF recompile is parked. */
+  viewResume: { to: "/cv", label: "View resume" },
 } as const;
 
 /**

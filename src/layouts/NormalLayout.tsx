@@ -17,12 +17,16 @@ export default function NormalLayout() {
       <div className="app-canvas min-w-0 w-full max-w-full overflow-x-clip">
         <DocumentMeta />
         <HashScroll />
-        <a href="#main" className="skip-link">
+        <a href="#main" className="skip-link print:hidden">
           Skip to content
         </a>
-        <ScrollProgress />
-        <Navigation />
-        <main id="main" className="min-h-0 min-w-0 w-full max-w-full overflow-x-clip pt-0" tabIndex={-1}>
+        <div className="print:hidden">
+          <ScrollProgress />
+        </div>
+        <div className="print:hidden">
+          <Navigation />
+        </div>
+        <main id="main" className="min-h-0 min-w-0 w-full max-w-full overflow-x-clip pt-0 print:pt-0" tabIndex={-1}>
           <Outlet />
         </main>
       </div>

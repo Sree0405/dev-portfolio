@@ -79,7 +79,7 @@ export const coreExpertise: ExpertiseCard[] = [
     icon: PackageCheck,
     title: "Product Delivery",
     description:
-      "Brief → production on named client sites and platform modules that ship to Linux hosts.",
+      "Brief → production on named client sites and EWall platform features that ship to live deployments.",
     proof: { label: "Experience", href: "/experience" },
   },
 ];
@@ -113,7 +113,7 @@ export const primaryStack: StackGroup[] = [
     items: [
       { name: "Node.js", depth: "Daily" },
       { name: "Express", depth: "Daily" },
-      { name: "Directus", depth: "Production" },
+      { name: "Directus", depth: "Daily" },
       { name: "NestJS", depth: "Building" },
     ],
   },
@@ -131,10 +131,8 @@ export const primaryStack: StackGroup[] = [
     hint: "How work reaches production hosts",
     items: [
       { name: "Git", depth: "Daily" },
-      { name: "Linux", depth: "Daily" },
-      { name: "Nginx", depth: "Production" },
-      { name: "PM2", depth: "Production" },
       { name: "Vercel", depth: "Production" },
+      { name: "Docker", depth: "Building" },
     ],
   },
 ];
@@ -147,8 +145,9 @@ export const productsIBuild = [
   },
   {
     title: "CMS Platforms",
-    description: "Content systems with structured models — Fieldstack (open source, early-stage).",
-    proof: { label: "Fieldstack", href: "/project/fieldstack" },
+    description:
+      "Directus in production at EWall; Fieldstack as early-stage open-source NestJS/Prisma CMS practice.",
+    proof: { label: "Experience", href: "/experience" },
   },
   {
     title: "Client Marketing Sites",
@@ -165,24 +164,27 @@ export const productsIBuild = [
   },
   {
     title: "Authentication Systems",
-    description: "Sessions, JWT/RBAC, and permission edges that fit the product.",
-    proof: { label: "Fieldstack", href: "/project/fieldstack" },
+    description:
+      "Password expiry flows and Microsoft Authentication on the EWall platform; JWT/session work on personal systems.",
+    proof: { label: "Experience", href: "/experience" },
   },
   {
-    title: "API Integrations",
-    description: "ScreenCloud, print pipelines, and module APIs in production platform work.",
-    proof: { label: "EWall / Experience", href: "/experience" },
+    title: "Deploy automation",
+    description:
+      "Internal Directus schema sync and PostgreSQL backup/restore tooling that cut deploy effort ~80%.",
+    proof: { label: "Experience", href: "/experience" },
   },
 ];
 
 export const currentFocus = [
   {
-    title: "Production React depth",
-    detail: "Performance and structure on dense admin surfaces I already ship.",
+    title: "Feature delivery ownership",
+    detail:
+      "Requirements through deploy and production support for features I own — plus clear PR feedback.",
   },
   {
-    title: "Backend ownership",
-    detail: "Clearer NestJS/Express service boundaries and auth models across products.",
+    title: "Production React depth",
+    detail: "Performance and structure on dense admin surfaces I already ship.",
   },
   {
     title: "Open-source proof",

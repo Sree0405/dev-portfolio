@@ -35,7 +35,7 @@ const paths = [
     icon: Briefcase,
     title: "Check ownership",
     description:
-      "platform modules and named client deploys live on Experience — scope, not buzzwords.",
+      "EWall feature ownership (React + Directus, deadline delivery) and named client deploys — on Experience, not buzzwords.",
     href: "/experience",
     cta: "Read experience",
     external: false,

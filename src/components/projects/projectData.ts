@@ -198,7 +198,7 @@ export const projects: Project[] = [
     summary:
       "A focused marketing site for GB Fitness Studio (Avadi) with clear program and membership conversion paths.",
     highlights: [
-      "Sole freelance delivery — scope, build, post-launch fixes",
+      "Sole delivery — scope, build, post-launch fixes",
       "Motion-led responsive UI without burying CTAs",
       "Production Vercel URL the gym can share",
     ],

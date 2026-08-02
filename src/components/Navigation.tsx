@@ -38,7 +38,7 @@ const navItems = [
     name: "Experience",
     icon: Briefcase,
     href: "/experience",
-    description: "Career & freelance story",
+    description: "Career & delivery story",
   },
   {
     name: "Projects",

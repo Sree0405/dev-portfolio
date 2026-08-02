@@ -22,6 +22,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Fieldstack = lazy(() => import("./pages/Fieldstack.tsx"));
 const LifeAdmin = lazy(() => import("./pages/LifeAdmin.tsx"));
 const SreeDevToolPage = lazy(() => import("./pages/SreeDevTool"));
+const PublicResume = lazy(() => import("./pages/PublicResume"));
 
 const LoginPage = lazy(() => import("./app/routes/login/LoginPage"));
 const SignupPage = lazy(() => import("./app/routes/signup/SignupPage"));
@@ -196,6 +197,14 @@ const App = () => (
               element={
                 <Lazy>
                   <ContactPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/cv"
+              element={
+                <Lazy>
+                  <PublicResume />
                 </Lazy>
               }
             />
