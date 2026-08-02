@@ -100,29 +100,29 @@ const GalleryItemCard = memo(({ item, index, onSelect ,isMobile }: GalleryItemPr
       onKeyDown={handleKeyDown}
       className="
         group relative overflow-hidden rounded-lg cursor-pointer
-        border-2 border-purple-500/30
-        bg-gradient-to-br from-purple-900/20 to-blue-900/20
-        hover:border-purple-400/60 transition-all duration-300
-        focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-950
+        border-2 border-primary/30
+        bg-gradient-to-br from-primary/20 to-blue-900/20
+        hover:border-primary/60 transition-all duration-300
+        focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background
         aspect-square
       "
     >
       {/* Loading skeleton */}
       {!imgLoaded && !imgError && (
-        <div className="absolute inset-0 bg-purple-900/20 animate-pulse rounded-lg" />
+        <div className="absolute inset-0 bg-primary/10 animate-pulse rounded-lg" />
       )}
 
       {/* Broken image fallback */}
       {imgError ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
-          <div className="text-purple-400 opacity-50">
+          <div className="text-primary opacity-50">
             <svg className="w-10 h-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
           </div>
-          <p className="text-xs text-gray-500">{item.alt}</p>
+          <p className="text-xs portfolio-text-muted">{item.alt}</p>
         </div>
       ) : (
 <img
@@ -150,11 +150,11 @@ className={`
         opacity-0 group-hover:opacity-100 transition-opacity duration-300
         flex flex-col justify-end p-3
       ">
-        <p className="text-white text-sm font-semibold leading-tight truncate">
+        <p className="text-foreground text-sm font-semibold leading-tight truncate">
           {item.title}
         </p>
         {item.description && (
-          <p className="text-gray-300 text-xs mt-1 line-clamp-2 leading-snug">
+          <p className="text-foreground/80 text-xs mt-1 line-clamp-2 leading-snug">
             {item.description}
           </p>
         )}
@@ -167,7 +167,7 @@ className={`
         flex items-center justify-center
         opacity-0 group-hover:opacity-100 transition-opacity duration-200
       ">
-        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-3.5 h-3.5 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
           />
@@ -224,16 +224,16 @@ const GalleryModalContent = memo(({ item }: GalleryModalContentProps) => {
       {/* Image panel */}
       <div className="flex-1 relative min-h-[240px] lg:min-h-0 rounded-lg overflow-hidden bg-black/30">
         {!imgLoaded && !imgError && (
-          <div className="absolute inset-0 bg-purple-900/20 animate-pulse" />
+          <div className="absolute inset-0 bg-primary/10 animate-pulse" />
         )}
         {imgError ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <svg className="w-16 h-16 text-purple-400 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-16 h-16 text-primary opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-            <p className="text-gray-500 text-sm">{item.alt}</p>
+            <p className="portfolio-text-muted text-sm">{item.alt}</p>
           </div>
         ) : (
             <img
@@ -258,21 +258,21 @@ const GalleryModalContent = memo(({ item }: GalleryModalContentProps) => {
       {/* Detail panel */}
       <div className="lg:w-72 flex flex-col gap-4 flex-shrink-0">
         <div>
-          <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
-          <p className="text-gray-300 leading-relaxed text-sm">{item.description}</p>
+          <h3 className="text-2xl font-bold text-foreground mb-2">{item.title}</h3>
+          <p className="text-foreground/80 leading-relaxed text-sm">{item.description}</p>
         </div>
 
         {/* Metadata */}
         {item.meta && Object.keys(item.meta).length > 0 && (
-          <div className="bg-purple-900/10 border border-purple-500/20 rounded-lg p-4">
-            <h4 className="font-semibold text-purple-400 mb-3 text-sm">Details</h4>
+          <div className="bg-primary/10 border border-border rounded-lg p-4">
+            <h4 className="font-semibold text-primary mb-3 text-sm">Details</h4>
             <div className="space-y-2">
               {Object.entries(item.meta).map(([key, value]) => (
                 <div key={key} className="flex justify-between gap-3 text-sm">
-                  <span className="text-gray-500 capitalize flex-shrink-0">
+                  <span className="portfolio-text-muted capitalize flex-shrink-0">
                     {key.replace(/_/g, ' ')}
                   </span>
-                  <span className="text-gray-300 text-right">{String(value)}</span>
+                  <span className="text-foreground/80 text-right">{String(value)}</span>
                 </div>
               ))}
             </div>
@@ -287,16 +287,16 @@ GalleryModalContent.displayName = 'GalleryModalContent';
 // ─── GalleryNavigation ─────────────────────────────────────────────────────────
 
 const GalleryNavigation = memo(({ onPrev, onNext, currentIndex, total }: GalleryNavigationProps) => (
-  <div className="flex items-center justify-between mt-5 pt-4 border-t border-purple-500/20">
+  <div className="flex items-center justify-between mt-5 pt-4 border-t border-border">
     <button
       onClick={onPrev}
       aria-label="Previous image"
       className="
         flex items-center gap-2 px-4 py-2 rounded-lg
-        border border-purple-500/30 text-gray-300
-        hover:border-purple-400/60 hover:text-purple-300 hover:bg-purple-900/20
+        border border-primary/30 text-foreground/80
+        hover:border-primary/60 hover:text-primary/80 hover:bg-primary/10
         transition-all duration-200 text-sm
-        focus:outline-none focus:ring-2 focus:ring-purple-500
+        focus:outline-none focus:ring-2 focus:ring-primary
         disabled:opacity-40 disabled:cursor-not-allowed
       "
     >
@@ -306,7 +306,7 @@ const GalleryNavigation = memo(({ onPrev, onNext, currentIndex, total }: Gallery
       Previous
     </button>
 
-    <span className="text-gray-500 text-sm font-mono">
+    <span className="portfolio-text-muted text-sm font-mono">
       {currentIndex + 1} / {total}
     </span>
 
@@ -315,10 +315,10 @@ const GalleryNavigation = memo(({ onPrev, onNext, currentIndex, total }: Gallery
       aria-label="Next image"
       className="
         flex items-center gap-2 px-4 py-2 rounded-lg
-        border border-purple-500/30 text-gray-300
-        hover:border-purple-400/60 hover:text-purple-300 hover:bg-purple-900/20
+        border border-primary/30 text-foreground/80
+        hover:border-primary/60 hover:text-primary/80 hover:bg-primary/10
         transition-all duration-200 text-sm
-        focus:outline-none focus:ring-2 focus:ring-purple-500
+        focus:outline-none focus:ring-2 focus:ring-primary
       "
     >
       Next
@@ -412,7 +412,7 @@ const GalleryOverlay = memo(({ images, activeIndex, onClose, onNext, onPrev }: G
         ref={modalRef}
         className="
           relative w-full max-w-4xl max-h-[90vh] overflow-y-auto
-          bg-gray-900 border border-purple-500/30 rounded-lg p-6
+          bg-background border border-primary/30 rounded-lg p-6
         "
         style={{ animation: 'galleryScaleIn 0.2s ease-out' }}
       >
@@ -424,10 +424,10 @@ const GalleryOverlay = memo(({ images, activeIndex, onClose, onNext, onPrev }: G
           className="
             absolute top-4 right-4 z-10
             w-9 h-9 rounded-full flex items-center justify-center
-            bg-gray-800 border border-purple-500/30 text-gray-400
-            hover:border-purple-400/60 hover:text-white hover:bg-purple-900/30
+            bg-muted/30 border border-primary/30 portfolio-text-muted
+            hover:border-primary/60 hover:text-foreground hover:bg-primary/10
             transition-all duration-200
-            focus:outline-none focus:ring-2 focus:ring-purple-500
+            focus:outline-none focus:ring-2 focus:ring-primary
           "
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -466,13 +466,13 @@ GalleryOverlay.displayName = 'GalleryOverlay';
 // ─── Empty State ───────────────────────────────────────────────────────────────
 
 const GalleryEmptyState = () => (
-  <div className="h-48 flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-purple-500/20 bg-purple-900/10">
-    <svg className="w-12 h-12 text-purple-400 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <div className="h-48 flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border bg-primary/10">
+    <svg className="w-12 h-12 text-primary opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
       />
     </svg>
-    <p className="text-sm text-gray-500">No images to display</p>
+    <p className="text-sm portfolio-text-muted">No images to display</p>
   </div>
 );
 
@@ -523,23 +523,23 @@ const Gallery = ({ images,ismobile=false, title = 'Gallery' }: GalleryProps) => 
       <section className="mb-16">
         <div className="flex items-center gap-3 mb-6">
           {/* Gallery icon */}
-          <svg className="w-8 h-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <h2 className="text-3xl font-bold text-white">{title}</h2>
+          <h2 className="text-2xl font-bold text-foreground">{title}</h2>
         </div>
 
 <div
   className={`
     ${ismobile
       ? 'p-2'
-      : 'bg-gray-900/50 border border-purple-500/20 rounded-lg p-8'}
+      : 'bg-background/50 border border-border rounded-lg p-8'}
   `}
 >          {safeImages.length > 0 ? (
             <>
-              <p className="text-gray-400 text-sm mb-6">
+              <p className="portfolio-text-muted text-sm mb-6">
                 {safeImages.length} image{safeImages.length !== 1 ? 's' : ''} — click any to expand
               </p>
 <GalleryGrid

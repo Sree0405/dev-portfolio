@@ -1,14 +1,15 @@
 import {
-  ArrowRight,
   Building2,
   Calendar,
   GraduationCap,
   MapPin,
   Rocket,
 } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { ImpactList } from "@/components/ui/impact-list";
 import { TechStack } from "@/components/ui/tech-stack";
+import { PortfolioCard, Reveal, Stagger, StaggerItem } from "@/components/portfolio";
 
 type RoleBlock = {
   id: string;
@@ -30,7 +31,6 @@ type Chapter = {
   accent: "primary" | "amber" | "cyan";
   stats?: { label: string; value: string }[];
   roles?: RoleBlock[];
-  storyBeats?: { step: string; detail: string }[];
   projectTypes?: { title: string; examples: string }[];
   impacts?: string[];
   technologies?: string[];
@@ -41,30 +41,32 @@ const ewallChapter: Chapter = {
   id: "ewall",
   eyebrow: "Current company",
   title: "EWall Solutions Pvt. Ltd.",
-  tagline: "Intern to junior — shipping production SaaS and client platforms.",
+  tagline:
+    "Production SaaS delivery on a multi-module company platform — React/Next.js UI through Node APIs and Linux deploys.",
   location: "India",
   icon: Building2,
   accent: "primary",
   stats: [
     { label: "Path", value: "Intern → Junior" },
-    { label: "Focus", value: "SaaS & client apps" },
-    { label: "Stack", value: "React · Node · Linux" },
+    { label: "Product", value: "EWall platform" },
+    { label: "Ships via", value: "Nginx · PM2 · Linux" },
   ],
   roles: [
     {
       id: "ewall-junior",
       role: "Junior Software Developer",
       duration: "Aug 2025 — Present",
-      focus: "Own features end-to-end — from UI to deploy.",
+      focus:
+        "Own production features across platform modules — UI, APIs, auth edges, and release.",
       impacts: [
-        "Production React & Next.js apps",
-        "Reusable UI, hooks & REST APIs",
-        "Auth & RBAC for multi-tenant SaaS",
-        "Memo, lazy load & code splitting",
-        "Nginx · PM2 production releases",
-        "Mentor freshers & unblock tasks",
-        "Client reqs → HLD / LLD",
-        "Production fixes under deadlines",
+        "Owned Kitchen Module delivery end to end — React surfaces, API contracts, and production fixes so operators run kitchen workflows without filing tickets for routine changes",
+        "Delivered Voting Module as a full slice (UI states, permissions, API) so campaign voting runs on the live platform environment",
+        "Owned Contract & Location Management UI + API integration used when ops configures multi-location contracts — fewer ambiguous handoffs between teams",
+        "Designed Timezone Management behavior so scheduled actions and displays stay correct across regions instead of drifting on server-local time",
+        "Led Campaign Module work wired to ScreenCloud Integration and the Print System pipeline — display/print paths that ops depends on in production",
+        "Hardened Authentication and RBAC edges shared across modules — role checks that keep tenant-scoped data isolated at the API boundary",
+        "Optimized dense admin views with memoization, lazy routes, and code splitting so hot admin screens stay usable under real data",
+        "Shipped releases to Linux via Nginx + PM2 on the same cadence as the team; mentored freshers through code review on production modules",
       ],
       technologies: [
         "React",
@@ -73,10 +75,10 @@ const ewallChapter: Chapter = {
         "Node.js",
         "Express",
         "REST APIs",
+        "RBAC",
         "Nginx",
         "PM2",
         "Linux",
-        "RBAC",
         "Git",
       ],
     },
@@ -84,22 +86,16 @@ const ewallChapter: Chapter = {
       id: "ewall-intern",
       role: "Software Developer Intern",
       duration: "May 2025 — Aug 2025",
-      focus: "Learned the release rhythm inside a fast-moving team.",
+      focus:
+        "Shipped platform UI slices and API integrations under review — earned ownership of production modules.",
       impacts: [
-        "React & TypeScript UI work",
-        "API integration & responsive layouts",
-        "Backend tweaks & bug fixes",
-        "Production troubleshooting",
+        "Built React/TypeScript UI for platform surfaces that shipped in live client environments",
+        "Integrated REST APIs for module data (including early Kitchen and location-related flows) with production bug fixes under mentor review",
+        "Delivered responsive admin layouts that stayed consistent with the platform design system",
+        "Translated requirements into HLD/LLD notes before coding — reducing rework on shared modules",
       ],
-      technologies: ["React", "TypeScript", "REST APIs", "Git"],
+      technologies: ["React", "TypeScript", "Next.js", "REST APIs", "Git"],
     },
-  ],
-  storyBeats: [
-    { step: "Ship", detail: "Features to production" },
-    { step: "Design", detail: "HLD & LLD upfront" },
-    { step: "Review", detail: "PRs before release" },
-    { step: "Mentor", detail: "Guide freshers daily" },
-    { step: "Fix", detail: "Debug live issues" },
   ],
 };
 
@@ -107,42 +103,39 @@ const freelanceChapter: Chapter = {
   id: "freelance",
   eyebrow: "Chapter · Freelance",
   title: "Freelance Full Stack Developer",
-  tagline: "Six-plus real client builds — not demos, software teams actually used.",
+  tagline:
+    "Owned client delivery from discovery to deploy — Sri Thanigai Garments and GB Fitness live in production.",
   duration: "Nov 2024 — May 2025",
   location: "Remote · Part-time",
   icon: Rocket,
   accent: "amber",
   stats: [
-    { label: "Delivered", value: "6+ projects" },
-    { label: "Owned", value: "Call → deploy" },
+    { label: "Live clients", value: "2 named sites" },
+    { label: "Ownership", value: "Brief → deploy" },
     { label: "Stack", value: "React · Node · PG" },
-  ],
-  storyBeats: [
-    { step: "Discover", detail: "Client call & scope" },
-    { step: "Design", detail: "HLD before code" },
-    { step: "Build", detail: "Milestone shipping" },
-    { step: "Deploy", detail: "Live & monitored" },
-    { step: "Fix", detail: "Post-launch support" },
   ],
   projectTypes: [
     {
-      title: "Business websites",
-      examples: "Garments · fitness · local services",
+      title: "Sri Thanigai Garments",
+      examples:
+        "Architected CMS-backed marketing + manufacturing pages — live at srithanigaigarments.com",
     },
     {
-      title: "Dashboards & admin",
-      examples: "Analytics · orders · CMS panels",
+      title: "GB Fitness Studio",
+      examples:
+        "Delivered program/membership marketing site for Avadi gym — production Vercel deploy",
     },
     {
-      title: "SaaS & MVPs",
-      examples: "Auth · APIs · multi-tenant apps",
+      title: "Additional MVPs",
+      examples:
+        "Built auth-aware dashboards and API-backed admin pieces where briefs required full stack",
     },
   ],
   impacts: [
-    "Direct client collaboration",
-    "Tight deadlines & hotfixes",
-    "Requirements → shipped product",
-    "PostgreSQL-backed full stack",
+    "Delivered Sri Thanigai Garments to a production company domain — CMS-backed pages so marketing updates content without an engineering ticket per change",
+    "Delivered GB Fitness to a public Vercel URL with program/membership paths the gym can share with customers",
+    "Owned discovery → scope → deploy → post-launch fixes for both clients — single owner from first call to live site",
+    "Integrated Node/Express and PostgreSQL only where the brief needed server-backed content — not bolted on for resume keywords",
   ],
   technologies: [
     "React",
@@ -152,7 +145,7 @@ const freelanceChapter: Chapter = {
     "Express",
     "PostgreSQL",
     "REST APIs",
-    "Deployment",
+    "Vercel",
   ],
 };
 
@@ -160,40 +153,63 @@ const educationChapter: Chapter = {
   id: "education",
   eyebrow: "Education",
   title: "SA College Of Arts & Science",
-  tagline: "BSc Computer Science — foundations that shaped how I design systems today.",
-  duration: "2024 — 2025",
+  tagline:
+    "BSc Computer Science — systems thinking applied to real builds, not course checklists.",
+  duration: "BSc Computer Science",
   location: "Chennai",
   icon: GraduationCap,
   accent: "cyan",
   focusAreas: [
-    "Software engineering fundamentals",
-    "Data structures & algorithms",
-    "Backend systems & databases",
-    "Academic automation projects",
+    "Applied software engineering and system design fundamentals to freelance and internship delivery",
+    "Used data structures and algorithms where they affected product performance and correctness",
+    "Built academic automation projects that required APIs, persistence, and clear ownership of delivery",
   ],
-  technologies: ["Java", "Python", "Spring Boot", "DSA", "Database Systems"],
+  technologies: ["Java", "Python", "DSA", "Database Systems"],
 };
+
+const chapters = [ewallChapter, freelanceChapter, educationChapter];
 
 const accentStyles = {
   primary: {
     icon: "border-primary/30 bg-primary/10 text-primary",
-    border: "border-primary/20",
-    beat: "border-border/50 bg-background/50",
-    dot: "primary" as const,
+    dot: "border-primary/60 bg-primary",
+    list: "primary" as const,
   },
   amber: {
-    icon: "border-amber-400/30 bg-amber-500/10 text-amber-300",
-    border: "border-amber-400/20",
-    beat: "border-border/50 bg-background/50",
-    dot: "amber" as const,
+    icon: "border-primary/25 bg-primary/8 text-primary",
+    dot: "border-primary/45 bg-primary/70",
+    list: "primary" as const,
   },
   cyan: {
-    icon: "border-cyan-400/30 bg-cyan-500/10 text-cyan-300",
-    border: "border-cyan-400/20",
-    beat: "border-border/50 bg-background/50",
-    dot: "cyan" as const,
+    icon: "border-primary/25 bg-primary/8 text-primary",
+    dot: "border-primary/40 bg-primary/50",
+    list: "primary" as const,
   },
 };
+
+function TimelineLine() {
+  const reduce = useReducedMotion();
+
+  if (reduce) {
+    return (
+      <div
+        className="absolute bottom-0 left-[23px] top-0 w-px bg-gradient-to-b from-primary/50 via-border to-border/40"
+        aria-hidden
+      />
+    );
+  }
+
+  return (
+    <motion.div
+      className="absolute bottom-0 left-[23px] top-0 w-px origin-top bg-gradient-to-b from-primary/50 via-border to-border/40"
+      aria-hidden
+      initial={{ scaleY: 0, opacity: 0 }}
+      whileInView={{ scaleY: 1, opacity: 1 }}
+      viewport={{ once: true, margin: "-64px" }}
+      transition={{ duration: 0.6, ease: [0, 0, 0.2, 1] }}
+    />
+  );
+}
 
 function MetaChips({
   duration,
@@ -205,13 +221,13 @@ function MetaChips({
   return (
     <div className="flex flex-wrap gap-2">
       {duration ? (
-        <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-background/50 px-2.5 py-1 text-xs portfolio-text-muted">
+        <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-muted/30 px-2.5 py-1 text-xs portfolio-text-muted">
           <Calendar className="h-3.5 w-3.5 text-primary/80" />
           {duration}
         </span>
       ) : null}
       {location ? (
-        <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-background/50 px-2.5 py-1 text-xs portfolio-text-muted">
+        <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-muted/30 px-2.5 py-1 text-xs portfolio-text-muted">
           <MapPin className="h-3.5 w-3.5 text-primary/80" />
           {location}
         </span>
@@ -224,60 +240,16 @@ function StatStrip({ stats }: { stats: { label: string; value: string }[] }) {
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
       {stats.map((stat) => (
-        <div
-          key={stat.label}
-          className="rounded-xl border border-border/50 bg-background/50 px-4 py-3 text-left"
-        >
-          <p className="font-mono text-[10px] uppercase tracking-wider portfolio-text-muted">
+        <PortfolioCard key={stat.label} className="px-4 py-3 text-left">
+          <p className="font-mono text-xs uppercase tracking-wider portfolio-text-muted">
             {stat.label}
           </p>
           <p className="mt-0.5 text-sm font-semibold">
             <span className="page-title-accent">{stat.value}</span>
           </p>
-        </div>
+        </PortfolioCard>
       ))}
     </div>
-  );
-}
-
-function StoryFlow({
-  beats,
-  accent,
-}: {
-  beats: { step: string; detail: string }[];
-  accent: keyof typeof accentStyles;
-}) {
-  const styles = accentStyles[accent];
-
-  return (
-    <ol className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-stretch sm:gap-2">
-      {beats.map((beat, i) => (
-        <li
-          key={beat.step}
-          className="flex min-w-0 items-stretch sm:flex-1 sm:max-w-[9rem]"
-        >
-          <div
-            className={`flex w-full min-w-0 flex-col rounded-lg border px-3 py-2.5 text-left ${styles.beat}`}
-          >
-            <p className="font-mono text-[10px] uppercase tracking-wider portfolio-text-muted">
-              {String(i + 1).padStart(2, "0")}
-            </p>
-            <p className="mt-0.5 text-sm font-semibold">
-              <span className="page-title-accent">{beat.step}</span>
-            </p>
-            <p className="mt-0.5 text-[11px] leading-snug portfolio-text-muted">
-              {beat.detail}
-            </p>
-          </div>
-          {i < beats.length - 1 ? (
-            <ArrowRight
-              className="mx-1 hidden h-3.5 w-3.5 shrink-0 text-white/40 lg:block"
-              aria-hidden
-            />
-          ) : null}
-        </li>
-      ))}
-    </ol>
   );
 }
 
@@ -289,20 +261,22 @@ function RoleBlockCard({
   accent: keyof typeof accentStyles;
 }) {
   return (
-    <article className="rounded-xl border border-border/50 bg-background/40 p-5 sm:p-6">
+    <PortfolioCard as="article">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h4 className="text-base font-semibold sm:text-lg">
+          <h4 className="text-[15px] font-semibold sm:text-base">
             <span className="page-title-accent">{role.role}</span>
           </h4>
-          <p className="mt-1 text-sm portfolio-text-muted">{role.focus}</p>
+          <p className="mt-1 text-sm portfolio-text-muted">
+            {role.focus}
+          </p>
         </div>
         <MetaChips duration={role.duration} />
       </div>
 
-      <ImpactList items={role.impacts} accent={accentStyles[accent].dot} />
+      <ImpactList items={role.impacts} accent={accentStyles[accent].list} />
       <TechStack items={role.technologies} />
-    </article>
+    </PortfolioCard>
   );
 }
 
@@ -311,47 +285,44 @@ function ExperienceChapter({ chapter }: { chapter: Chapter }) {
   const styles = accentStyles[chapter.accent];
 
   return (
-    <section aria-labelledby={`${chapter.id}-heading`} className="w-full min-w-0">
-      <div className="mb-6 flex items-start gap-4">
-        <div
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border ${styles.icon}`}
-        >
-          <Icon className="h-6 w-6" strokeWidth={1.75} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary sm:text-xs">
-            {chapter.eyebrow}
-          </p>
-          <h2
-            id={`${chapter.id}-heading`}
-            className="section-title text-2xl sm:text-3xl"
-          >
-            {chapter.title}
-          </h2>
-          <p className="mt-2 text-sm portfolio-text-muted sm:text-base">
-            {chapter.tagline}
-          </p>
-          {(chapter.duration || chapter.location) && (
-            <div className="mt-3">
-              <MetaChips duration={chapter.duration} location={chapter.location} />
-            </div>
-          )}
-        </div>
-      </div>
-
+    <section
+      aria-labelledby={`${chapter.id}-heading`}
+      className="relative w-full min-w-0 pl-14 md:pl-16"
+    >
       <div
-        className={`space-y-6 rounded-2xl border p-5 text-left sm:p-6 md:p-7 ${styles.border} bg-background/30`}
-      >
-        {chapter.stats ? <StatStrip stats={chapter.stats} /> : null}
+        className={`absolute left-[17px] top-6 z-10 h-3.5 w-3.5 rounded-full border-2 ${styles.dot}`}
+        aria-hidden
+      />
 
-        {chapter.storyBeats ? (
-          <div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] portfolio-text-muted">
-              How this chapter unfolded
-            </p>
-            <StoryFlow beats={chapter.storyBeats} accent={chapter.accent} />
+      <Reveal>
+        <div className="mb-6 flex items-start gap-4">
+          <div
+            className={`icon-well flex h-11 w-11 shrink-0 items-center justify-center ${styles.icon}`}
+          >
+            <Icon className="h-5 w-5" strokeWidth={1.75} />
           </div>
-        ) : null}
+          <div className="min-w-0 flex-1">
+            <p className="section-eyebrow">{chapter.eyebrow}</p>
+            <h2 id={`${chapter.id}-heading`} className="section-title mt-2">
+              {chapter.title}
+            </h2>
+            <p className="mt-2 text-sm portfolio-text-muted sm:text-[15px]">
+              {chapter.tagline}
+            </p>
+            {(chapter.duration || chapter.location) && (
+              <div className="mt-3">
+                <MetaChips
+                  duration={chapter.duration}
+                  location={chapter.location}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </Reveal>
+
+      <PortfolioCard className="space-y-6 text-left md:p-7">
+        {chapter.stats ? <StatStrip stats={chapter.stats} /> : null}
 
         {chapter.roles ? (
           <div className="space-y-4">
@@ -364,42 +335,60 @@ function ExperienceChapter({ chapter }: { chapter: Chapter }) {
         {chapter.projectTypes ? (
           <div className="grid gap-3 sm:grid-cols-3">
             {chapter.projectTypes.map((project) => (
-              <div
-                key={project.title}
-                className="rounded-xl border border-border/50 bg-background/40 p-4 text-left"
-              >
+              <PortfolioCard key={project.title} className="text-left">
                 <p className="text-sm font-semibold">
                   <span className="page-title-accent">{project.title}</span>
                 </p>
-                <p className="mt-2 font-mono text-[11px] leading-relaxed portfolio-text-muted sm:text-xs">
+                <p className="mt-2 font-mono text-xs leading-relaxed portfolio-text-muted">
                   {project.examples}
                 </p>
-              </div>
+              </PortfolioCard>
             ))}
           </div>
         ) : null}
 
         {chapter.impacts ? (
           <div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] portfolio-text-muted">
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-primary/80">
               Key outcomes
             </p>
-            <ImpactList items={chapter.impacts} accent={accentStyles[chapter.accent].dot} />
+            <ImpactList
+              items={chapter.impacts}
+              accent={accentStyles[chapter.accent].list}
+            />
           </div>
         ) : null}
 
         {chapter.focusAreas ? (
           <ImpactList
             items={chapter.focusAreas}
-            accent={accentStyles[chapter.accent].dot}
+            accent={accentStyles[chapter.accent].list}
           />
         ) : null}
 
         {chapter.technologies && !chapter.roles ? (
           <TechStack items={chapter.technologies} />
         ) : null}
-      </div>
+      </PortfolioCard>
     </section>
+  );
+}
+
+function OwnershipScopeNote() {
+  return (
+    <Reveal className="relative z-10 mb-12 md:mb-16">
+      <PortfolioCard className="border-primary/20 bg-primary/[0.04] p-5 text-left sm:p-6">
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
+          Scope of ownership
+        </p>
+        <p className="mt-2 text-sm leading-relaxed text-foreground sm:text-[15px]">
+          Title is Junior. Scope is module ownership — UI, API contracts, auth
+          edges, and release on platform slices I ship — not company-wide
+          architecture or headcount. Claims below stay at that level; no
+          invented traffic or revenue numbers.
+        </p>
+      </PortfolioCard>
+    </Reveal>
   );
 }
 
@@ -409,10 +398,18 @@ export default function Experience() {
       id="experience"
       className="page-section-y page-container-x relative w-full min-w-0"
     >
-      <div className="mx-auto w-full min-w-0 max-w-4xl space-y-14 md:space-y-20">
-        <ExperienceChapter chapter={ewallChapter} />
-        <ExperienceChapter chapter={freelanceChapter} />
-        <ExperienceChapter chapter={educationChapter} />
+      <div className="relative mx-auto w-full min-w-0 max-w-4xl">
+        <OwnershipScopeNote />
+
+        <TimelineLine />
+
+        <Stagger className="space-y-14 md:space-y-20">
+          {chapters.map((chapter) => (
+            <StaggerItem key={chapter.id}>
+              <ExperienceChapter chapter={chapter} />
+            </StaggerItem>
+          ))}
+        </Stagger>
       </div>
     </section>
   );

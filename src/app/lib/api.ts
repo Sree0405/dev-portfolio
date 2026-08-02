@@ -579,6 +579,41 @@ export const api = {
       method: "DELETE",
     }),
 
+  submitReview: (body: unknown) =>
+    request<{ success: boolean; id: string }>("/api/reviews", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  getPublicReviews: () =>
+    request<{ items: import("./types").PortfolioReview[] }>("/api/reviews/public"),
+
+  getReviews: (params?: Record<string, string | number | boolean | undefined>) => {
+    const searchParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          searchParams.set(key, String(value));
+        }
+      });
+    }
+    const query = searchParams.toString();
+    return request<import("./types").PaginatedPortfolioReviews>(
+      `/api/reviews${query ? `?${query}` : ""}`,
+    );
+  },
+
+  updateReview: (id: string, body: unknown) =>
+    request<import("./types").PortfolioReview>(`/api/reviews/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+
+  deleteReview: (id: string) =>
+    request<{ success: boolean }>(`/api/reviews/${id}`, {
+      method: "DELETE",
+    }),
+
   getCompanies: (params?: Record<string, string | number | undefined>) => {
     const searchParams = new URLSearchParams();
     if (params) {

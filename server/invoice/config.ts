@@ -16,8 +16,8 @@ export interface InvoiceBranding {
 export const INVOICE_BRANDING: InvoiceBranding = {
   companyName: "Sreekanth Freelancing",
   tagline: "Professional Software Development Services",
-  website: "https://sreefolio.vercel.app",
-  websiteDisplay: "sreefolio.vercel.app",
+  website: "https://www.sreekanth.pro",
+  websiteDisplay: "www.sreekanth.pro",
   email: "sreekanth04052005@gmail.com",
   phone: "+91 9363965927",
   location: "Avadi, Chennai - 600054, Tamil Nadu, India",
@@ -30,8 +30,8 @@ export const INVOICE_BRANDING: InvoiceBranding = {
 export const INVOICE_BRANDING_DEMO: InvoiceBranding = {
   companyName: "Sreekanth",
   tagline: "Professional Software Development Services",
-  website: "https://sreefolio.vercel.app",
-  websiteDisplay: "sreefolio.vercel.app",
+  website: "https://www.sreekanth.pro",
+  websiteDisplay: "www.sreekanth.pro",
   email: "sreekanth04052005@gmail.com",
   phone: "+91 9363965927",
   location: "Avadi, Chennai - 600054, Tamil Nadu, India",

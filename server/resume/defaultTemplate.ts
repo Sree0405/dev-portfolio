@@ -8,7 +8,7 @@ Frontend SDE | React \& Next.js | Full Stack Developer \\[4pt]
 
 \faGithub\ \href{https://github.com/sree0405}{github.com/sree0405} \quad
 \faLinkedin\ \href{https://linkedin.com/in/sreekanth04052005}{linkedin.com/in/sreekanth04052005} \quad
-\faGlobe\ \href{https://sreefolio.vercel.app}{sreefolio.vercel.app} \\[4pt]
+\faGlobe\ \href{https://www.sreekanth.pro}{www.sreekanth.pro} \\[4pt]
 
 \faEnvelope\ \href{mailto:sreekanth04052005@gmail.com}{sreekanth04052005@gmail.com} \quad
 \faMobile\ +91-9363965927
@@ -20,71 +20,64 @@ Frontend SDE | React \& Next.js | Full Stack Developer \\[4pt]
 
 %================ SUMMARY =================
 \section{Summary}
-Frontend-focused Full Stack Developer with professional experience building scalable web applications and SaaS platforms. Experienced in end-to-end project delivery, from requirement analysis and development to deployment and maintenance, with a focus on performance, user experience, and maintainable software architecture.
+Frontend-focused full-stack engineer. At EWall I own production platform modules end to end — React/Next.js UI, Node APIs, auth edges, and Linux releases. Outside work I ship named client sites and open-source systems with public demos and GitHub.
 
 %================ SKILLS =================
 \section{Skills}
 
-\textbf{Frontend:} React, Next.js, React Native, Redux Toolkit, Tailwind CSS \\
-\textbf{Backend:} Node.js, Express.js, PostgreSQL, Directus, REST APIs \\
-\textbf{Languages:} JavaScript (ES6+), TypeScript, Java and SQL(Fundamental Level) \\
-\textbf{Tools \& Deployment:} AWS EC2, Nginx, PM2, Docker, Git, Linux
+\textbf{Frontend:} React, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS \\
+\textbf{Backend:} Node.js, Express.js, NestJS (building), PostgreSQL, Prisma, Directus, REST APIs \\
+\textbf{Tools \& Deployment:} Git, Linux, Nginx, PM2, Vercel, Docker \\
+\textit{Depth labels on portfolio skills page: Daily / Production / Building.}
 
 %================ EXPERIENCE =================
 \section{Experience}
 
 \textbf{Junior Software Developer — EWall Solutions Pvt. Ltd.} \hfill Aug 2025 – Present
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Developed and maintained production software applications using React, Next.js, TypeScript, Node.js and Express.js
-\item Built reusable UI components, custom hooks, and REST API integrations to accelerate feature development
-\item Implemented authentication, role-based access control, and state management for multi-tenant SaaS platforms
-\item Optimized application performance by reducing unnecessary re-renders using memoization, lazy loading, and code splitting, improving page load speed and responsiveness
-\item Deployed and maintained production applications on AWS EC2 using Nginx, PM2, SSL, and Linux
+\item Own platform modules end to end — Kitchen, Voting, Contract \& Location, Timezone, and Campaign paths wired to ScreenCloud/Print
+\item Ship React/Next.js admin UI with Node/Express API contracts and shared Auth/RBAC edges for tenant-scoped data
+\item Optimize dense admin views with memoization, lazy routes, and code splitting under real production data
+\item Release to Linux via Nginx + PM2; mentor freshers through code review on production modules
 \end{itemize}
 
 \textbf{Software Developer Intern — EWall Solutions Pvt. Ltd.} \hfill May 2025 – Aug 2025
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Assisted in frontend development, API integration, and responsive UI implementation using React and TypeScript
-\item Contributed to backend customization, bug fixes, and reusable component development
+\item Shipped React/TypeScript platform UI slices and REST integrations (including early Kitchen/location flows) under review
+\item Delivered responsive admin layouts aligned with the platform design system; wrote HLD/LLD notes before coding shared modules
 \end{itemize}
 
 \textbf{Freelance Full Stack Developer (Part-time)} \hfill Nov 2024 – May 2025
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Delivered 6+ client projects including dashboards, business websites, and SaaS applications using React, Next.js, Node.js, and PostgreSQL for real-world business use cases
-\item Collaborated directly with clients to design, develop, deploy, and maintain full-stack products based on client requirements
+\item Delivered two named production sites — Sri Thanigai Garments (CMS-backed company site) and GB Fitness (Vercel deploy)
+\item Owned discovery through deploy and post-launch fixes for both clients
 \end{itemize}
 
 %================ PROJECTS =================
 \section{Projects}
-\textit{Selected client and personal projects. Additional work samples: \href{https://sreefolio.vercel.app/projects}{sreefolio.vercel.app/projects}}
+\textit{Case studies: \href{https://www.sreekanth.pro/projects}{www.sreekanth.pro/projects}}
 
-\textbf{SkelArmor Dashboard — Freelance SaaS Project} \hfill
-\href{https://dashboard.skelarmor.com/}{Live} |
-\href{https://skelarmor.com/software/}{Docs}
-
+\textbf{Sree Dev Tool — Personal ops platform} \hfill
+\href{https://www.sreekanth.pro/project/sree-dev-tool}{Docs} |
+\href{https://github.com/Sree0405/dev-portfolio}{GitHub}
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Collaborated directly with the client to analyze requirements and design tenant-based SaaS workflows
-\item Developed dashboard modules using React, Next.js, and TypeScript with role-based access control for multiple user roles
-\item Integrated APIs and managed asynchronous data handling for real-time dashboard operations
+\item Sole owner — React UI, Express APIs, Prisma/PostgreSQL, session auth, modular domains
+\item Built into a portfolio monorepo designed to scale from day one — multi-tenant-capable modules without a second stack; demo isolates private ops data
 \end{itemize}
 
-\textbf{SkelArmor Platform — Freelance Full Stack Project} \hfill
-\href{https://www.skelarmor.com/}{Live}
-
-\begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Gathered business requirements and contributed to developing a SaaS platform tailored to client needs
-\item Built responsive and SEO-friendly interfaces using Next.js with a focus on performance and maintainability
-\item Contributed to backend APIs, deployment workflows, and production server configuration
-\end{itemize}
-
-\textbf{My3DUI — UI Component Library} \hfill
+\textbf{My3DUI — Open-source 3D UI library} \hfill
 \href{https://my3dui.vercel.app/}{Live} |
-\href{https://my3dui.vercel.app/docs}{Docs}
-
+\href{https://github.com/Sree0405/my3dui}{GitHub}
 \begin{itemize}[leftmargin=*, itemsep=1pt]
-\item Built reusable 3D UI components using React Three Fiber and TypeScript for interactive web applications
-\item Designed composable component architecture and custom hooks for reusable animation behavior
-\item Improved developer experience by abstracting complex 3D rendering logic into reusable UI primitives
+\item TypeScript-first React Three Fiber primitives with public playground and docs
+\item Tree-shakable library entry separate from the docs/playground app
+\end{itemize}
+
+\textbf{Fieldstack — Open-source CMS/admin} \hfill
+\href{https://fieldstack.onrender.com/}{Demo} |
+\href{https://github.com/Sree0405/fieldstack}{GitHub}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+\item NestJS + Prisma with JWT/RBAC and collection-driven REST; early-stage open source, honest demo scale
 \end{itemize}
 
 %================ EDUCATION =================

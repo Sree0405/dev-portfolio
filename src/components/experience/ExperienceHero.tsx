@@ -1,12 +1,13 @@
-import { Briefcase, GraduationCap, Rocket, Users } from "lucide-react";
+import { Briefcase, GraduationCap, Rocket, ShieldCheck } from "lucide-react";
 
 import { PageTitle } from "@/components/ui/page-title";
+import { Reveal } from "@/components/portfolio";
 
 const highlights = [
-  "React & Next.js production apps",
-  "REST APIs & SaaS platforms",
-  "HLD / LLD & code review",
-  "Mentoring & client delivery",
+  "Platform module ownership",
+  "Auth, APIs & Linux deploys",
+  "Named client sites live",
+  "Code review & mentoring",
 ];
 
 export default function ExperienceHero() {
@@ -15,48 +16,57 @@ export default function ExperienceHero() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,hsl(var(--primary)/0.12),transparent_55%)]" />
 
       <div className="page-hero-inner max-w-3xl">
+        <Reveal>
           <PageTitle
             eyebrow="Career"
             accent="Professional"
             rest="journey"
             titleClassName="mb-5"
           />
+        </Reveal>
 
-          <p className="mx-auto max-w-xl text-base portfolio-text-muted sm:text-lg">
-            EWall · freelance delivery · mentoring — told chapter by chapter.
+        <Reveal delay={0.08}>
+          <p className="mx-auto max-w-xl text-sm portfolio-text-muted sm:text-[15px]">
+            Ownership on the EWall platform, plus freelance client sites shipped to
+            production — evidence over titles. Junior title; module-level scope,
+            not invented company metrics.
           </p>
+        </Reveal>
 
+        <Reveal delay={0.12}>
           <div className="mt-8 flex flex-wrap justify-center gap-2 sm:mt-10 sm:gap-3">
             {highlights.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md bg-muted/50 px-3 py-1.5 font-mono text-xs portfolio-text-muted sm:px-4 sm:py-2 sm:text-sm"
+                className="tech-pill rounded-md border border-primary/20 bg-muted/50 px-3 py-1.5 font-mono text-xs portfolio-text-muted transition-colors hover:border-primary/40 hover:text-primary sm:px-4 sm:py-2 sm:text-sm"
               >
                 {tag}
               </span>
             ))}
           </div>
+        </Reveal>
 
+        <Reveal delay={0.16}>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm portfolio-text-muted sm:gap-10">
             <div className="flex items-center gap-2">
               <Briefcase className="h-4 w-4 text-primary" />
               <span>
                 <span className="page-title-accent font-semibold">EWall</span>{" "}
-                intern → junior
+                · intern → junior
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Rocket className="h-4 w-4 text-primary" />
               <span>
-                <span className="page-title-accent font-semibold">6+</span>{" "}
-                freelance projects
+                <span className="page-title-accent font-semibold">2</span> named
+                client sites live
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" />
+              <ShieldCheck className="h-4 w-4 text-primary" />
               <span>
-                <span className="page-title-accent font-semibold">Mentoring</span>{" "}
-                & code review
+                <span className="page-title-accent font-semibold">Auth</span> &
+                module ownership
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -66,6 +76,7 @@ export default function ExperienceHero() {
               </span>
             </div>
           </div>
+        </Reveal>
       </div>
     </section>
   );

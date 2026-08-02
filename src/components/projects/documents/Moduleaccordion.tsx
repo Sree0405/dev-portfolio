@@ -21,11 +21,11 @@ const ModuleAccordion: React.FC<ModuleAccordionProps> = ({ data }) => {
   return (
     <section className="mb-16">
       <div className="flex items-center gap-3 mb-6">
-        <Database className="w-8 h-8 text-purple-400" />
-        <h2 className="text-3xl font-bold text-white">App Modules</h2>
+        <Database className="w-8 h-8 text-primary" />
+        <h2 className="text-2xl font-bold text-foreground">App Modules</h2>
       </div>
-      <div className="bg-gray-900/50 border border-purple-500/20 rounded-lg p-8">
-        <p className="text-gray-300 leading-relaxed mb-6">
+      <div className="bg-background/50 border border-border rounded-lg p-8">
+        <p className="text-foreground/80 leading-relaxed mb-6">
           The application is organized into {data.length} primary modules. Every module is purpose-built to handle a specific dimension of the platform.
         </p>
 
@@ -33,26 +33,26 @@ const ModuleAccordion: React.FC<ModuleAccordionProps> = ({ data }) => {
           {data.map((mod, i) => (
             <div
               key={i}
-              className="border border-purple-500/20 rounded-lg overflow-hidden bg-gray-950/40"
+              className="border border-border rounded-lg overflow-hidden bg-background/40"
             >
               {/* Header */}
               <button
                 onClick={() => toggle(i)}
-                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-purple-900/10 transition-colors"
+                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-primary/10 transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/10 text-sm font-semibold text-purple-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
                     {i + 1}
                   </div>
                   <div>
-                    <p className="font-semibold text-white">{mod.name}</p>
+                    <p className="font-semibold text-foreground">{mod.name}</p>
                     {mod.purpose && (
-                      <p className="text-xs text-gray-500 mt-0.5">{mod.purpose}</p>
+                      <p className="text-xs portfolio-text-muted mt-0.5">{mod.purpose}</p>
                     )}
                   </div>
                 </div>
                 <ChevronDown
-                  className={`w-5 h-5 text-purple-400 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-primary transition-transform duration-200 ${
                     openIndex === i ? 'rotate-180' : ''
                   }`}
                 />
@@ -60,16 +60,16 @@ const ModuleAccordion: React.FC<ModuleAccordionProps> = ({ data }) => {
 
               {/* Body */}
               {openIndex === i && (
-                <div className="px-6 pb-5 border-t border-purple-500/10">
+                <div className="px-6 pb-5 border-t border-border/50">
                   {mod.features?.length > 0 && (
-                    <ul className="space-y-2 text-gray-300 text-sm mt-4 mb-4">
+                    <ul className="space-y-2 text-foreground/80 text-sm mt-4 mb-4">
                       {mod.features.map((f, j) => (
                         <li key={j}>✓ {f}</li>
                       ))}
                     </ul>
                   )}
                   {mod.summary && (
-                    <p className="text-sm text-gray-500 italic border-t border-purple-500/10 pt-3">
+                    <p className="text-sm portfolio-text-muted italic border-t border-border/50 pt-3">
                       {mod.summary}
                     </p>
                   )}
@@ -80,8 +80,8 @@ const ModuleAccordion: React.FC<ModuleAccordionProps> = ({ data }) => {
         </div>
 
         {/* Quick nav summary */}
-        <div className="bg-purple-900/10 border border-purple-500/20 rounded-lg p-6 mt-6">
-          <h4 className="font-semibold text-purple-400 mb-3">Module Index</h4>
+        <div className="bg-primary/10 border border-border rounded-lg p-6 mt-6">
+          <h4 className="font-semibold text-primary mb-3">Module Index</h4>
           <div className="flex flex-wrap gap-2">
             {data.map((mod, i) => (
               <button
@@ -89,8 +89,8 @@ const ModuleAccordion: React.FC<ModuleAccordionProps> = ({ data }) => {
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className={`px-3 py-1 rounded-full text-sm border transition-colors ${
                   openIndex === i
-                    ? 'border-purple-400 bg-purple-500/20 text-purple-300'
-                    : 'border-purple-500/20 text-gray-400 hover:border-purple-400/40 hover:text-purple-300'
+                    ? 'border-primary bg-primary/20 text-primary/80'
+                    : 'border-border portfolio-text-muted hover:border-primary/40 hover:text-primary/80'
                 }`}
               >
                 {mod.name}

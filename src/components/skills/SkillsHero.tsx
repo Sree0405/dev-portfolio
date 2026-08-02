@@ -1,58 +1,36 @@
-import { ChevronDown, Code2 } from "lucide-react";
-
 import { PageTitle } from "@/components/ui/page-title";
-
-const pillars = [
-  "React & TypeScript",
-  "JavaScript internals",
-  "Rendering & optimization",
-  "REST APIs",
-  "WebSockets",
-  "Scalable architecture",
-  "Node.js & Express",
-  "Full-stack delivery",
-];
+import { Reveal } from "@/components/portfolio";
+import { skillsHero } from "./skillsData";
 
 export default function SkillsHero() {
   return (
-    <section className="page-hero-band flex min-h-[48vh] flex-col items-center justify-center sm:min-h-[52vh] md:min-h-[52vh]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,hsl(var(--primary)/0.14),transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_80%,hsl(var(--primary)/0.06),transparent_50%)]" />
+    <section className="page-hero-band !pb-8 sm:!pb-10">
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,hsl(var(--primary)/0.12),transparent_55%)]"
+        aria-hidden
+      />
 
       <div className="page-hero-inner relative z-10 max-w-3xl">
-        <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-md bg-primary/10 px-4 py-1.5 font-mono text-xs text-primary sm:text-sm">
-          <Code2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-          Frontend engineering depth
-        </div>
+        <Reveal>
+          <PageTitle
+            eyebrow={skillsHero.eyebrow}
+            accent={skillsHero.accent}
+            rest={skillsHero.rest}
+            titleClassName="mb-5"
+          />
+        </Reveal>
 
-        <PageTitle
-          accent="Engineering"
-          rest="capabilities"
-          titleClassName="mb-5"
-        />
+        <Reveal delay={0.08}>
+          <p className="mx-auto max-w-2xl font-display text-base font-semibold leading-snug tracking-[-0.02em] text-foreground sm:text-lg">
+            {skillsHero.lead}
+          </p>
+        </Reveal>
 
-        <p className="mx-auto max-w-xl text-base portfolio-text-muted sm:text-lg">
-          Deepest work in{" "}
-          <span className="page-title-accent">React, TypeScript, and JavaScript</span>
-          —rendering behavior, performance, scalable project design, REST APIs, and
-          WebSockets when products need real-time or full-stack depth.
-        </p>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-2 sm:mt-10 sm:gap-3">
-          {pillars.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-md bg-muted/50 px-3 py-1.5 text-xs portfolio-text-muted sm:px-4 sm:py-2 sm:text-sm"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <p className="mt-8 flex items-center justify-center gap-1 text-xs portfolio-text-muted sm:mt-10">
-          <span>Explore below</span>
-          <ChevronDown className="h-4 w-4 animate-bounce" aria-hidden />
-        </p>
+        <Reveal delay={0.12}>
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed portfolio-text-muted sm:mt-6">
+            {skillsHero.body}
+          </p>
+        </Reveal>
       </div>
     </section>
   );

@@ -12,6 +12,7 @@ import FutureScopeSection from './Futurescopesection';
 import CodeExamplesSection from './Codeexamplessection';
 import type { DocumentationData } from './types';
 import Gallery from './Gallery';
+import { CaseStudySummary } from './CaseStudySummary';
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
 interface DetailModalProps {
@@ -29,14 +30,14 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, descr
       onClick={onClose}
     >
       <div
-        className="bg-gray-900 border border-purple-500/30 rounded-lg max-w-2xl w-full p-6"
+        className="bg-background border border-primary/30 rounded-lg max-w-2xl w-full p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-2xl font-bold text-purple-400 mb-4">{title}</h3>
-        <p className="text-gray-300 leading-relaxed">{description}</p>
+        <h3 className="text-2xl font-bold text-primary mb-4">{title}</h3>
+        <p className="text-foreground/80 leading-relaxed">{description}</p>
         <button
           onClick={onClose}
-          className="mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+          className="mt-6 px-4 py-2 bg-primary hover:bg-primary/90 text-foreground rounded-lg transition-colors"
         >
           Close
         </button>
@@ -98,25 +99,25 @@ const DocumentationPage: React.FC<DocumentationPageProps> = ({ data, isMobile = 
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950 flex items-center justify-center">
-        <p className="text-gray-500 text-lg">No documentation data provided.</p>
+      <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background flex items-center justify-center">
+        <p className="portfolio-text-muted text-lg">No documentation data provided.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
         {/* ── Header ───────────────────────────────────────────────────────── */}
         <div className="text-center mb-16 mt-16">
-          <h1 className="text-5xl text-center md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl text-center md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
             {data.projectName}
           </h1>
           {data.tagline && (
-            <p className="text-xl text-gray-400 mb-2">{data.tagline}</p>
+            <p className="text-sm portfolio-text-muted mb-2 sm:text-[15px]">{data.tagline}</p>
           )}
-          <p className="text-gray-500">Complete A–Z Platform Documentation</p>
+          <p className="portfolio-text-muted">Complete A–Z Platform Documentation</p>
 
           {/* Tech stack badges */}
           {data.techStack?.length > 0 && (
@@ -124,13 +125,13 @@ const DocumentationPage: React.FC<DocumentationPageProps> = ({ data, isMobile = 
               {data.techStack.map((tech, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1 bg-purple-900/40 border border-purple-500/30 rounded-full text-sm text-purple-300"
+                  className="px-3 py-1 bg-primary/10 border border-primary/30 rounded-full text-sm text-primary/80"
                 >
                   {tech}
                 </span>
               ))}
               {data.status && (
-                <span className="px-3 py-1 bg-purple-900/40 border border-purple-500/30 rounded-full text-sm text-purple-300">
+                <span className="px-3 py-1 bg-primary/10 border border-primary/30 rounded-full text-sm text-primary/80">
                   {data.status}
                 </span>
               )}
@@ -141,17 +142,26 @@ const DocumentationPage: React.FC<DocumentationPageProps> = ({ data, isMobile = 
           {data.demoUrl && (
             <button
               onClick={() => window.open(data.demoUrl, '_blank')}
-              className="mt-6 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+              className="mt-6 px-6 py-2 bg-primary hover:bg-primary/90 text-foreground rounded-lg transition-colors"
             >
               View Live Demo
             </button>
           )}
         </div>
 
+        {data.caseStudy ? (
+          <CaseStudySummary
+            problem={data.caseStudy.problem}
+            constraints={data.caseStudy.constraints}
+            approach={data.caseStudy.approach}
+            results={data.caseStudy.results}
+          />
+        ) : null}
+
         {/* ── Table of Contents ─────────────────────────────────────────────── */}
         {activeToc.length > 0 && (
-          <div className="bg-gray-900/50 border border-purple-500/20 rounded-2xl p-10 mb-16">
-            <h3 className="text-2xl font-bold text-purple-400 mb-8 tracking-wide">
+          <div className="bg-background/50 border border-border rounded-2xl p-10 mb-16">
+            <h3 className="text-2xl font-bold text-primary mb-8 tracking-wide">
               Table of Contents
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -159,18 +169,18 @@ const DocumentationPage: React.FC<DocumentationPageProps> = ({ data, isMobile = 
                 <a
                   key={id}
                   href={`#${id}`}
-                  className="group flex items-center gap-4 rounded-xl border border-purple-500/10
-                             bg-gray-950/40 px-5 py-4 transition-all
-                             hover:border-purple-400/40 hover:bg-purple-900/10"
+                  className="group flex items-center gap-4 rounded-xl border border-border/50
+                             bg-background/40 px-5 py-4 transition-all
+                             hover:border-primary/40 hover:bg-primary/10"
                 >
                   <div
                     className="flex h-9 w-9 items-center justify-center rounded-full
-                               bg-purple-500/10 text-sm font-semibold text-purple-400
-                               group-hover:bg-purple-500/20"
+                               bg-primary/10 text-sm font-semibold text-primary
+                               group-hover:bg-primary/20"
                   >
                     {index + 1}
                   </div>
-                  <div className="text-gray-300 group-hover:text-purple-300 transition-colors">
+                  <div className="text-foreground/80 group-hover:text-primary/80 transition-colors">
                     {label}
                   </div>
                 </a>
@@ -251,9 +261,9 @@ const DocumentationPage: React.FC<DocumentationPageProps> = ({ data, isMobile = 
         )}
 
         {/* ── Footer ────────────────────────────────────────────────────────── */}
-        <div className="text-center pt-16 pb-8 border-t border-purple-500/20">
-          <p className="text-gray-400 mb-2">{data.projectName} Documentation</p>
-          <p className="text-sm text-gray-600">
+        <div className="text-center pt-16 pb-8 border-t border-border">
+          <p className="portfolio-text-muted mb-2">{data.projectName} Documentation</p>
+          <p className="text-sm portfolio-text-muted">
             {data.techStack?.join(', ')}
             {data.status ? ` • ${data.status}` : ''}
           </p>

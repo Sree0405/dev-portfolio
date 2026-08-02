@@ -1,7 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap');
+/* Fonts loaded via preconnect + stylesheet in index.html (DM Sans, Syne, Unbounded, JetBrains Mono) */
 
 @import "../node_modules/latex.js/dist/css/base.css";
 @import "../node_modules/latex.js/dist/css/katex.css";
+
+/*
+ * Neutralize latex.js global pollution.
+ * base.css sets:
+ *   - html { text-align: justify; font-size: 10pt }
+ *   - body, .page { display: grid; min-width: var(--paperwidth); … }
+ * The body grid is the root cause of portfolio pages overflowing on mobile:
+ * grid items default to min-width:auto, so wide children expand the viewport
+ * and overflow-x:clip then slices text mid-line.
+ * Keep TeX layout only inside .latex-preview / .latex-preview-page.
+ */
+:root,
+:host,
+.latex-preview,
+.latex-preview-page {
+  --parindent: 0;
+  --listparindent: 0;
+  --itemindent: 0;
+  --paperwidth: 100%;
+  --textwidth: 100%;
+  --marginleftwidth: 0px;
+  --marginrightwidth: 0px;
+  --marginparwidth: 0px;
+  --marginparsep: 0px;
+}
+
+html {
+  font-size: 16px;
+  text-align: start;
+  line-height: normal;
+  hyphens: manual;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Kill latex.js body page-grid for the SPA — resume preview uses .latex-preview-page */
+body {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  overflow-x: clip;
+  text-align: start;
+  word-spacing: normal;
+}
+
+p,
+.list p:first-of-type,
+.list p + p {
+  text-indent: 0;
+  text-align: start;
+  word-spacing: normal;
+}
+
+/* Restore LaTeX typesetting only inside resume / latex previews */
+.latex-preview,
+.latex-preview.page,
+.latex-preview-page .page {
+  font-family: "Computer Modern Serif", Georgia, "Times New Roman", serif;
+  font-size: var(--size, 10pt);
+  text-align: justify;
+  line-height: var(--line-height, 1.2);
+  hyphens: manual;
+}
+
+.latex-preview .list {
+  text-align: justify;
+}
 
 @tailwind base;
 @tailwind components;
@@ -161,7 +233,9 @@ html {
 body {
   @apply bg-background font-sans text-foreground antialiased;
   font-feature-settings: "cv02", "cv11", "ss01";
-  overflow-x: hidden;
+  text-align: start;
+  /* clip avoids the overflow-x:hidden → overflow-y:auto trap that creates dual scrollbars */
+  overflow-x: clip;
   background-image: var(--gradient-bg);
   background-attachment: fixed;
 }
@@ -275,12 +349,745 @@ code,pre {
   );
 }
 
-/* Full-page consistent surface (optional wrapper) */
+/* ========================= */
+/* PORTFOLIO CANVAS (v2)     */
+/* Tokens: .app-canvas + .portfolio-theme-scope (portals) */
+/* :root / dashboard untouched */
+/* ========================= */
+
+/*
+ * Shared Obsidian Teal tokens for the page canvas AND portaled UI
+ * (mobile nav sheet, dialogs) that render outside .app-canvas in document.body.
+ */
+.app-canvas,
+.portfolio-theme-scope {
+  /* Premium portfolio type — Syne display + DM Sans body (dashboard keeps :root) */
+  font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+  font-feature-settings: "ss01", "ss02", "cv11";
+  font-size: 0.875rem; /* 14px base — compact product scale */
+  line-height: 1.65;
+
+  /* Surfaces — Obsidian Teal graphite */
+  --background: 192 26% 4%; /* #070B0C */
+  --surface: 195 22% 7%; /* #0E1416 */
+  --surface-2: 196 21% 10%; /* #151D20 */
+  --surface-3: 198 19% 14%; /* hover #1B262A-ish */
+  --card: 195 22% 7%;
+  --card-foreground: 190 30% 96%;
+  --popover: 196 21% 10%;
+  --popover-foreground: 190 30% 96%;
+
+  /* Text hierarchy */
+  --foreground: 190 30% 96%; /* #F2F7F8 */
+  --muted: 196 21% 10%;
+  --muted-foreground: 195 10% 58%; /* #87999F */
+  --secondary: 196 21% 10%;
+  --secondary-foreground: 195 16% 80%; /* #C2D0D4 */
+
+  /* Brand — Obsidian Teal #0D9488 */
+  --primary: 173 84% 32%; /* #0D9488 */
+  --primary-glow: 172 66% 50%; /* #2DD4BF accent */
+  --primary-soft: 173 84% 32%;
+  --primary-light: 173 80% 40%; /* #14B8A6 hover */
+  --primary-bright: 172 66% 50%;
+  --primary-pressed: 175 77% 26%; /* #0F766E */
+  --primary-foreground: 0 0% 100%;
+  --ring: 173 84% 32%;
+  --accent: 172 66% 50%; /* #2DD4BF */
+  --accent-soft: 173 80% 40%;
+  --accent-foreground: 192 26% 4%;
+
+  /* Borders */
+  --border: 198 19% 17%; /* #243035 */
+  --input: 198 19% 17%;
+  --title-accent-start: 190 30% 96%;
+  --title-accent-mid: 190 30% 96%;
+  --title-accent-end: 190 30% 96%;
+
+  /* Soft shadows only — no neon glow */
+  --shadow-neon: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-glass: 0 4px 16px rgba(0, 0, 0, 0.28);
+
+  --gradient-primary: hsl(173 84% 32%);
+  --gradient-title-accent: none;
+  --gradient-glow: none;
+  --gradient-bg: none;
+
+  --glass-bg: 195 22% 7%;
+  --glass-border: 198 19% 17%;
+
+  /* Motion tokens */
+  --motion-fast: 150ms;
+  --motion-normal: 250ms;
+  --motion-slow: 400ms;
+  --motion-ease: ease-out;
+
+  /* Soft brand wash on dark canvas */
+  --atmosphere-a: hsl(173 84% 32% / 0.12);
+  --atmosphere-b: hsl(172 66% 50% / 0.06);
+
+  color: hsl(var(--foreground));
+}
+
 .app-canvas {
-  @apply min-h-screen text-foreground;
+  @apply min-h-screen text-foreground antialiased;
   background-color: hsl(var(--background));
-  background-image: var(--gradient-bg);
-  background-attachment: fixed;
+  background-image:
+    radial-gradient(ellipse 85% 55% at 0% 0%, var(--atmosphere-a), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 10%, var(--atmosphere-b), transparent 50%);
+  scroll-behavior: smooth;
+}
+
+/* Portaled portfolio UI (Sheet/Dialog) — solid surface, no full-page wash */
+.portfolio-theme-scope {
+  background-color: hsl(var(--surface));
+}
+
+/*
+ * Light theme — premium Obsidian Teal daylight (not inverted dark / plain white).
+ * Tokens on canvas + portaled scopes; page atmosphere only on .app-canvas.
+ */
+html[data-theme="light"] .app-canvas,
+html[data-theme="light"] .portfolio-theme-scope {
+  /* Canvas — mist teal field, never flat white */
+  --background: 196 28% 96%;
+  --surface: 0 0% 100%;
+  --surface-2: 192 24% 94%;
+  --surface-3: 190 22% 90%;
+  --card: 0 0% 100%;
+  --card-foreground: 200 20% 6%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 200 20% 6%;
+
+  /* Near-black ink — full contrast on light */
+  --foreground: 200 18% 6%; /* ~#0C1214 */
+  --muted: 192 24% 94%;
+  --muted-foreground: 200 12% 22%; /* dark secondary, not washed gray */
+  --secondary: 192 24% 94%;
+  --secondary-foreground: 200 16% 12%;
+
+  /* Brand — full saturated teal (same strength as dark) */
+  --primary: 173 84% 32%; /* #0D9488 */
+  --primary-glow: 172 66% 42%;
+  --primary-soft: 173 84% 32%;
+  --primary-light: 173 80% 36%; /* #0F8A7E */
+  --primary-bright: 172 70% 40%;
+  --primary-pressed: 175 77% 24%; /* #0A5C56 */
+  --primary-foreground: 0 0% 100%;
+  --ring: 173 84% 32%;
+  --accent: 173 84% 32%;
+  --accent-soft: 172 70% 38%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Stronger structure */
+  --border: 195 18% 72%;
+  --input: 195 18% 72%;
+  --title-accent-start: 200 18% 6%;
+  --title-accent-mid: 200 18% 6%;
+  --title-accent-end: 200 18% 6%;
+
+  /* Clearer teal-cast elevation */
+  --shadow-neon:
+    0 1px 2px rgba(13, 148, 136, 0.1),
+    0 10px 28px rgba(13, 148, 136, 0.14);
+  --shadow-soft:
+    0 1px 2px rgba(12, 18, 20, 0.06),
+    0 12px 32px rgba(13, 148, 136, 0.12);
+  --shadow-glass:
+    0 1px 2px rgba(12, 18, 20, 0.05),
+    0 8px 24px rgba(13, 148, 136, 0.1);
+
+  --glass-bg: 0 0% 100%;
+  --glass-border: 195 18% 72%;
+
+  --atmosphere-a: hsl(173 84% 32% / 0.18);
+  --atmosphere-b: hsl(172 70% 40% / 0.14);
+
+  color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .app-canvas {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(ellipse 90% 55% at -5% -5%, var(--atmosphere-a), transparent 52%),
+    radial-gradient(ellipse 70% 45% at 105% 8%, var(--atmosphere-b), transparent 48%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, hsl(189 40% 88% / 0.7), transparent 60%),
+    linear-gradient(180deg, hsl(196 36% 98%) 0%, hsl(196 28% 96%) 45%, hsl(192 26% 94%) 100%);
+}
+
+html[data-theme="light"] .portfolio-theme-scope {
+  background-color: hsl(var(--surface));
+}
+
+/* Theme color transitions ≤200ms (THEMES.md) — no layout props */
+.app-canvas,
+.app-canvas *:not(img):not(svg):not(video),
+.portfolio-theme-scope,
+.portfolio-theme-scope *:not(img):not(svg):not(video) {
+  transition-property: color, background-color, border-color, box-shadow, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-canvas,
+  .app-canvas *:not(img):not(svg):not(video),
+  .portfolio-theme-scope,
+  .portfolio-theme-scope *:not(img):not(svg):not(video) {
+    transition-duration: 0ms;
+  }
+}
+
+.app-canvas h1,
+.app-canvas h2,
+.app-canvas h3,
+.app-canvas h4,
+.app-canvas h5,
+.app-canvas h6 {
+  font-family: "Syne", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.app-canvas .font-display {
+  font-family: "Syne", system-ui, sans-serif;
+}
+
+.app-canvas .font-sans {
+  font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+}
+
+.app-canvas code,
+.app-canvas pre,
+.app-canvas .font-mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Solid elevated nav — replaces glassmorphism on portfolio */
+.app-canvas .glass-nav {
+  background: hsl(var(--surface));
+  border: 1px solid hsl(var(--border));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: var(--shadow-soft);
+}
+
+.app-canvas .glass-nav::before {
+  display: none;
+}
+
+/* Solid brand CTA — no glow (dashboard keeps global .btn-gradient) */
+.app-canvas .btn-gradient {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 1px solid transparent;
+  box-shadow: none;
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease),
+    opacity var(--motion-fast) var(--motion-ease);
+}
+
+.app-canvas .btn-gradient:hover {
+  background: hsl(var(--primary-light));
+  box-shadow: none;
+}
+
+.app-canvas .btn-gradient:active {
+  background: hsl(var(--primary-pressed));
+  transform: scale(0.98);
+}
+
+.app-canvas .btn-glass {
+  background: hsl(var(--surface-2));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  transition:
+    border-color var(--motion-fast) var(--motion-ease),
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease);
+}
+
+.app-canvas .btn-glass:hover {
+  border-color: hsl(var(--primary) / 0.35);
+  background: hsl(var(--primary) / 0.12);
+  box-shadow: none;
+}
+
+/* Solid titles — compact type scale */
+.app-canvas .page-title {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: unset;
+  color: hsl(var(--foreground));
+  font-family: "Syne", system-ui, sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.app-canvas .page-title-accent {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: unset;
+  color: hsl(var(--foreground));
+}
+
+.app-canvas .section-title {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: unset;
+  color: hsl(var(--foreground));
+  font-family: "Syne", system-ui, sans-serif;
+  font-size: clamp(1.0625rem, 1.6vw, 1.35rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.app-canvas .section-eyebrow {
+  color: hsl(var(--primary));
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+}
+
+/* Hero display name — brand focal point */
+.app-canvas .hero-display-name {
+  font-family: "Unbounded", "Syne", system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  word-spacing: normal;
+  color: hsl(var(--foreground));
+}
+
+.app-canvas .hero-display-name .hero-name-dot {
+  color: hsl(var(--primary));
+}
+
+/* Natural typesetting — never justify in the portfolio */
+.app-canvas {
+  text-align: start;
+  word-spacing: normal;
+}
+
+.app-canvas p,
+.app-canvas li {
+  text-align: start;
+  word-spacing: normal;
+}
+
+.app-canvas p {
+  line-height: 1.65;
+  font-size: 0.875rem;
+  /* Cap measure without exceeding the viewport (65ch alone overflowed phones). */
+  max-width: min(65ch, 100%);
+  text-wrap: pretty;
+}
+
+.app-canvas .portfolio-card p,
+.app-canvas article p,
+.app-canvas .text-center p,
+.app-canvas .page-hero-band p,
+.app-canvas .docs-shell p,
+.app-canvas .docs-shell li,
+.app-canvas .docs-shell dd,
+.app-canvas .docs-shell dt {
+  max-width: none;
+}
+
+/* Project documentation — never allow horizontal page blowout on small screens */
+.app-canvas .docs-shell {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.app-canvas .docs-shell *,
+.app-canvas .docs-shell *::before,
+.app-canvas .docs-shell *::after {
+  box-sizing: border-box;
+}
+
+.app-canvas .docs-shell .docs-tech-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.375rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.app-canvas .text-center,
+.app-canvas .text-center p {
+  text-align: center;
+}
+
+.app-canvas .tech-pill,
+.app-canvas .meta-badge {
+  font-size: 0.8125rem;
+  min-height: 1.65rem;
+}
+
+/* Brand chrome utilities */
+.app-canvas .icon-well {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--primary) / 0.28);
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}
+
+.app-canvas .brand-divider {
+  height: 1px;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.55),
+    hsl(var(--border)) 28%,
+    hsl(var(--border))
+  );
+}
+
+.app-canvas .portfolio-text-muted {
+  color: hsl(var(--muted-foreground));
+}
+
+html[data-theme="light"] .app-canvas .portfolio-text-muted {
+  color: hsl(200 12% 22%);
+}
+
+html[data-theme="light"] .app-canvas .icon-well {
+  border-color: hsl(var(--primary) / 0.45);
+  background: hsl(var(--primary) / 0.14);
+  color: hsl(var(--primary));
+}
+
+/* Portfolio cards — shared craft */
+.app-canvas .portfolio-card {
+  border-color: hsl(var(--border));
+  background: hsl(var(--surface));
+  box-shadow: var(--shadow-glass);
+}
+
+.app-canvas .portfolio-card-interactive:hover,
+.app-canvas .portfolio-card-interactive:focus-within {
+  border-color: hsl(var(--primary) / 0.35);
+  box-shadow:
+    inset 3px 0 0 0 hsl(var(--primary)),
+    var(--shadow-soft);
+}
+
+/* Typographic wordmark */
+.app-canvas .brand-mark {
+  font-family: "Unbounded", "Syne", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-feature-settings: "ss01";
+}
+
+/* —— Light theme craft overrides —— */
+html[data-theme="light"] .app-canvas .glass-nav {
+  background: hsl(0 0% 100% / 0.92);
+  border-color: hsl(var(--primary) / 0.35);
+  box-shadow:
+    0 1px 2px rgba(12, 18, 20, 0.06),
+    0 12px 32px rgba(13, 148, 136, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+html[data-theme="light"] .app-canvas .btn-gradient {
+  box-shadow: 0 8px 22px hsl(var(--primary) / 0.35);
+}
+
+html[data-theme="light"] .app-canvas .btn-gradient:hover {
+  box-shadow: 0 10px 28px hsl(var(--primary) / 0.42);
+}
+
+html[data-theme="light"] .app-canvas .btn-gradient:active,
+html[data-theme="light"] .app-canvas .btn-sree-dev:active {
+  background: hsl(var(--primary-pressed));
+}
+
+html[data-theme="light"] .app-canvas .btn-glass {
+  background: hsl(var(--surface));
+  border-color: hsl(var(--primary) / 0.4);
+  color: hsl(var(--foreground));
+}
+
+.app-canvas .hero-atmosphere {
+  background:
+    radial-gradient(ellipse 85% 60% at 0% 0%, hsl(var(--primary) / 0.14), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 95% 25%, hsl(var(--accent) / 0.08), transparent 50%);
+}
+
+html[data-theme="light"] .app-canvas .hero-atmosphere {
+  background:
+    radial-gradient(ellipse 85% 60% at 0% 0%, hsl(173 84% 32% / 0.22), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 90% 30%, hsl(172 70% 40% / 0.16), transparent 50%);
+}
+
+html[data-theme="light"] .app-canvas .portfolio-card {
+  border-color: hsl(var(--primary) / 0.28);
+  background: hsl(0 0% 100%);
+  box-shadow: var(--shadow-soft);
+  color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .app-canvas .portfolio-card-interactive:hover,
+html[data-theme="light"] .app-canvas .portfolio-card-interactive:focus-within {
+  border-color: hsl(var(--primary) / 0.55);
+  background: hsl(173 55% 97%);
+}
+
+html[data-theme="light"] .app-canvas .tech-pill {
+  border-color: hsl(var(--primary) / 0.4);
+  background: hsl(var(--primary) / 0.12);
+  color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .app-canvas .tech-pill:hover {
+  border-color: hsl(var(--primary) / 0.65);
+  background: hsl(var(--primary) / 0.2);
+  color: hsl(var(--primary));
+}
+
+html[data-theme="light"] .app-canvas .meta-badge {
+  border-color: hsl(var(--primary) / 0.45);
+  background: hsl(var(--primary) / 0.14);
+  color: hsl(var(--primary));
+}
+
+html[data-theme="light"] .app-canvas .page-hero-band {
+  border-color: hsl(var(--primary) / 0.22);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(var(--primary) / 0.16), transparent 55%);
+}
+
+html[data-theme="light"] .app-canvas .brand-divider {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.9),
+    hsl(var(--primary) / 0.35) 35%,
+    hsl(var(--border))
+  );
+}
+
+.app-canvas .hero-featured-frame {
+  box-shadow: 0 24px 80px -24px rgba(0, 0, 0, 0.65);
+}
+
+html[data-theme="light"] .app-canvas .hero-featured-frame {
+  border-color: hsl(var(--primary) / 0.35);
+  box-shadow:
+    0 1px 2px rgba(12, 18, 20, 0.06),
+    0 20px 48px rgba(13, 148, 136, 0.18);
+}
+
+/* Light — force readable headings / accents (no washed opacity) */
+html[data-theme="light"] .app-canvas .page-title,
+html[data-theme="light"] .app-canvas .section-title,
+html[data-theme="light"] .app-canvas .page-title-accent,
+html[data-theme="light"] .app-canvas .hero-display-name {
+  color: hsl(var(--foreground));
+  -webkit-text-fill-color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .app-canvas .section-eyebrow,
+html[data-theme="light"] .app-canvas .hero-display-name .hero-name-dot {
+  color: hsl(var(--primary));
+  -webkit-text-fill-color: hsl(var(--primary));
+}
+
+/* Dark — richer brand on chrome */
+.app-canvas .glass-nav {
+  border-color: hsl(var(--primary) / 0.15);
+}
+
+.app-canvas .tech-pill {
+  border-color: hsl(var(--primary) / 0.22);
+}
+
+.app-canvas .page-hero-band {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(var(--primary) / 0.1), transparent 55%);
+}
+
+html[data-theme="light"] .app-canvas .ring-offset-background {
+  --tw-ring-offset-color: hsl(var(--background));
+}
+
+.app-canvas .page-container {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16;
+}
+
+.app-canvas .page-container-wide {
+  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 md:px-12 lg:px-16;
+}
+
+.app-canvas .page-container-x {
+  @apply mx-auto max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16;
+}
+
+.app-canvas .glass-panel {
+  background: hsl(var(--surface));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow-glass);
+}
+
+.app-canvas .hover-scale:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.app-canvas .btn-sree-dev {
+  background: hsl(var(--primary));
+  border: 1px solid hsl(var(--primary) / 0.25);
+  color: hsl(var(--primary-foreground));
+  box-shadow: none;
+}
+
+.app-canvas .btn-sree-dev:hover {
+  background: hsl(var(--primary-light));
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: none;
+}
+
+.app-canvas .skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  border-radius: 0.5rem;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.app-canvas .skip-link:focus {
+  top: 1rem;
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-canvas {
+    scroll-behavior: auto;
+  }
+
+  .app-canvas .reveal-motion,
+  .app-canvas [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/*
+ * Portfolio scrollbar — graphite, not neon.
+ * Document scroll lives on html/body, so override via :has(.app-canvas).
+ * Nested overflow regions use .app-canvas descendants.
+ * Dashboard (:root neon thumb above) stays unchanged when canvas is absent.
+ */
+/* Single document scroll — html scrolls; body does not become a second scroller */
+html:has(.app-canvas) {
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(222 15% 22%) hsl(240 6% 4%);
+}
+
+html:has(.app-canvas) body {
+  overflow: visible;
+  overflow-x: clip;
+  height: auto;
+  min-height: 100%;
+}
+
+html:has(.app-canvas) .app-canvas {
+  overflow: visible;
+  overflow-x: clip;
+  min-height: 100vh;
+  height: auto;
+}
+
+html[data-theme="light"]:has(.app-canvas) {
+  scrollbar-color: hsl(214 20% 80%) hsl(0 0% 100%);
+}
+
+html:has(.app-canvas)::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html:has(.app-canvas)::-webkit-scrollbar-track {
+  background: hsl(240 6% 4%);
+}
+
+html[data-theme="light"]:has(.app-canvas)::-webkit-scrollbar-track {
+  background: hsl(0 0% 100%);
+}
+
+html:has(.app-canvas)::-webkit-scrollbar-thumb {
+  background: hsl(222 15% 22%);
+  border-radius: 999px;
+}
+
+html[data-theme="light"]:has(.app-canvas)::-webkit-scrollbar-thumb {
+  background: hsl(214 20% 80%);
+}
+
+html:has(.app-canvas)::-webkit-scrollbar-thumb:hover {
+  background: hsl(222 12% 32%);
+}
+
+html[data-theme="light"]:has(.app-canvas)::-webkit-scrollbar-thumb:hover {
+  background: hsl(215 16% 65%);
+}
+
+.app-canvas,
+.app-canvas * {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) hsl(var(--background));
+}
+
+.app-canvas::-webkit-scrollbar,
+.app-canvas *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.app-canvas::-webkit-scrollbar-track,
+.app-canvas *::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+.app-canvas::-webkit-scrollbar-thumb,
+.app-canvas *::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 999px;
+}
+
+.app-canvas::-webkit-scrollbar-thumb:hover,
+.app-canvas *::-webkit-scrollbar-thumb:hover {
+  background: hsl(215 14% 36%);
 }
 
 /* Below fixed nav — top inset (nav ~4.5–5.5rem + breathing room; avoid utility pt-* on same node or it overrides this) */
@@ -318,9 +1125,13 @@ code,pre {
   @apply mx-auto max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16;
 }
 
-/* Standard content section vertical rhythm */
+/* Standard content section vertical rhythm — 8px grid */
 .page-section-y {
-  @apply py-20 md:py-28 lg:py-32;
+  @apply py-16 sm:py-20 md:py-24 lg:py-28;
+}
+
+.app-canvas .page-section-y {
+  padding-block: clamp(4rem, 8vw, 7rem);
 }
 
 /* Hero band — centered title + intro (Projects, Experience, Skills, Contact, …) */
@@ -334,12 +1145,12 @@ code,pre {
 
 /* Section label — use with mono capitals */
 .section-eyebrow {
-  @apply font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-primary/90 sm:text-xs;
+  @apply font-mono text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-primary sm:text-xs;
 }
 
-/* Premium page & section titles */
+/* Page & section titles — compact product scale (app-canvas overrides solid color) */
 .page-title {
-  @apply w-full font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-5xl md:text-6xl;
+  @apply w-full font-display text-2xl font-bold leading-[1.1] tracking-[-0.03em] sm:text-3xl md:text-[2.25rem];
   background: var(--gradient-title-accent);
   -webkit-background-clip: text;
   background-clip: text;
@@ -359,16 +1170,16 @@ code,pre {
 }
 
 .section-title {
-  @apply font-display text-2xl font-semibold leading-tight tracking-[-0.03em] md:text-3xl;
+  @apply font-display text-lg font-semibold leading-tight tracking-[-0.02em] md:text-xl lg:text-[1.35rem];
   background: var(--gradient-title-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Portfolio frontend — readable copy on dark canvas */
+/* Fallback muted — theme tokens win under .app-canvas */
 .portfolio-text-muted {
-  color: hsl(0 0% 100%);
+  color: hsl(var(--muted-foreground));
 }
 
 /* Subtle noise-like grain via CSS only (very light) */
@@ -664,6 +1475,13 @@ code,pre {
   font-family: "Computer Modern Serif", Georgia, "Times New Roman", serif;
   font-size: var(--preview-font-size, 10pt);
   line-height: 1.45;
+  --parindent: 0;
+  --listparindent: 0;
+  --itemindent: 0;
+}
+
+.latex-preview :is(p, .paragraph) {
+  text-indent: 0;
 }
 
 .latex-preview > :first-child {
@@ -758,4 +1576,57 @@ code,pre {
   color: var(--preview-link-color, rgb(0, 0.2, 0.6));
   text-decoration: underline;
   text-underline-offset: 0.12em;
+}
+
+/* ─── Projects showcase — premium magazine experience ─── */
+.app-canvas .projects-showcase {
+  isolation: isolate;
+}
+
+.app-canvas .projects-showcase-hero {
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--surface) / 0.35) 0%,
+      transparent 100%
+    );
+}
+
+.app-canvas .projects-media-stage {
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-canvas .projects-media-stage {
+    animation: projects-stage-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes projects-stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.app-canvas .projects-case-panel {
+  scroll-margin-top: 6rem;
+}
+
+/* Case study: keep teal labels clearly separated from body copy */
+.app-canvas .projects-case-panel dt,
+.app-canvas .projects-case-panel dd {
+  margin: 0;
+}
+
+.app-canvas .projects-case-panel dt {
+  line-height: 1.35;
+}
+
+.app-canvas .projects-case-panel dd {
+  line-height: 1.65;
 }

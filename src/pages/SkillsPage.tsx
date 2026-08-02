@@ -1,45 +1,25 @@
 import Footer from "@/components/Footer";
-import { useState } from "react";
-
 import SkillsHero from "@/components/skills/SkillsHero";
-import RadarVisualization from "@/components/skills/RadarVisualization";
-import TechnologyExplorer from "@/components/skills/TechnologyExplorer";
-import CapabilityArchitecture from "@/components/skills/CapabilityArchitecture";
-import EmergingTech from "@/components/skills/EmergingTech";
-import SkillInspector from "@/components/skills/SkillInspector";
+import SkillsHowToRead from "@/components/skills/SkillsHowToRead";
+import CoreExpertise from "@/components/skills/CoreExpertise";
+import PrimaryStack from "@/components/skills/PrimaryStack";
+import ProductsIBuild from "@/components/skills/ProductsIBuild";
+import CurrentFocus from "@/components/skills/CurrentFocus";
+import { PageShell } from "@/components/portfolio";
 
 const SkillsPage = () => {
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-
   return (
-    <div className="relative min-h-screen overflow-x-hidden portfolio-text-muted">
-      <main className="relative z-10 pb-24">
-        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 md:px-12 lg:px-16 xl:px-24">
-          <SkillsHero />
-
-          <RadarVisualization onSelectSkill={setSelectedSkill} />
-
-          <TechnologyExplorer onSelectSkill={setSelectedSkill} />
-
-          <CapabilityArchitecture onSelectSkill={setSelectedSkill} />
-
-          <EmergingTech onSelectSkill={setSelectedSkill} />
-
-          <p className="mt-14 border-t border-border/40 pt-8 text-center text-xs leading-relaxed portfolio-text-muted sm:mt-16 sm:pt-10 sm:text-sm">
-            Primary depth in React, TypeScript, and JavaScript—rendering,
-            optimization, REST APIs, and WebSockets. Java and Spring Boot are
-            additional JVM experience when the stack calls for it.
-          </p>
-        </div>
-
-        <SkillInspector
-          skill={selectedSkill}
-          onClose={() => setSelectedSkill(null)}
-        />
-      </main>
-
+    <>
+      <PageShell contained className="relative z-10 pb-12 sm:pb-16">
+        <SkillsHero />
+        <SkillsHowToRead />
+        <PrimaryStack />
+        <CoreExpertise />
+        <ProductsIBuild />
+        <CurrentFocus />
+      </PageShell>
       <Footer />
-    </div>
+    </>
   );
 };
 

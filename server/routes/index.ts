@@ -10,6 +10,7 @@ import resumeRoutes from "./resumes.js";
 import devUtilityRoutes from "./devUtilities.js";
 import contactRoutes from "./contact.js";
 import formRoutes from "./forms.js";
+import reviewRoutes from "./reviews.js";
 import { companyRoutes, contactByIdRouter } from "./companies.js";
 import { jobRoutes, interviewByIdRouter, jobNoteByIdRouter } from "./jobs.js";
 import { projectPaymentsRouter, paymentByIdRouter } from "./payments.js";
@@ -28,6 +29,7 @@ export function createApiRouter() {
   router.use("/dev-utilities", devUtilityRoutes);
   router.use("/contact", contactRoutes);
   router.use("/forms", formRoutes);
+  router.use("/reviews", reviewRoutes);
   router.use("/companies", companyRoutes);
   router.use("/company-contacts", contactByIdRouter);
   router.use("/jobs", jobRoutes);

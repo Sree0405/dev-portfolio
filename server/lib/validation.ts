@@ -242,6 +242,30 @@ export type ContactFormInput = z.infer<typeof contactFormSchema>;
 export type CreateFormSubmissionInput = z.infer<typeof createFormSubmissionSchema>;
 export type UpdateFormSubmissionInput = z.infer<typeof updateFormSubmissionSchema>;
 
+export const REVIEW_RELATIONSHIPS = [
+  "colleague",
+  "client",
+  "manager",
+  "mentor",
+  "other",
+] as const;
+
+export const publicReviewSchema = z.object({
+  name: z.string().max(120).optional().default(""),
+  relationship: z.enum(REVIEW_RELATIONSHIPS),
+  message: z.string().min(1, "Review is required").max(800),
+});
+
+export const updateReviewSchema = z.object({
+  visible: z.boolean().optional(),
+  name: z.string().max(120).optional(),
+  relationship: z.enum(REVIEW_RELATIONSHIPS).optional(),
+  message: z.string().min(1).max(800).optional(),
+});
+
+export type PublicReviewInput = z.infer<typeof publicReviewSchema>;
+export type UpdateReviewInput = z.infer<typeof updateReviewSchema>;
+
 export const JOB_STATUSES = [
   "Applied",
   "Shortlisted",

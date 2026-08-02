@@ -1,6 +1,7 @@
 import { memo, useEffect, useMemo, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { PageTitle } from "@/components/ui/page-title";
+import { CaseStudySummary } from "@/components/projects/documents/CaseStudySummary";
 import DocTabNav from "./DocTabNav";
 import OverviewTab from "./OverviewTab";
 import ModulesTab from "./ModulesTab";
@@ -9,7 +10,7 @@ import ArchitectureTab from "./ArchitectureTab";
 import SecurityTab from "./SecurityTab";
 import WorkflowTab from "./WorkflowTab";
 import { useDocTabs } from "./useDocTabs";
-import type { DocTabId, TabbedDocumentationData } from "./types";
+import type { TabbedDocumentationData } from "./types";
 
 const TabbedDocumentationPage = memo(() => {
   const [data, setData] = useState<TabbedDocumentationData | null>(null);
@@ -90,7 +91,7 @@ const TabbedDocumentationPage = memo(() => {
 
   if (loadError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950 px-4">
+      <div className="docs-shell flex min-h-screen items-center justify-center px-4">
         <p className="text-center text-sm text-red-400">{loadError}</p>
       </div>
     );
@@ -98,8 +99,8 @@ const TabbedDocumentationPage = memo(() => {
 
   if (!data) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950">
-        <div className="h-8 w-8 animate-pulse rounded-full bg-purple-500/30" />
+      <div className="docs-shell flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-pulse rounded-full bg-primary/30" />
       </div>
     );
   }
@@ -109,51 +110,93 @@ const TabbedDocumentationPage = memo(() => {
   const titleAccent = titleWords.join(" ") || data.projectName;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950 text-white">
-      <div className="mx-auto max-w-7xl px-4 pb-12 pt-20 sm:px-6 sm:pb-16 sm:pt-24 lg:px-8">
-        <header className="mb-10 mt-4 text-center sm:mt-8">
+    <div className="docs-shell min-h-screen bg-gradient-to-br from-background via-primary/5 to-background text-foreground">
+      <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-20 sm:px-6 sm:pb-16 sm:pt-24 lg:px-8">
+        <header className="mb-8 mt-2 w-full max-w-full text-center sm:mb-10 sm:mt-8">
           <PageTitle
             eyebrow="Documentation"
             accent={titleAccent}
             rest={titleRest}
-            titleClassName="mb-3"
+            titleClassName="mb-3 break-words text-[clamp(1.5rem,6vw,2.25rem)]"
           />
-          <p className="text-lg text-gray-400 sm:text-xl">{data.tagline}</p>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-gray-500">{data.description}</p>
+          <p className="mx-auto w-full max-w-xl text-sm portfolio-text-muted sm:text-[15px]">
+            {data.tagline}
+          </p>
+          <p className="mx-auto mt-3 w-full max-w-xl text-sm leading-relaxed portfolio-text-muted">
+            {data.description}
+          </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <div className="docs-tech-row mx-auto mt-5 max-w-xl">
             {data.techStack.map((tech) => (
               <span
                 key={tech}
-                className="rounded-full border border-purple-500/30 bg-purple-900/30 px-3 py-1 text-xs text-purple-300 sm:text-sm"
+                className="inline-flex max-w-full items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[11px] leading-none text-primary/80 sm:text-xs"
               >
                 {tech}
               </span>
             ))}
-            <span className="rounded-full border border-green-500/30 bg-green-900/20 px-3 py-1 text-xs text-green-400 sm:text-sm">
+            <span className="inline-flex max-w-full items-center rounded-full border border-green-500/30 bg-green-900/20 px-2.5 py-1 text-[11px] leading-none text-green-400 sm:text-xs">
               {data.status}
             </span>
           </div>
 
-          {data.demoUrl && (
-            <a
-              href={data.demoUrl}
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple-700"
-            >
-              Open Dashboard <ExternalLink className="h-4 w-4" />
-            </a>
-          )}
+          {data.demoUrl || data.githubUrl ? (
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              {data.demoUrl ? (
+                <a
+                  href={data.demoUrl}
+                  className="inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-primary/90"
+                >
+                  Open Dashboard{" "}
+                  <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+                </a>
+              ) : null}
+              {data.githubUrl ? (
+                <a
+                  href={data.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg border border-primary/35 bg-primary/5 px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/55 hover:bg-primary/12"
+                >
+                  View on GitHub{" "}
+                  <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+                </a>
+              ) : null}
+            </div>
+          ) : null}
         </header>
+
+        {data.caseStudy ? (
+          <div className="w-full max-w-full">
+            <CaseStudySummary
+              problem={data.caseStudy.problem}
+              constraints={data.caseStudy.constraints}
+              approach={data.caseStudy.approach}
+              results={data.caseStudy.results}
+              reviewable={data.caseStudy.reviewable}
+              sourceNote={data.caseStudy.sourceNote}
+              codePath={data.caseStudy.codePath}
+            />
+          </div>
+        ) : null}
 
         <DocTabNav tabs={data.tabs} activeTab={activeTab} onTabChange={setTab} />
 
-        <main>{tabContent}</main>
+        <div className="w-full max-w-full min-w-0">{tabContent}</div>
 
-        <footer className="mt-16 border-t border-purple-500/20 pt-8 text-center">
-          <p className="text-sm text-gray-500">{data.projectName} Documentation</p>
-          <p className="mt-1 text-xs text-gray-600">
-            {data.modules.length} modules · {data.techStack.join(" · ")}
-          </p>
+        <footer className="mt-12 w-full max-w-full border-t border-border pt-8 text-center sm:mt-16">
+          <p className="text-sm portfolio-text-muted">{data.projectName} Documentation</p>
+          <p className="mt-2 text-xs portfolio-text-muted">{data.modules.length} modules</p>
+          <div className="docs-tech-row mx-auto mt-3 max-w-xl">
+            {data.techStack.map((tech) => (
+              <span
+                key={`foot-${tech}`}
+                className="inline-flex rounded-md border border-border/60 px-2 py-0.5 text-[10px] portfolio-text-muted"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
         </footer>
       </div>
     </div>

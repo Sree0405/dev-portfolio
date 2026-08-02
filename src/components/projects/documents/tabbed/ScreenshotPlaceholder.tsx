@@ -17,7 +17,7 @@ const ScreenshotPlaceholder = memo(({ item, className = "", shouldLoad = false }
   if (showImage) {
     return (
       <figure
-        className={`group overflow-hidden rounded-xl border border-purple-500/20 bg-gray-950/40 ${className}`}
+        className={`group overflow-hidden rounded-xl border border-border bg-background/40 ${className}`}
       >
         <div className="aspect-video w-full overflow-hidden bg-black/20">
           <img
@@ -29,10 +29,10 @@ const ScreenshotPlaceholder = memo(({ item, className = "", shouldLoad = false }
             className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
           />
         </div>
-        <figcaption className="border-t border-purple-500/10 px-4 py-3">
-          <p className="text-sm font-medium text-white">{item.label}</p>
+        <figcaption className="border-t border-border/50 px-4 py-3">
+          <p className="text-sm font-medium text-foreground">{item.label}</p>
           {item.description && (
-            <p className="mt-1 text-xs text-gray-500">{item.description}</p>
+            <p className="mt-1 text-xs portfolio-text-muted">{item.description}</p>
           )}
         </figcaption>
       </figure>
@@ -51,21 +51,21 @@ const ScreenshotPlaceholder = memo(({ item, className = "", shouldLoad = false }
 
   return (
     <figure
-      className={`flex flex-col overflow-hidden rounded-xl border-2 border-dashed border-purple-500/25 bg-gradient-to-br from-purple-900/10 to-blue-900/10 ${className}`}
+      className={`flex flex-col overflow-hidden rounded-xl border-2 border-dashed border-primary/25 bg-gradient-to-br from-primary/10 to-blue-900/10 ${className}`}
     >
       <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 px-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-purple-500/10">
-          <PlaceholderIcon className="h-7 w-7 text-purple-400/60" aria-hidden />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+          <PlaceholderIcon className="h-7 w-7 text-primary/60" aria-hidden />
         </div>
-        <p className="text-center text-sm font-medium text-gray-400">{item.label}</p>
-        <p className="text-center text-xs text-gray-600">{placeholderMessage}</p>
+        <p className="text-center text-sm font-medium portfolio-text-muted">{item.label}</p>
+        <p className="text-center text-xs portfolio-text-muted">{placeholderMessage}</p>
         {failed && item.src && (
-          <p className="max-w-full truncate text-center font-mono text-[10px] text-gray-600">{item.src}</p>
+          <p className="max-w-full truncate text-center font-mono text-[10px] portfolio-text-muted">{item.src}</p>
         )}
       </div>
       {item.description && (
-        <figcaption className="border-t border-purple-500/10 px-4 py-3">
-          <p className="text-xs text-gray-500">{item.description}</p>
+        <figcaption className="border-t border-border/50 px-4 py-3">
+          <p className="text-xs portfolio-text-muted">{item.description}</p>
         </figcaption>
       )}
     </figure>

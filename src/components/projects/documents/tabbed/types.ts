@@ -67,6 +67,10 @@ export interface ArchitectureContent {
   backendPattern: string[];
   frontendPattern: string[];
   dataFlow: string[];
+  /** Honest note when application source is not public. */
+  sourcePolicy?: string;
+  /** How the system is built and hosted — no invented infra claims. */
+  deployment?: string[];
 }
 
 export interface SecurityContent {
@@ -82,6 +86,23 @@ export interface WorkflowStep {
   description: string;
 }
 
+export type CaseStudyCodePathLink = {
+  label: string;
+  href: string;
+  note: string;
+};
+
+export interface CaseStudySummaryData {
+  problem: string;
+  constraints?: string;
+  approach: string;
+  results: string[];
+  reviewable?: string[];
+  sourceNote?: string;
+  /** Clone / demo links for reviewers */
+  codePath?: CaseStudyCodePathLink[];
+}
+
 export interface TabbedDocumentationData {
   slug: string;
   projectName: string;
@@ -91,6 +112,8 @@ export interface TabbedDocumentationData {
   status: string;
   demoUrl?: string;
   docsUrl?: string;
+  githubUrl?: string;
+  caseStudy?: CaseStudySummaryData;
   tabs: DocTabDefinition[];
   overview: OverviewContent;
   modules: DevToolModule[];

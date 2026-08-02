@@ -1,253 +1,203 @@
-import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Code2,
   Download,
   Github,
-  Layers,
   Linkedin,
   Mail,
-  Radio,
-  Server,
 } from "lucide-react";
-
-import HeroScene from "./HeroScene";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-const stackTags = [
-  "React",
-  "TypeScript",
-  "Next.js",
-  "Node.js",
-  "Express",
-  "REST APIs",
-  "WebSockets",
-  "PostgreSQL",
-];
+import { PortfolioButton } from "@/components/portfolio";
+import { HeroFeaturedProject } from "@/components/hero/HeroFeaturedProject";
+import {
+  heroContent,
+  heroCtas,
+  heroFlagship,
+  heroIdentity,
+  heroMeta,
+  heroSocialLinks,
+} from "@/components/hero/heroData";
 
-const highlights = [
-  {
-    icon: Code2,
-    title: "React & TypeScript",
-    sub: "Rendering, hooks & scalable UI",
-  },
-  {
-    icon: Server,
-    title: "APIs & backend",
-    sub: "Node · Express · REST",
-  },
-  {
-    icon: Layers,
-    title: "System design",
-    sub: "HLD/LLD · performance · scale",
-  },
-];
+const socialIcons = {
+  GitHub: Github,
+  LinkedIn: Linkedin,
+  Email: Mail,
+} as const;
 
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.06 },
+  },
 };
 
+const item: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const visualReveal: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.08 },
+  },
+};
+
+const ctaScale =
+  "transition-transform duration-200 ease-out hover:scale-[1.02] active:scale-[0.98]";
+
+/**
+ * Home hero — name as brand identity; featured project on the right.
+ */
 export default function Hero() {
+  const reduce = useReducedMotion();
+  const v = (variants: Variants) => (reduce ? undefined : variants);
+
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] w-full overflow-hidden bg-transparent"
+      aria-label={`${heroContent.name}, ${heroContent.role}`}
+      className="relative w-full overflow-hidden"
     >
-      <div className="absolute inset-0 w-full">
-        <div className="absolute inset-0 opacity-45 sm:opacity-50 lg:opacity-100">
-          <div className="absolute inset-0 lg:left-[38%] xl:left-[40%]">
-            <HeroScene />
-          </div>
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-background/96 to-background lg:bg-gradient-to-r lg:from-background lg:via-background/90 lg:to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_70%_25%,hsl(var(--primary)/0.14),transparent_60%)]" />
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
-      </div>
+      <div
+        aria-hidden
+        className="hero-atmosphere pointer-events-none absolute inset-0"
+      />
 
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col justify-center lg:grid lg:min-h-screen lg:grid-cols-12 lg:items-center lg:gap-x-6 xl:gap-x-10">
-        <div className="hidden lg:col-span-1 xl:col-span-2 lg:block" aria-hidden />
-
-        <div className="page-hero-pt flex flex-col justify-center px-4 pb-16 sm:px-8 sm:pb-20 md:px-10 lg:col-span-6 lg:px-0 lg:pb-24 xl:col-span-5">
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex w-full max-w-[36rem] flex-col items-start text-left xl:max-w-[38rem]"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-primary sm:px-4 sm:text-xs">
-              <Radio className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              Available for full-stack roles
-            </div>
-
-            <h1 className="mt-5 font-display text-[2rem] font-semibold leading-[1.1] tracking-[-0.04em] sm:mt-6 sm:text-5xl lg:text-[2.85rem] xl:text-6xl">
-              Hi, I&apos;m{" "}
-              <span className="page-title-accent">
-                Sreekanth
-              </span>
-            </h1>
-
-            <p className="mt-3 text-base font-medium page-title-accent sm:mt-4 sm:text-lg">
-              Frontend-focused full-stack engineer
-            </p>
-
-            <p className="mt-4 max-w-prose text-sm leading-relaxed portfolio-text-muted sm:text-base sm:leading-relaxed">
-              I build production apps with{" "}
-              <span className="page-title-accent">React, Next.js, and TypeScript</span>
-              —from rendering and performance to REST APIs, WebSockets, and
-              scalable project architecture.
-            </p>
-
-            <div className="mt-5 grid w-full grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
-              {highlights.map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.15 + i * 0.08, duration: 0.45 }}
-                    className="rounded-xl border border-border/55 bg-background/55 px-2 py-2.5 text-left backdrop-blur-sm transition hover:border-primary/30 sm:bg-background/50 sm:px-3.5 sm:py-3.5"
-                  >
-                    <Icon className="mb-1.5 h-3.5 w-3.5 text-primary sm:mb-2 sm:h-4 sm:w-4" />
-                    <p className="text-[10px] font-semibold leading-tight page-title-accent sm:text-sm">
-                      {item.title}
-                    </p>
-                    <p className="mt-0.5 hidden text-[10px] leading-snug portfolio-text-muted min-[400px]:block sm:text-[11px]">
-                      {item.sub}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            <div className="mt-4 flex w-full flex-wrap justify-start gap-1.5 md:hidden">
-              {stackTags.slice(0, 6).map((item, i) => (
-                <motion.span
-                  key={item}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.03, duration: 0.35 }}
-                  className="rounded-md border border-border/50 bg-background/45 px-2 py-1 font-mono text-[10px] portfolio-text-muted"
-                >
-                  {item}
-                </motion.span>
-              ))}
-            </div>
-
-            <div className="mt-6 hidden w-full flex-wrap justify-start gap-2 md:flex">
-              {stackTags.map((item, i) => (
-                <motion.span
-                  key={item}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.03, duration: 0.35 }}
-                      className="rounded-md bg-muted/50 px-2.5 py-1 font-mono text-[10px] portfolio-text-muted sm:px-3 sm:py-1.5 sm:text-xs"
-                >
-                  {item}
-                </motion.span>
-              ))}
-            </div>
-
-            <nav
-              aria-label="Explore site"
-              className="mt-5 flex w-full flex-wrap items-center justify-start gap-x-4 gap-y-2 border-t border-border/40 pt-4 font-mono text-[10px] uppercase tracking-wider portfolio-text-muted sm:hidden"
-            >
-              <Link to="/experience" className="transition hover:text-primary">
-                Experience
-              </Link>
-              <span className="text-border" aria-hidden>
-                ·
-              </span>
-              <Link to="/projects" className="transition hover:text-primary">
-                Projects
-              </Link>
-              <span className="text-border" aria-hidden>
-                ·
-              </span>
-              <Link to="/skills" className="transition hover:text-primary">
-                Skills
-              </Link>
-            </nav>
-
-            <div className="mt-7 flex w-full flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:justify-start sm:gap-3">
-              <Link
-                to="/projects"
-                className="btn-gradient btn-portfolio-primary group"
-              >
-                View work
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-              <div className="grid grid-cols-2 gap-2.5 sm:flex sm:gap-3">
-                <Link
-                  to="/skills"
-                  className="btn-glass btn-portfolio-secondary"
-                >
-                  Skills
-                </Link>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="min-h-[44px] w-full border-primary/35 font-mono text-xs uppercase sm:w-auto sm:text-sm"
-                >
-                  <a
-                    href="/resume/Sreekanth_SDE.pdf"
-                    download="Sreekanth_SDE.pdf"
-                  >
-                    <Download className="mr-1.5 h-4 w-4" />
-                    Resume
-                  </a>
-                </Button>
+      <div className="relative mx-auto w-full max-w-7xl page-hero-pt px-3 pb-16 sm:px-5 sm:pb-20 lg:pb-24">
+        <motion.div
+          initial={reduce ? undefined : "hidden"}
+          animate={reduce ? undefined : "show"}
+          variants={v(container)}
+          className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10 xl:gap-12"
+        >
+          <div className="flex min-w-0 flex-col lg:col-span-7">
+            <motion.div variants={v(item)}>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <span className="inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 font-mono text-xs font-medium uppercase tracking-[0.16em] text-primary sm:text-[0.8125rem]">
+                  <span
+                    className="h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_0_3px_hsl(var(--primary)/0.25)]"
+                    aria-hidden
+                  />
+                  {heroContent.availability}
+                </span>
+                <span className="hidden h-3 w-px bg-primary/30 sm:block" aria-hidden />
+                <span className="font-mono text-xs uppercase tracking-[0.14em] text-primary/80 sm:text-[0.8125rem]">
+                  {heroIdentity.company.replace(" Solutions Pvt Ltd", "")}
+                </span>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="mt-6 inline-flex w-fit max-w-full items-center justify-start gap-1 rounded-xl border border-border/50 bg-background/40 p-1.5 sm:mt-7 sm:gap-2">
-              {[
-                {
-                  href: "https://github.com/Sree0405",
-                  label: "GitHub",
-                  icon: Github,
-                },
-                {
-                  href: "https://linkedin.com/in/sreekanth04052005",
-                  label: "LinkedIn",
-                  icon: Linkedin,
-                },
-                {
-                  href: "mailto:sreekanth04052005@gmail.com",
-                  label: "Email",
-                  icon: Mail,
-                },
-              ].map((item) => {
-                const Icon = item.icon;
+            <motion.div variants={v(item)} className="mt-8 sm:mt-10">
+              <p className="text-sm font-medium tracking-normal portfolio-text-muted sm:text-[15px]">
+                {heroContent.greeting}
+              </p>
+              <h1 className="hero-display-name mt-1.5">
+                {heroContent.name}
+                <span className="hero-name-dot" aria-hidden>
+                  .
+                </span>
+              </h1>
+            </motion.div>
+
+            <motion.p
+              variants={v(item)}
+              className="mt-5 max-w-xl text-left font-display text-sm font-semibold leading-snug tracking-[-0.02em] text-foreground sm:mt-6 sm:text-base sm:leading-snug"
+            >
+              {heroContent.valueLine}
+            </motion.p>
+
+            <motion.p
+              variants={v(item)}
+              className="mt-4 max-w-lg text-left text-sm leading-[1.65] tracking-normal portfolio-text-muted sm:text-[15px]"
+            >
+              {heroContent.description}
+            </motion.p>
+
+            <motion.div
+              variants={v(item)}
+              className="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
+            >
+              <PortfolioButton asChild variant="primary" className={ctaScale}>
+                <Link to={heroCtas.work.to}>
+                  {heroCtas.work.label}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              </PortfolioButton>
+              <PortfolioButton asChild variant="secondary" className={ctaScale}>
+                <a
+                  href={heroCtas.resume.href}
+                  download={heroCtas.resume.download}
+                >
+                  <Download className="h-4 w-4" aria-hidden />
+                  {heroCtas.resume.label}
+                </a>
+              </PortfolioButton>
+            </motion.div>
+
+            <motion.nav
+              variants={v(item)}
+              aria-label="Social links"
+              className="mt-6 flex items-center gap-2 sm:mt-7"
+            >
+              {heroSocialLinks.map((social) => {
+                const Icon = socialIcons[social.label];
+                const external = social.href.startsWith("http");
                 return (
                   <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={
-                      item.href.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    aria-label={item.label}
-                    className="inline-flex h-10 items-center justify-center gap-2 rounded-lg px-3 portfolio-text-muted transition hover:bg-primary/10 hover:text-primary sm:px-4"
+                    key={social.label}
+                    href={social.href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    aria-label={social.label}
+                    className="icon-well inline-flex h-11 w-11 transition-[transform,background,border-color] duration-150 hover:border-primary/45 hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    <span className="text-xs font-medium leading-none">
-                      {item.label}
-                    </span>
+                    <Icon className="h-4 w-4" aria-hidden />
                   </a>
                 );
               })}
-            </div>
-          </motion.div>
-        </div>
+            </motion.nav>
 
-        <div
-          className="hidden min-h-[240px] lg:col-span-4 lg:block xl:col-span-5"
-          aria-hidden
-        />
+            <motion.div variants={v(item)} className="mt-10 sm:mt-12">
+              <hr className="brand-divider mb-7" />
+              <ul className="flex flex-wrap items-center gap-x-0 gap-y-3">
+                {heroMeta.map((meta, index) => (
+                  <li key={meta.label} className="flex items-center text-sm">
+                    {index > 0 ? (
+                      <span
+                        className="mx-3 h-3 w-px shrink-0 bg-primary/25 sm:mx-4"
+                        aria-hidden
+                      />
+                    ) : null}
+                    <span className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
+                      <span className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
+                        {meta.label}
+                      </span>
+                    <span className="text-sm font-medium tracking-normal text-foreground sm:text-[15px]">
+                      {meta.value}
+                    </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+
+          <div className="mx-auto w-full min-w-0 max-w-md lg:col-span-5 lg:mx-0 lg:max-w-none lg:justify-self-end xl:max-w-[28rem]">
+            <HeroFeaturedProject
+              project={heroFlagship}
+              variants={v(visualReveal)}
+              compact
+            />
+          </div>
+        </motion.div>
       </div>
     </section>
   );

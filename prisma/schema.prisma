@@ -1,378 +1,791 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum DataType {
-  Default
-  Demo
-}
-
-enum AccountRole {
-  admin
-  user
-  demo
-}
-
-model User {
-  id           String      @id @default(cuid())
-  username     String      @unique
-  email        String      @unique
-  passwordHash String
-  displayName  String?
-  role         AccountRole @default(user)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-
-  projects                 Project[]
-  payments                 Payment[]
-  projectNotes             ProjectNote[]
-  credentials              Credential[]
-  financeRecords           FinanceRecord[]
-  financePaymentHistories  FinancePaymentHistory[]
-  budgets                  Budget[]
-  resumes                  Resume[]
-  devUtilityFavorites      DevUtilityFavorite[]
-  devUtilityRecents        DevUtilityRecent[]
-  contactFormSubmissions   ContactFormSubmission[]
-  companies                Company[]
-  companyContacts          CompanyContact[]
-  jobApplications          JobApplication[]
-  jobStatusHistories       JobStatusHistory[]
-  interviewSchedules       InterviewSchedule[]
-  jobNotes                 JobNote[]
-}
-
-model Project {
-  id            String   @id @default(cuid())
-  name          String
-  clientName    String
-  clientNumber  String?
-  projectLinks  String?
-  projectType   String
-  status        String
-  plannedAmount Decimal  @db.Decimal(12, 2)
-  totalPaid     Decimal  @default(0) @db.Decimal(12, 2)
-  type          DataType @default(Default)
-  userId        String?
-  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  payments Payment[]
-  notes    ProjectNote[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, createdAt])
-}
-
-model Payment {
-  id            String   @id @default(cuid())
-  projectId     String
-  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  amount        Decimal  @db.Decimal(12, 2)
-  paymentMethod String
-  reference     String?
-  notes         String?
-  paymentDate   DateTime
-  type          DataType @default(Default)
-  userId        String?
-  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt     DateTime @default(now())
-}
-
-model ProjectNote {
-  id        String   @id @default(cuid())
-  projectId String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  content   String
-  type      DataType @default(Default)
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Credential {
-  id          String   @id @default(cuid())
-  serviceName String
-  websiteUrl  String
-  username    String
-  password    String
-  category    String
-  notes       String?
-  type        DataType @default(Default)
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([userId])
-}
-
-model FinanceRecord {
-  id                 String    @id @default(cuid())
-  moduleType         String
-  name               String
-  amount             Decimal   @db.Decimal(12, 2)
-  totalAmount        Decimal?  @db.Decimal(12, 2)
-  dueDay             Int?
-  totalMonths        Int?
-  remainingMonths    Int?
-  currentInstallment Int?
-  startDate          DateTime?
-  websiteUrl         String?
-  billingCycle       String?
-  renewalDate        DateTime?
-  autoRenew          Boolean   @default(true)
-  category           String?
-  notes              String?
-  type               DataType  @default(Default)
-  userId             String?
-  user               User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-
-  payments FinancePaymentHistory[]
-
-  @@index([userId])
-}
-
-model FinancePaymentHistory {
-  id                   String        @id @default(cuid())
-  recordId             String
-  record               FinanceRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
-  amount               Decimal       @db.Decimal(12, 2)
-  dueDate              DateTime
-  paidDate             DateTime?
-  status               String
-  periodLabel          String?
-  installmentNumber    Int?
-  notes                String?
-  transactionReference String?
-  createdBy            String?
-  type                 DataType      @default(Default)
-  userId               String?
-  user                 User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
-}
-
-model Budget {
-  id        String           @id @default(cuid())
-  month     Int
-  year      Int
-  income    Decimal          @db.Decimal(12, 2)
-  ruleType  String
-  ruleLabel String
-  notes     String?
-  status    String           @default("Active")
-  type      DataType         @default(Default)
-  userId    String?
-  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  categories BudgetCategory[]
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-
-  @@index([userId, year, month, status])
-}
-
-model BudgetCategory {
-  id            String   @id @default(cuid())
-  budgetId      String
-  budget        Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
-  name          String
-  percentage    Decimal  @db.Decimal(5, 2)
-  plannedAmount Decimal  @db.Decimal(12, 2)
-  actualAmount  Decimal  @default(0) @db.Decimal(12, 2)
-  financeLink   String?
-  sortOrder     Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-model Resume {
-  id             String    @id @default(cuid())
-  title          String
-  description    String?
-  latexSource    String    @db.Text
-  compileStatus  String    @default("idle")
-  compileLog     String?   @db.Text
-  compiledPdf    Bytes?
-  pdfFilename    String?
-  lastCompiledAt DateTime?
-  type           DataType  @default(Default)
-  userId         String?
-  user           User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-
-  @@index([userId, updatedAt])
-}
-
-model DevUtilityFavorite {
-  id        String   @id @default(cuid())
-  utilityId String
-  type      DataType @default(Default)
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-
-  @@unique([userId, utilityId])
-  @@index([userId])
-}
-
-model DevUtilityRecent {
-  id        String   @id @default(cuid())
-  utilityId String
-  type      DataType @default(Default)
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  usedAt    DateTime @default(now())
-
-  @@index([userId, usedAt])
-}
-
-model ContactFormSubmission {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  subject   String
-  message   String   @db.Text
-  source    String   @default("contact_page")
-  status    String   @default("new")
-  type      DataType @default(Default)
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, createdAt])
-  @@index([userId, status])
-}
-
-model Company {
-  id              String   @id @default(cuid())
-  name            String
-  linkedinUrl     String?
-  careersUrl      String?
-  productCategory String?
-  companyType     String?
-  companySize     String?
-  headquarters    String?
-  officeLocation  String?
-  applied         Boolean  @default(false)
-  hrContact       String?
-  type            DataType @default(Default)
-  userId          String?
-  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  contacts        CompanyContact[]
-  jobApplications JobApplication[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, name])
-  @@index([userId, applied])
-  @@index([userId, createdAt])
-}
-
-model CompanyContact {
-  id          String   @id @default(cuid())
-  companyId   String
-  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  name        String
-  designation String?
-  email       String?
-  phone       String?
-  notes       String?
-  type        DataType @default(Default)
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([userId, companyId])
-}
-
-model JobApplication {
-  id                    String   @id @default(cuid())
-  companyId             String
-  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  jobId                 String?
-  roleName              String
-  applicationUrl        String?
-  appliedThrough        String?
-  mailId                String?
-  appliedDate           DateTime
-  currentStatus         String   @default("Applied")
-  expectedSalary        Decimal? @db.Decimal(12, 2)
-  currentSalary         Decimal? @db.Decimal(12, 2)
-  negotiatedSalary      Decimal? @db.Decimal(12, 2)
-  offeredSalary         Decimal? @db.Decimal(12, 2)
-  companyStandardSalary Decimal? @db.Decimal(12, 2)
-  type                  DataType @default(Default)
-  userId                String?
-  user                  User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  statusHistory JobStatusHistory[]
-  interviews    InterviewSchedule[]
-  notes         JobNote[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, currentStatus])
-  @@index([userId, companyId])
-  @@index([userId, appliedDate])
-}
-
-model JobStatusHistory {
-  id               String         @id @default(cuid())
-  jobApplicationId String
-  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
-  status           String
-  type             DataType       @default(Default)
-  userId           String?
-  user             User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime       @default(now())
-
-  @@index([jobApplicationId, createdAt])
-}
-
-model InterviewSchedule {
-  id               String         @id @default(cuid())
-  jobApplicationId String
-  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
-  interviewDate    DateTime
-  interviewTime    String?
-  mode             String
-  location         String?
-  interviewer      String?
-  meetingLink      String?
-  notes            String?
-  type             DataType       @default(Default)
-  userId           String?
-  user             User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-
-  @@index([userId, interviewDate])
-}
-
-model JobNote {
-  id               String         @id @default(cuid())
-  jobApplicationId String
-  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
-  content          String         @db.Text
-  type             DataType       @default(Default)
-  userId           String?
-  user             User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-}
+generator client {
+
+  provider = "prisma-client-js"
+
+}
+
+
+
+datasource db {
+
+  provider = "postgresql"
+
+  url      = env("DATABASE_URL")
+
+}
+
+
+
+enum DataType {
+
+  Default
+
+  Demo
+
+}
+
+
+
+enum AccountRole {
+
+  admin
+
+  user
+
+  demo
+
+}
+
+
+
+model User {
+
+  id           String      @id @default(cuid())
+
+  username     String      @unique
+
+  email        String      @unique
+
+  passwordHash String
+
+  displayName  String?
+
+  role         AccountRole @default(user)
+
+  createdAt    DateTime    @default(now())
+
+  updatedAt    DateTime    @updatedAt
+
+
+
+  projects                 Project[]
+
+  payments                 Payment[]
+
+  projectNotes             ProjectNote[]
+
+  credentials              Credential[]
+
+  financeRecords           FinanceRecord[]
+
+  financePaymentHistories  FinancePaymentHistory[]
+
+  budgets                  Budget[]
+
+  resumes                  Resume[]
+
+  devUtilityFavorites      DevUtilityFavorite[]
+
+  devUtilityRecents        DevUtilityRecent[]
+
+  contactFormSubmissions   ContactFormSubmission[]
+
+  portfolioReviews         PortfolioReview[]
+
+  companies                Company[]
+
+  companyContacts          CompanyContact[]
+
+  jobApplications          JobApplication[]
+
+  jobStatusHistories       JobStatusHistory[]
+
+  interviewSchedules       InterviewSchedule[]
+
+  jobNotes                 JobNote[]
+
+}
+
+
+
+model Project {
+
+  id            String   @id @default(cuid())
+
+  name          String
+
+  clientName    String
+
+  clientNumber  String?
+
+  projectLinks  String?
+
+  projectType   String
+
+  status        String
+
+  plannedAmount Decimal  @db.Decimal(12, 2)
+
+  totalPaid     Decimal  @default(0) @db.Decimal(12, 2)
+
+  type          DataType @default(Default)
+
+  userId        String?
+
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+
+
+  payments Payment[]
+
+  notes    ProjectNote[]
+
+
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+
+
+  @@index([userId, createdAt])
+
+}
+
+
+
+model Payment {
+
+  id            String   @id @default(cuid())
+
+  projectId     String
+
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  amount        Decimal  @db.Decimal(12, 2)
+
+  paymentMethod String
+
+  reference     String?
+
+  notes         String?
+
+  paymentDate   DateTime
+
+  type          DataType @default(Default)
+
+  userId        String?
+
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+
+}
+
+
+
+model ProjectNote {
+
+  id        String   @id @default(cuid())
+
+  projectId String
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  content   String
+
+  type      DataType @default(Default)
+
+  userId    String?
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+}
+
+
+
+model Credential {
+
+  id          String   @id @default(cuid())
+
+  serviceName String
+
+  websiteUrl  String
+
+  username    String
+
+  password    String
+
+  category    String
+
+  notes       String?
+
+  type        DataType @default(Default)
+
+  userId      String?
+
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+
+
+
+  @@index([userId])
+
+}
+
+
+
+model FinanceRecord {
+
+  id                 String    @id @default(cuid())
+
+  moduleType         String
+
+  name               String
+
+  amount             Decimal   @db.Decimal(12, 2)
+
+  totalAmount        Decimal?  @db.Decimal(12, 2)
+
+  dueDay             Int?
+
+  totalMonths        Int?
+
+  remainingMonths    Int?
+
+  currentInstallment Int?
+
+  startDate          DateTime?
+
+  websiteUrl         String?
+
+  billingCycle       String?
+
+  renewalDate        DateTime?
+
+  autoRenew          Boolean   @default(true)
+
+  category           String?
+
+  notes              String?
+
+  type               DataType  @default(Default)
+
+  userId             String?
+
+  user               User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt          DateTime  @default(now())
+
+  updatedAt          DateTime  @updatedAt
+
+
+
+  payments FinancePaymentHistory[]
+
+
+
+  @@index([userId])
+
+}
+
+
+
+model FinancePaymentHistory {
+
+  id                   String        @id @default(cuid())
+
+  recordId             String
+
+  record               FinanceRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  amount               Decimal       @db.Decimal(12, 2)
+
+  dueDate              DateTime
+
+  paidDate             DateTime?
+
+  status               String
+
+  periodLabel          String?
+
+  installmentNumber    Int?
+
+  notes                String?
+
+  transactionReference String?
+
+  createdBy            String?
+
+  type                 DataType      @default(Default)
+
+  userId               String?
+
+  user                 User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt            DateTime      @default(now())
+
+  updatedAt            DateTime      @updatedAt
+
+}
+
+
+
+model Budget {
+
+  id        String           @id @default(cuid())
+
+  month     Int
+
+  year      Int
+
+  income    Decimal          @db.Decimal(12, 2)
+
+  ruleType  String
+
+  ruleLabel String
+
+  notes     String?
+
+  status    String           @default("Active")
+
+  type      DataType         @default(Default)
+
+  userId    String?
+
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categories BudgetCategory[]
+
+  createdAt DateTime         @default(now())
+
+  updatedAt DateTime         @updatedAt
+
+
+
+  @@index([userId, year, month, status])
+
+}
+
+
+
+model BudgetCategory {
+
+  id            String   @id @default(cuid())
+
+  budgetId      String
+
+  budget        Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+
+  name          String
+
+  percentage    Decimal  @db.Decimal(5, 2)
+
+  plannedAmount Decimal  @db.Decimal(12, 2)
+
+  actualAmount  Decimal  @default(0) @db.Decimal(12, 2)
+
+  financeLink   String?
+
+  sortOrder     Int      @default(0)
+
+  createdAt     DateTime @default(now())
+
+  updatedAt     DateTime @updatedAt
+
+}
+
+
+
+model Resume {
+
+  id             String    @id @default(cuid())
+
+  title          String
+
+  description    String?
+
+  latexSource    String    @db.Text
+
+  compileStatus  String    @default("idle")
+
+  compileLog     String?   @db.Text
+
+  compiledPdf    Bytes?
+
+  pdfFilename    String?
+
+  lastCompiledAt DateTime?
+
+  type           DataType  @default(Default)
+
+  userId         String?
+
+  user           User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime  @default(now())
+
+  updatedAt      DateTime  @updatedAt
+
+
+
+  @@index([userId, updatedAt])
+
+}
+
+
+
+model DevUtilityFavorite {
+
+  id        String   @id @default(cuid())
+
+  utilityId String
+
+  type      DataType @default(Default)
+
+  userId    String?
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+
+
+  @@unique([userId, utilityId])
+
+  @@index([userId])
+
+}
+
+
+
+model DevUtilityRecent {
+
+  id        String   @id @default(cuid())
+
+  utilityId String
+
+  type      DataType @default(Default)
+
+  userId    String?
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  usedAt    DateTime @default(now())
+
+
+
+  @@index([userId, usedAt])
+
+}
+
+
+
+model ContactFormSubmission {
+
+  id        String   @id @default(cuid())
+
+  name      String
+
+  email     String
+
+  subject   String
+
+  message   String   @db.Text
+
+  source    String   @default("contact_page")
+
+  status    String   @default("new")
+
+  type      DataType @default(Default)
+
+  userId    String?
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+
+
+  @@index([userId, createdAt])
+
+  @@index([userId, status])
+
+}
+
+
+
+
+model PortfolioReview {
+
+  id           String   @id @default(cuid())
+
+  name         String
+
+  relationship String
+
+  message      String   @db.Text
+
+  visible      Boolean  @default(true)
+
+  source       String   @default("portfolio")
+
+  type         DataType @default(Default)
+
+  userId       String?
+
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime @default(now())
+
+  updatedAt    DateTime @updatedAt
+
+
+
+  @@index([userId, createdAt])
+
+  @@index([visible, createdAt])
+
+}
+
+model Company {
+
+  id              String   @id @default(cuid())
+
+  name            String
+
+  linkedinUrl     String?
+
+  careersUrl      String?
+
+  productCategory String?
+
+  companyType     String?
+
+  companySize     String?
+
+  headquarters    String?
+
+  officeLocation  String?
+
+  applied         Boolean  @default(false)
+
+  hrContact       String?
+
+  type            DataType @default(Default)
+
+  userId          String?
+
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+
+
+  contacts        CompanyContact[]
+
+  jobApplications JobApplication[]
+
+
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+
+
+  @@index([userId, name])
+
+  @@index([userId, applied])
+
+  @@index([userId, createdAt])
+
+}
+
+
+
+model CompanyContact {
+
+  id          String   @id @default(cuid())
+
+  companyId   String
+
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  name        String
+
+  designation String?
+
+  email       String?
+
+  phone       String?
+
+  notes       String?
+
+  type        DataType @default(Default)
+
+  userId      String?
+
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+
+
+
+  @@index([userId, companyId])
+
+}
+
+
+
+model JobApplication {
+
+  id                    String   @id @default(cuid())
+
+  companyId             String
+
+  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  jobId                 String?
+
+  roleName              String
+
+  applicationUrl        String?
+
+  appliedThrough        String?
+
+  mailId                String?
+
+  appliedDate           DateTime
+
+  currentStatus         String   @default("Applied")
+
+  expectedSalary        Decimal? @db.Decimal(12, 2)
+
+  currentSalary         Decimal? @db.Decimal(12, 2)
+
+  negotiatedSalary      Decimal? @db.Decimal(12, 2)
+
+  offeredSalary         Decimal? @db.Decimal(12, 2)
+
+  companyStandardSalary Decimal? @db.Decimal(12, 2)
+
+  type                  DataType @default(Default)
+
+  userId                String?
+
+  user                  User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+
+
+  statusHistory JobStatusHistory[]
+
+  interviews    InterviewSchedule[]
+
+  notes         JobNote[]
+
+
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+
+
+  @@index([userId, currentStatus])
+
+  @@index([userId, companyId])
+
+  @@index([userId, appliedDate])
+
+}
+
+
+
+model JobStatusHistory {
+
+  id               String         @id @default(cuid())
+
+  jobApplicationId String
+
+  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
+
+  status           String
+
+  type             DataType       @default(Default)
+
+  userId           String?
+
+  user             User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime       @default(now())
+
+
+
+  @@index([jobApplicationId, createdAt])
+
+}
+
+
+
+model InterviewSchedule {
+
+  id               String         @id @default(cuid())
+
+  jobApplicationId String
+
+  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
+
+  interviewDate    DateTime
+
+  interviewTime    String?
+
+  mode             String
+
+  location         String?
+
+  interviewer      String?
+
+  meetingLink      String?
+
+  notes            String?
+
+  type             DataType       @default(Default)
+
+  userId           String?
+
+  user             User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime       @default(now())
+
+  updatedAt        DateTime       @updatedAt
+
+
+
+  @@index([userId, interviewDate])
+
+}
+
+
+
+model JobNote {
+
+  id               String         @id @default(cuid())
+
+  jobApplicationId String
+
+  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
+
+  content          String         @db.Text
+
+  type             DataType       @default(Default)
+
+  userId           String?
+
+  user             User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime       @default(now())
+
+  updatedAt        DateTime       @updatedAt
+
+}
+

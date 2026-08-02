@@ -1,12 +1,7 @@
-import {
-  ArrowUp,
-  ArrowUpRight,
-  ExternalLink,
-  Github,
-  Linkedin,
-  Mail,
-} from "lucide-react";
+import { ArrowUp, ArrowUpRight, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { BrandMark } from "@/components/portfolio/BrandMark";
+import { Reveal } from "@/components/portfolio/Reveal";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -17,17 +12,12 @@ const navLinks = [
 ] as const;
 
 const bioLinks = [
-  { label: "View projects", to: "/projects" },
-  { label: "Skills & stack", to: "/skills" },
+  { label: "For reviewers", to: "/#for-reviewers" },
+  { label: "Experience", to: "/experience" },
+  { label: "Projects", to: "/projects" },
+  { label: "Skills", to: "/skills" },
   { label: "Contact", to: "/contact" },
-  {
-    label: "GitHub",
-    href: "https://github.com/Sree0405",
-  },
-  {
-    label: "My3DUI",
-    href: "https://my3dui.vercel.app/",
-  },
+  { label: "GitHub", href: "https://github.com/Sree0405" },
 ] as const;
 
 const externalLinks = [
@@ -56,58 +46,53 @@ const stackPills = [
   "Next.js",
   "TypeScript",
   "Node.js",
-  "Express",
-  "Three.js",
+  "PostgreSQL",
+  "Linux",
 ] as const;
 
 export default function Footer() {
-  const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollTop = () => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  };
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto w-full min-w-0 shrink-0 border-t border-border/40">
-      <div
-        className="pointer-events-none absolute inset-0 bg-background/90 backdrop-blur-xl"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_100%_70%_at_50%_100%,hsl(var(--primary)/0.06),transparent_50%)]"
-        aria-hidden
-      />
-
-      <div className="relative w-full">
-        <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-8 sm:px-8 sm:pb-12 sm:pt-12 md:px-12 md:pb-14 md:pt-14 lg:px-16">
-          <div className="grid grid-cols-2 justify-between gap-x-8 gap-y-8 sm:gap-x-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
-            {/* Brand */}
+    <Reveal as="footer" className="relative mt-auto w-full min-w-0 shrink-0 border-t border-border">
+        <div className="relative w-full border-t border-primary/15 bg-[hsl(var(--surface))]">
+        <div className="page-container-x pb-10 pt-10 sm:pb-14 sm:pt-14 md:pb-16 md:pt-16">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:gap-x-10 lg:grid-cols-12 lg:gap-12 xl:gap-14">
             <div className="col-span-2 lg:col-span-5">
               <div className="flex flex-col gap-4 sm:gap-6">
-                <img
-                  src="/branding/sreeBrandLogo.png"
-                  alt="Sreekanth"
-                  className="h-auto w-[50%] max-w-[11rem] object-contain sm:w-[45%] sm:max-w-full"
-                />
+                <Link
+                  to="/"
+                  className="inline-flex w-fit rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label="Sree — Home"
+                >
+                  <BrandMark size="footer" />
+                </Link>
 
                 <div className="min-w-0 space-y-3 sm:space-y-4">
                   <div className="space-y-1 sm:space-y-2">
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-primary sm:text-[11px]">
-                      Full-stack · Frontend-led
+                    <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                      EWall · Junior engineer
                     </p>
-                    <h2 className="text-sm font-medium leading-snug portfolio-text-muted sm:text-lg">
-                      Engineer & product-focused builder
+                    <h2 className="text-sm font-medium leading-snug text-secondary-foreground sm:text-base">
+                      Ships React products end to end
                     </h2>
                   </div>
 
-                  <p className="hidden max-w-lg text-sm leading-relaxed portfolio-text-muted sm:block sm:text-[15px]">
-                    Frontend-focused full-stack engineer—strongest on interfaces,
-                    React/Next systems, and UX—with Node.js & Express for APIs and
-                    integrations when owning features end-to-end.
+                  <p className="hidden max-w-lg text-sm leading-relaxed portfolio-text-muted sm:block">
+                    Platform module ownership at EWall — React/Next.js through
+                    Node APIs and Linux deploys. Proof on Projects; public code
+                    on GitHub (My3DUI, Fieldstack).
                   </p>
 
                   <nav
                     aria-label="Quick links"
-                    className="hidden border-t border-border/40 pt-5 sm:block sm:pt-6"
+                    className="hidden border-t border-border pt-5 sm:block sm:pt-6"
                   >
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+                    <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                       Links
                     </p>
                     <ul className="mt-2 flex flex-row flex-wrap gap-x-1 gap-y-2">
@@ -124,7 +109,7 @@ export default function Footer() {
                           {"to" in item ? (
                             <Link
                               to={item.to}
-                              className="group inline-flex items-center gap-1.5 text-sm font-medium page-title-accent transition hover:text-primary"
+                              className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
                               {item.label}
                               <ArrowUpRight className="h-3.5 w-3.5 opacity-50 transition group-hover:opacity-100" />
@@ -134,7 +119,7 @@ export default function Footer() {
                               href={item.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group inline-flex items-center gap-1.5 text-sm font-medium page-title-accent transition hover:text-primary"
+                              className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
                               {item.label}
                               <ExternalLink className="h-3 w-3 opacity-50 transition group-hover:opacity-100" />
@@ -148,20 +133,16 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Explore */}
-            <nav
-              className="col-span-1 lg:col-span-3"
-              aria-label="Site pages"
-            >
-              <p className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-primary sm:mb-4 sm:text-[11px]">
+            <nav className="col-span-1 lg:col-span-3" aria-label="Site pages">
+              <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:mb-4">
                 Explore
               </p>
-              <ul className="space-y-2 text-sm sm:space-y-3">
+              <ul className="space-y-2 text-sm sm:space-y-2.5">
                 {navLinks.map((item) => (
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="group inline-flex items-center gap-1.5 portfolio-text-muted transition hover:text-primary"
+                      className="group inline-flex items-center gap-1.5 portfolio-text-muted transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {item.name}
                       <ArrowUpRight className="hidden h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100 sm:inline" />
@@ -171,30 +152,27 @@ export default function Footer() {
               </ul>
             </nav>
 
-            {/* Connect */}
             <div className="col-span-1 lg:col-span-4">
-              <p className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-primary sm:mb-4 sm:text-[11px]">
+              <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:mb-4">
                 Connect
               </p>
-              <ul className="space-y-2 text-sm sm:space-y-3">
+              <ul className="space-y-2 text-sm sm:space-y-2.5">
                 {externalLinks.map((item) => {
                   const Icon = item.icon;
                   return (
                     <li key={item.href}>
                       <a
                         href={item.href}
-                        target={
-                          item.href.startsWith("http") ? "_blank" : undefined
-                        }
+                        target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel={
                           item.href.startsWith("http")
                             ? "noopener noreferrer"
                             : undefined
                         }
                         aria-label={item.label}
-                        className="group inline-flex items-center gap-2 portfolio-text-muted transition hover:text-primary sm:gap-2.5"
+                        className="group inline-flex items-center gap-2 portfolio-text-muted transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:gap-2.5"
                       >
-                        <span className="hidden h-8 w-8 items-center justify-center rounded-lg border border-border/50 bg-background/60 text-primary shadow-sm sm:inline-flex">
+                        <span className="icon-well hidden h-9 w-9 sm:inline-flex">
                           <Icon className="h-3.5 w-3.5" />
                         </span>
                         <Icon
@@ -209,14 +187,14 @@ export default function Footer() {
                 })}
               </ul>
 
-              <p className="mt-6 hidden font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:mt-8 sm:block">
+              <p className="mt-6 hidden font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:mt-8 sm:block">
                 Stack
               </p>
               <div className="mt-3 hidden flex-wrap gap-2 sm:flex">
                 {stackPills.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-lg border border-border/50 bg-background/40 px-2.5 py-1 font-mono text-[10px] portfolio-text-muted md:text-[11px]"
+                    className="tech-pill rounded-lg border border-primary/20 bg-[hsl(var(--surface-2))] px-2.5 py-1 font-mono text-xs portfolio-text-muted transition-colors hover:border-primary/40 hover:text-primary"
                   >
                     {tech}
                   </span>
@@ -226,19 +204,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="w-full border-t border-border/40 bg-background/50">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-8 sm:py-6 md:px-12 lg:px-16">
-            <p className="w-full text-center text-[11px] portfolio-text-muted sm:w-auto sm:text-left sm:text-sm">
-              © {year}{" "}
-              <span className="page-title-accent">Sreekanth</span>. All rights
-              reserved.
+        <div className="w-full border-t border-border bg-[hsl(var(--background))]">
+          <div className="page-container-x flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-6">
+            <p className="w-full text-center text-sm portfolio-text-muted sm:w-auto sm:text-left">
+              © {year} <span className="text-foreground">Sreekanth</span>. All
+              rights reserved.
             </p>
-            <div className="flex w-full flex-wrap items-center justify-between gap-3 text-[11px] portfolio-text-muted sm:w-auto sm:justify-end sm:gap-6 sm:text-sm">
+            <div className="flex w-full flex-wrap items-center justify-between gap-3 text-sm portfolio-text-muted sm:w-auto sm:justify-end sm:gap-6">
               <a
                 href="https://github.com/Sree0405"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="portfolio-text-muted transition hover:text-primary"
+                className="transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 GitHub
               </a>
@@ -246,20 +223,21 @@ export default function Footer() {
                 href="https://linkedin.com/in/sreekanth04052005"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="portfolio-text-muted transition hover:text-primary"
+                className="transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 LinkedIn
               </a>
               <a
                 href="mailto:sreekanth04052005@gmail.com"
-                className="portfolio-text-muted transition hover:text-primary"
+                className="transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Email
               </a>
               <button
                 type="button"
                 onClick={scrollTop}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/60 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-wider page-title-accent transition hover:border-primary/35 sm:px-3 sm:py-1.5 sm:text-xs"
+                aria-label="Scroll to top"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-[hsl(var(--surface))] px-3 py-1.5 font-mono text-xs font-medium uppercase tracking-wider text-foreground transition hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <ArrowUp className="h-3.5 w-3.5" />
                 Top
@@ -268,6 +246,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </Reveal>
   );
 }

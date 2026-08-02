@@ -10,14 +10,14 @@ export default function SecurityTab({ security }: SecurityTabProps) {
   return (
     <div>
       <DocSection icon={Shield} title="Security Overview">
-        <p className="text-base leading-relaxed text-gray-300">{security.summary}</p>
+        <p className="text-base leading-relaxed text-foreground/80">{security.summary}</p>
       </DocSection>
 
       <DocSection icon={Lock} title="Authentication">
         <ul className="space-y-3">
           {security.authentication.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-sm text-gray-300">
-              <span className="text-purple-400">✓</span>
+            <li key={item} className="flex items-start gap-3 text-sm text-foreground/80">
+              <span className="text-primary">✓</span>
               {item}
             </li>
           ))}
@@ -27,8 +27,8 @@ export default function SecurityTab({ security }: SecurityTabProps) {
       <DocSection icon={Shield} title="Data Isolation">
         <ul className="space-y-3">
           {security.dataIsolation.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-sm text-gray-300">
-              <span className="text-purple-400">✓</span>
+            <li key={item} className="flex items-start gap-3 text-sm text-foreground/80">
+              <span className="text-primary">✓</span>
               {item}
             </li>
           ))}
@@ -40,7 +40,7 @@ export default function SecurityTab({ security }: SecurityTabProps) {
           {security.practices.map((item) => (
             <div
               key={item}
-              className="rounded-lg border border-purple-500/15 bg-purple-900/10 px-4 py-3 text-sm text-gray-300"
+              className="rounded-lg border border-primary/15 bg-primary/10 px-4 py-3 text-sm text-foreground/80"
             >
               {item}
             </div>

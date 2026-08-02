@@ -2,52 +2,95 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { lazy, Suspense, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
-import ProjectDocumentation from "./pages/apiDocs";
-// Layouts
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import NormalLayout from "./layouts/NormalLayout";
 
-// Pages
-import Home from "./pages/Home";
-import ProjectsPage from "./pages/ProjectsPage";
-import SkillsPage from "./pages/SkillsPage";
-import ContactPage from "./pages/ContactPage";
-import ExperiencePage from "./pages/ExperiencePage";
-import NotFound from "./pages/NotFound";
-
-import Fieldstack from "./pages/Fieldstack.tsx";
-import LifeAdmin from "./pages/LifeAdmin.tsx";
-
+const Home = lazy(() => import("./pages/Home"));
+const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
+const SkillsPage = lazy(() => import("./pages/SkillsPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const ExperiencePage = lazy(() => import("./pages/ExperiencePage"));
+const ThemeExplorerPage = lazy(() => import("./pages/ThemeExplorerPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Fieldstack = lazy(() => import("./pages/Fieldstack.tsx"));
+const LifeAdmin = lazy(() => import("./pages/LifeAdmin.tsx"));
 const SreeDevToolPage = lazy(() => import("./pages/SreeDevTool"));
 
-// Dashboard
-import LoginPage from "./app/routes/login/LoginPage";
-import SignupPage from "./app/routes/signup/SignupPage";
-import DashboardLayout from "./app/routes/dashboard/layout/DashboardLayout";
-import DashboardPage from "./app/routes/dashboard/DashboardPage";
-import DashboardProjectsPage from "./app/routes/dashboard/projects/ProjectsPage";
-import ProjectDetailsPage from "./app/routes/dashboard/projects/ProjectDetailsPage";
-import CredentialsPage from "./app/routes/dashboard/credentials/CredentialsPage";
-import FinanceLayout from "./app/routes/dashboard/finance/layout/FinanceLayout";
-import FinanceOverviewPage from "./app/routes/dashboard/finance/FinanceOverviewPage";
-import EmiPage from "./app/routes/dashboard/finance/EmiPage";
-import RentPage from "./app/routes/dashboard/finance/RentPage";
-import SubscriptionsPage from "./app/routes/dashboard/finance/SubscriptionsPage";
-import FinanceRecordDetailPage from "./app/routes/dashboard/finance/FinanceRecordDetailPage";
-import BudgetPlannerPage from "./app/routes/dashboard/budget/BudgetPlannerPage";
-import ResumesPage from "./app/routes/dashboard/resume/ResumesPage";
-import ResumeEditorPage from "./app/routes/dashboard/resume/ResumeEditorPage";
-import DevUtilitiesHubPage from "./app/routes/dashboard/devUtilities/DevUtilitiesHubPage";
-import DevUtilityPage from "./app/routes/dashboard/devUtilities/DevUtilityPage";
-import DeveloperPlaygroundPage from "./app/routes/dashboard/playground/DeveloperPlaygroundPage";
-import FormsPage from "./app/routes/dashboard/forms/FormsPage";
-import CompaniesPage from "./app/routes/dashboard/companies/CompaniesPage";
-import CompanyDetailsPage from "./app/routes/dashboard/companies/CompanyDetailsPage";
-import JobStatusPage from "./app/routes/dashboard/jobTracker/JobStatusPage";
-import JobDetailsPage from "./app/routes/dashboard/jobTracker/JobDetailsPage";
-import ProfilePage from "./app/routes/dashboard/profile/ProfilePage";
-import UsersPage from "./app/routes/dashboard/users/UsersPage";
+const LoginPage = lazy(() => import("./app/routes/login/LoginPage"));
+const SignupPage = lazy(() => import("./app/routes/signup/SignupPage"));
+const DashboardLayout = lazy(
+  () => import("./app/routes/dashboard/layout/DashboardLayout"),
+);
+const DashboardPage = lazy(() => import("./app/routes/dashboard/DashboardPage"));
+const DashboardProjectsPage = lazy(
+  () => import("./app/routes/dashboard/projects/ProjectsPage"),
+);
+const ProjectDetailsPage = lazy(
+  () => import("./app/routes/dashboard/projects/ProjectDetailsPage"),
+);
+const CredentialsPage = lazy(
+  () => import("./app/routes/dashboard/credentials/CredentialsPage"),
+);
+const FinanceLayout = lazy(
+  () => import("./app/routes/dashboard/finance/layout/FinanceLayout"),
+);
+const FinanceOverviewPage = lazy(
+  () => import("./app/routes/dashboard/finance/FinanceOverviewPage"),
+);
+const EmiPage = lazy(() => import("./app/routes/dashboard/finance/EmiPage"));
+const RentPage = lazy(() => import("./app/routes/dashboard/finance/RentPage"));
+const SubscriptionsPage = lazy(
+  () => import("./app/routes/dashboard/finance/SubscriptionsPage"),
+);
+const FinanceRecordDetailPage = lazy(
+  () => import("./app/routes/dashboard/finance/FinanceRecordDetailPage"),
+);
+const BudgetPlannerPage = lazy(
+  () => import("./app/routes/dashboard/budget/BudgetPlannerPage"),
+);
+const ResumesPage = lazy(
+  () => import("./app/routes/dashboard/resume/ResumesPage"),
+);
+const ResumeEditorPage = lazy(
+  () => import("./app/routes/dashboard/resume/ResumeEditorPage"),
+);
+const DevUtilitiesHubPage = lazy(
+  () => import("./app/routes/dashboard/devUtilities/DevUtilitiesHubPage"),
+);
+const DevUtilityPage = lazy(
+  () => import("./app/routes/dashboard/devUtilities/DevUtilityPage"),
+);
+const DeveloperPlaygroundPage = lazy(
+  () => import("./app/routes/dashboard/playground/DeveloperPlaygroundPage"),
+);
+const FormsPage = lazy(() => import("./app/routes/dashboard/forms/FormsPage"));
+const ReviewsPage = lazy(
+  () => import("./app/routes/dashboard/reviews/ReviewsPage"),
+);
+const CompaniesPage = lazy(
+  () => import("./app/routes/dashboard/companies/CompaniesPage"),
+);
+const CompanyDetailsPage = lazy(
+  () => import("./app/routes/dashboard/companies/CompanyDetailsPage"),
+);
+const JobStatusPage = lazy(
+  () => import("./app/routes/dashboard/jobTracker/JobStatusPage"),
+);
+const JobDetailsPage = lazy(
+  () => import("./app/routes/dashboard/jobTracker/JobDetailsPage"),
+);
+const ProfilePage = lazy(
+  () => import("./app/routes/dashboard/profile/ProfilePage"),
+);
+const UsersPage = lazy(() => import("./app/routes/dashboard/users/UsersPage"));
+
 import { JobTrackerFeatureRoute } from "./app/components/Common/JobTrackerFeatureRoute";
 import { AdminRoute } from "./app/components/Common/AdminRoute";
 
@@ -63,6 +106,22 @@ function ScrollToTop() {
   return null;
 }
 
+function RouteFallback() {
+  return (
+    <div
+      className="flex min-h-[40vh] items-center justify-center"
+      aria-busy="true"
+      aria-label="Loading page"
+    >
+      <div className="h-8 w-8 animate-pulse rounded-full bg-primary/30" />
+    </div>
+  );
+}
+
+function Lazy({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<RouteFallback />}>{children}</Suspense>;
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -71,47 +130,216 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          {/* Immersive Layout - Isolated 3D experience */}
-
-
-          {/* Normal Layout - Standard pages with full navigation */}
           <Route element={<NormalLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/experience" element={<ExperiencePage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/project/fieldstack" element={<Fieldstack />} />
-            <Route path="/project/lifeAdmin" element={<LifeAdmin />} />
-            <Route path="/project/sree-dev-tool" element={
-              <Suspense fallback={null}>
-                <SreeDevToolPage />
-              </Suspense>
-            } />
-            <Route path="/project/devtool" element={<Navigate to="/project/sree-dev-tool" replace />} />            
-            <Route path="/skills" element={<SkillsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route
+              path="/"
+              element={
+                <Lazy>
+                  <Home />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/experience"
+              element={
+                <Lazy>
+                  <ExperiencePage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                <Lazy>
+                  <ProjectsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/project/fieldstack"
+              element={
+                <Lazy>
+                  <Fieldstack />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/project/lifeAdmin"
+              element={
+                <Lazy>
+                  <LifeAdmin />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/project/sree-dev-tool"
+              element={
+                <Lazy>
+                  <SreeDevToolPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/project/devtool"
+              element={<Navigate to="/project/sree-dev-tool" replace />}
+            />
+            <Route
+              path="/skills"
+              element={
+                <Lazy>
+                  <SkillsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <Lazy>
+                  <ContactPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="/theme"
+              element={
+                <Lazy>
+                  <ThemeExplorerPage />
+                </Lazy>
+              }
+            />
           </Route>
 
-          {/* Project Management Dashboard */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/profile" element={<Navigate to="/dashboard/profile" replace />} />
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="projects" element={<DashboardProjectsPage />} />
-            <Route path="projects/:id" element={<ProjectDetailsPage />} />
-            <Route path="credentials" element={<CredentialsPage />} />
-            <Route path="resume" element={<ResumesPage />} />
-            <Route path="resume/:id" element={<ResumeEditorPage />} />
-            <Route path="dev-utilities" element={<DevUtilitiesHubPage />} />
-            <Route path="dev-utilities/:utilityId" element={<DevUtilityPage />} />
-            <Route path="playground" element={<DeveloperPlaygroundPage />} />
-            <Route path="forms" element={<FormsPage />} />
-            <Route path="profile" element={<ProfilePage />} />
+          <Route
+            path="/login"
+            element={
+              <Lazy>
+                <LoginPage />
+              </Lazy>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Lazy>
+                <SignupPage />
+              </Lazy>
+            }
+          />
+          <Route
+            path="/profile"
+            element={<Navigate to="/dashboard/profile" replace />}
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Lazy>
+                <DashboardLayout />
+              </Lazy>
+            }
+          >
+            <Route
+              index
+              element={
+                <Lazy>
+                  <DashboardPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="projects"
+              element={
+                <Lazy>
+                  <DashboardProjectsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="projects/:id"
+              element={
+                <Lazy>
+                  <ProjectDetailsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="credentials"
+              element={
+                <Lazy>
+                  <CredentialsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="resume"
+              element={
+                <Lazy>
+                  <ResumesPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="resume/:id"
+              element={
+                <Lazy>
+                  <ResumeEditorPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="dev-utilities"
+              element={
+                <Lazy>
+                  <DevUtilitiesHubPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="dev-utilities/:utilityId"
+              element={
+                <Lazy>
+                  <DevUtilityPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="playground"
+              element={
+                <Lazy>
+                  <DeveloperPlaygroundPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="forms"
+              element={
+                <Lazy>
+                  <FormsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="reviews"
+              element={
+                <Lazy>
+                  <ReviewsPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <Lazy>
+                  <ProfilePage />
+                </Lazy>
+              }
+            />
             <Route
               path="users"
               element={
                 <AdminRoute>
-                  <UsersPage />
+                  <Lazy>
+                    <UsersPage />
+                  </Lazy>
                 </AdminRoute>
               }
             />
@@ -119,7 +347,9 @@ const App = () => (
               path="companies"
               element={
                 <JobTrackerFeatureRoute>
-                  <CompaniesPage />
+                  <Lazy>
+                    <CompaniesPage />
+                  </Lazy>
                 </JobTrackerFeatureRoute>
               }
             />
@@ -127,7 +357,9 @@ const App = () => (
               path="companies/:companyId"
               element={
                 <JobTrackerFeatureRoute>
-                  <CompanyDetailsPage />
+                  <Lazy>
+                    <CompanyDetailsPage />
+                  </Lazy>
                 </JobTrackerFeatureRoute>
               }
             />
@@ -135,7 +367,9 @@ const App = () => (
               path="job-status"
               element={
                 <JobTrackerFeatureRoute>
-                  <JobStatusPage />
+                  <Lazy>
+                    <JobStatusPage />
+                  </Lazy>
                 </JobTrackerFeatureRoute>
               }
             />
@@ -143,25 +377,99 @@ const App = () => (
               path="job-status/:jobId"
               element={
                 <JobTrackerFeatureRoute>
-                  <JobDetailsPage />
+                  <Lazy>
+                    <JobDetailsPage />
+                  </Lazy>
                 </JobTrackerFeatureRoute>
               }
             />
-            <Route path="budget-planner" element={<BudgetPlannerPage />} />
-            <Route path="finance" element={<FinanceLayout />}>
-              <Route index element={<FinanceOverviewPage />} />
-              <Route path="overview" element={<Navigate to="/dashboard/finance" replace />} />
-              <Route path="emi" element={<EmiPage />} />
-              <Route path="emi/:id" element={<FinanceRecordDetailPage />} />
-              <Route path="rent" element={<RentPage />} />
-              <Route path="rent/:id" element={<FinanceRecordDetailPage />} />
-              <Route path="subscriptions" element={<SubscriptionsPage />} />
-              <Route path="subscriptions/:id" element={<FinanceRecordDetailPage />} />
+            <Route
+              path="budget-planner"
+              element={
+                <Lazy>
+                  <BudgetPlannerPage />
+                </Lazy>
+              }
+            />
+            <Route
+              path="finance"
+              element={
+                <Lazy>
+                  <FinanceLayout />
+                </Lazy>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Lazy>
+                    <FinanceOverviewPage />
+                  </Lazy>
+                }
+              />
+              <Route
+                path="overview"
+                element={<Navigate to="/dashboard/finance" replace />}
+              />
+              <Route
+                path="emi"
+                element={
+                  <Lazy>
+                    <EmiPage />
+                  </Lazy>
+                }
+              />
+              <Route
+                path="emi/:id"
+                element={
+                  <Lazy>
+                    <FinanceRecordDetailPage />
+                  </Lazy>
+                }
+              />
+              <Route
+                path="rent"
+                element={
+                  <Lazy>
+                    <RentPage />
+                  </Lazy>
+                }
+              />
+              <Route
+                path="rent/:id"
+                element={
+                  <Lazy>
+                    <FinanceRecordDetailPage />
+                  </Lazy>
+                }
+              />
+              <Route
+                path="subscriptions"
+                element={
+                  <Lazy>
+                    <SubscriptionsPage />
+                  </Lazy>
+                }
+              />
+              <Route
+                path="subscriptions/:id"
+                element={
+                  <Lazy>
+                    <FinanceRecordDetailPage />
+                  </Lazy>
+                }
+              />
             </Route>
           </Route>
 
-          {/* Catch-all */}
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path="*"
+            element={
+              <Lazy>
+                <NotFound />
+              </Lazy>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

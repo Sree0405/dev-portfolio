@@ -1,12 +1,47 @@
 {
   "slug": "sree-dev-tool",
   "projectName": "Sree Dev Tool",
-  "tagline": "All-in-One Operations Platform",
-  "description": "Built into the portfolio website — one software that replaces separate budget trackers, credential vaults, note apps, finance tools, resume editors, and developer utilities. No juggling multiple apps; everything lives in a single session-authenticated dashboard.",
+  "tagline": "Ops platform in a scalable portfolio monorepo",
+  "description": "A session-authenticated ops dashboard I built into this site on purpose — finance, credentials, projects, resumes, and developer utilities in one codebase. The portfolio repo was designed to scale from day one, so a multi-tenant-capable product surface could grow here without a second stack or a performance rewrite. Demo mode keeps private ops data out of review sessions.",
   "techStack": ["React 18", "TypeScript", "Express 5", "Prisma 6", "Neon PostgreSQL", "Tailwind CSS", "shadcn/ui", "Monaco Editor", "Vite"],
-  "status": "Live",
+  "status": "Live · Scalable monorepo",
   "demoUrl": "/login",
   "docsUrl": "/project/sree-dev-tool",
+  "githubUrl": "https://github.com/Sree0405/dev-portfolio",
+  "caseStudy": {
+    "problem": "Day-to-day ops work was scattered across separate budget, credentials, notes, finance, and utility tools — duplicate logins and no single source of truth. Spinning up a separate product repo would have duplicated auth, deploy, and scaling foundations.",
+    "constraints": "Ship on the same Express/Vite portfolio server; keep owner vs demo (multi-tenant-style) data isolation; add modules over time without compromising structure or performance.",
+    "approach": "From the start, structure the portfolio monorepo to scale — layered routes/services/repositories, modular /dashboard/* UI, shared session auth — then build Sree Dev Tool as a first-class product inside that foundation instead of a bolt-on demo.",
+    "results": [
+      "One production dashboard replacing fragmented personal tools",
+      "Eight modular domains behind shared auth and tenant-style data isolation",
+      "Proof that the same scalable foundation can absorb new product features without a rewrite"
+    ],
+    "reviewable": [
+      "Application source in github.com/Sree0405/dev-portfolio (same scalable monorepo as this site)",
+      "Live demo login with sandboxed demo data — private ops records stay isolated",
+      "Architecture tab — system diagram, data flow, and How it ships",
+      "Security + Workflow tabs and per-module API notes"
+    ],
+    "sourceNote": "There is no separate Dev Tool repository by design. I made the portfolio repo scalable first so a multi-tenant-capable ops product could live here and keep growing modules without splitting stacks or compromising performance. Personal finance/credentials data stays private — demo mode and DataType isolation keep reviewer sessions on seeded data only.",
+    "codePath": [
+      {
+        "label": "dev-portfolio",
+        "href": "https://github.com/Sree0405/dev-portfolio",
+        "note": "Scalable monorepo — portfolio + Dev Tool (server/, src/app/) sharing one deploy story."
+      },
+      {
+        "label": "Live demo",
+        "href": "/login",
+        "note": "Sandboxed demo account — product feel without private ops data."
+      },
+      {
+        "label": "My3DUI / Fieldstack",
+        "href": "https://github.com/Sree0405",
+        "note": "Sibling open-source repos if you want standalone library/CMS code samples."
+      }
+    ]
+  },
 
   "tabs": [
     { "id": "overview", "label": "Overview", "icon": "home" },
@@ -18,29 +53,28 @@
   ],
 
   "overview": {
-    "whyBuilt": "We set out to build a portfolio website — but quickly realized that day-to-day work scatters across too many separate tools: a budget tracker here, a credentials vault there, notes in one app, finance in another, resume editing elsewhere, and developer utilities on random websites. Instead of relying on five or six different solutions, we built one unified software directly into the site. Sree Dev Tool solves every problem in a single place — no context-switching, no duplicate logins, no scattered data.",
-    "whatWeDo": "Sree Dev Tool is a modular all-in-one platform embedded in the portfolio. Track projects and payments, store credentials securely, plan monthly budgets, monitor EMIs and subscriptions, edit LaTeX resumes with live preview, run developer utilities, and experiment with code in a sandboxed playground — all behind one login with owner/demo data isolation.",
-    "howWeDo": "Each capability is an independent module following a repeatable pattern: Prisma models, repository → service → route layers on the backend, and dedicated React pages under /dashboard/*. Client-only modules (Playground) skip the API entirely. A shared Express server on port 8080 serves both the Vite SPA and REST API, with Neon PostgreSQL via Prisma for persistence.",
+    "whyBuilt": "I started the portfolio repo to be scalable from day one — layered server, modular UI, shared auth — so a full multi-tenant-capable Dev Tool could live in the same codebase later. At the same time I needed one ops surface: budget, credentials, notes, finance, and resume work were scattered across too many apps. Building Dev Tool into the portfolio proved the foundation: grow product features without a second stack or a rewrite.",
+    "whatWeDo": "Sree Dev Tool is a modular ops platform: projects and payments, credentials, budgets, EMI/subscriptions, LaTeX resumes, developer utilities, and a sandboxed playground — one login with owner/demo data isolation (tenant-style boundaries) so reviewers explore without seeing private records.",
+    "howWeDo": "Each capability is an independent module: Prisma models, repository → service → route layers on the backend, and dedicated React pages under /dashboard/*. Client-only modules (Playground) skip the API. A shared Express server serves both the Vite SPA and REST API, with Neon PostgreSQL via Prisma — the same process as the public portfolio.",
     "highlights": [
-      { "title": "One Software, Every Problem", "description": "No separate budget tracker, credentials app, notes tool, or finance spreadsheet — one dashboard handles it all." },
-      { "title": "Built Into the Website", "description": "Not a third-party SaaS — a custom platform running on the same Express server as the portfolio." },
-      { "title": "Modular Architecture", "description": "8 independent modules with their own routes, services, and documentation — add new modules via a repeatable checklist." },
-      { "title": "Data Isolation", "description": "Owner and Demo accounts use separate DataType scopes — demo users explore fictional seeded data safely." },
-      { "title": "PDF Generation", "description": "Professional PDF exports for project invoices, finance reports, and budget plans via server-side PDFKit templates." },
-      { "title": "Client-Only IDE", "description": "Developer Playground runs entirely in the browser with Monaco Editor, Web Worker sandboxing, and localStorage persistence." }
+      { "title": "One ops surface", "description": "No separate budget tracker, credentials app, notes tool, or finance spreadsheet — one dashboard handles the daily loop." },
+      { "title": "Scalable monorepo by design", "description": "Portfolio structured for scale first — so a multi-tenant-capable Dev Tool fits here and can keep adding modules without compromising performance." },
+      { "title": "Modular architecture", "description": "Independent modules with their own routes, services, and docs — add capabilities via a repeatable pattern." },
+      { "title": "Tenant-style data isolation", "description": "Owner and Demo accounts use separate DataType scopes — demo users explore fictional seeded data safely." },
+      { "title": "PDF generation", "description": "Server-side PDFKit templates for project invoices, finance reports, and budget plans." },
+      { "title": "Client-only IDE", "description": "Developer Playground runs in the browser with Monaco, Web Worker sandboxing, and localStorage persistence." }
     ],
     "targetUsers": [
-      "Anyone tired of switching between budget trackers, password managers, and note apps",
-      "Developers who want project management, utilities, and a code playground in one place",
-      "People who prefer a single custom platform over multiple subscription tools",
-      "Portfolio visitors exploring the demo mode with safe fictional data"
+      "Hiring reviewers exploring demo mode with safe fictional data",
+      "Anyone evaluating full-stack ownership across auth, APIs, and modular UI",
+      "Engineers who care about scalable monorepos that absorb real product surfaces"
     ],
     "platformGoals": [
-      "Replace multiple standalone apps with one unified software solution",
-      "Keep all financial calculations server-side — never trust client totals",
-      "Provide a safe demo mode for portfolio visitors without exposing real data",
-      "Scale by adding modules without restructuring the core platform",
-      "Maintain fast page loads with lazy rendering and query-param tab navigation"
+      "Replace multiple standalone personal tools with one maintainable codebase",
+      "Keep financial calculations server-side — never trust client totals",
+      "Provide a safe demo mode without exposing real ops data",
+      "Add modules without restructuring the core platform or hurting performance",
+      "Show that products I ship sit on scalable foundations — feature growth without compromise"
     ]
   },
 
@@ -358,6 +392,7 @@
   ],
 
   "architecture": {
+    "sourcePolicy": "Source is public in github.com/Sree0405/dev-portfolio — the same monorepo as this portfolio (server/, src/app/). The repo was built to scale from day one so a multi-tenant-capable Dev Tool could ship here and grow modules without a second codebase. Ops data stays private via owner/demo isolation; use demo login to explore without real records.",
     "summary": "Sree Dev Tool runs on the same Express server as the portfolio. In development, Vite middleware serves the React SPA; in production, Express serves the built dist/ folder. All API routes live under /api/* with session-based authentication.",
     "diagram": [
       "Browser (React SPA)",
@@ -398,6 +433,13 @@
       "Business logic (totals, status, schedules) computed server-side only",
       "Serialized responses returned via server/lib/serializers.ts",
       "Frontend renders with TanStack React Query for caching and refetching"
+    ],
+    "deployment": [
+      "Dev: single process — Express + Vite middleware on port 8080 (tsx watch)",
+      "Prod build: Vite outputs dist/; Express serves the SPA and /api/* from one Node process",
+      "Database: Neon PostgreSQL through Prisma migrations and seed for demo data",
+      "Auth/secrets: OWNER_* and SESSION_SECRET via environment — never committed",
+      "Review path: clone github.com/Sree0405/dev-portfolio; demo login for product feel; architecture/security tabs for the ship story"
     ]
   },
 

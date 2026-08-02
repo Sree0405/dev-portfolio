@@ -66,6 +66,18 @@ export function serializeFormSubmission<T extends { createdAt: Date; updatedAt: 
   };
 }
 
+export function serializePortfolioReview<
+  T extends { name: string; createdAt: Date; updatedAt: Date },
+>(review: T) {
+  const trimmed = review.name.trim();
+  return {
+    ...review,
+    name: trimmed.length > 0 ? trimmed : "Anonymous",
+    createdAt: review.createdAt.toISOString(),
+    updatedAt: review.updatedAt.toISOString(),
+  };
+}
+
 export function serializeResume<
   T extends {
     createdAt: Date;

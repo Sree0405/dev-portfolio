@@ -7,7 +7,16 @@
   "techStack": ["React Native", "Expo", "Context API", "AsyncStorage", "Firebase"],
   "status": "In Development",
     "demoUrl": "https://drive.google.com/drive/folders/11vPn0NE1w-0qGiIQ7Mc9iVHhQ7SWEyXO?usp=drive_link",
-
+  "caseStudy": {
+    "problem": "Recurring bills, subscriptions, and renewals live in email and memory — people miss deadlines and lack a single renewal view.",
+    "constraints": "Mobile-first, offline-capable, privacy-sensitive data on device while the product is still in active development.",
+    "approach": "React Native + Expo with Context/AsyncStorage for offline records, reminder windows, and an analytics-oriented dashboard.",
+    "results": [
+      "Core renewal and reminder flows implemented",
+      "Architecture and security model documented while shipping",
+      "Public repo available; installable store release still in progress"
+    ]
+  },
 
   "overview": {
     "purpose": "Life Admin which is a Personal Finance & Renewal Tracker focuses specifically on renewal cycles and deadline awareness. It combines smart reminders, detailed analytics, secure local storage, and a guided multi-step entry flow to ensure users never miss a payment or renewal date again.",

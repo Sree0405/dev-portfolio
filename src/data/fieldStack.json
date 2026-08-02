@@ -7,6 +7,16 @@
   "techStack": ["NestJS", "Prisma", "PostgreSQL", "React", "TypeScript", "Docker"],
   "status": "Production",
   "demoUrl": "https://fieldstack.onrender.com/",
+  "caseStudy": {
+    "problem": "Teams need a self-hosted CMS/admin layer without vendor lock-in or hand-writing auth, RBAC, and CRUD for every collection.",
+    "constraints": "Must bootstrap cleanly, stay TypeScript-safe with Prisma/PostgreSQL, and generate REST APIs from metadata without a cloud dependency.",
+    "approach": "NestJS modular backend (auth, collections, permissions, files) plus a React admin — JWT/RBAC by default and dynamic CRUD from collection definitions.",
+    "results": [
+      "Open-source NestJS + React stack aligned across docs and product",
+      "Auto-generated REST APIs and role-aware admin workflows",
+      "Docker-ready self-hosted path with a live demo — early-stage / cold-start, not scaled SaaS traffic"
+    ]
+  },
 
   "overview": {
     "purpose": "FieldStack is a fully self-contained headless CMS giving you complete control over your data and infrastructure. The system features automatic database bootstrapping, JWT authentication, role-based access control, and a metadata-driven architecture that generates CRUD operations on-the-fly.",

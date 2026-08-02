@@ -316,7 +316,7 @@ export function PasswordGeneratorTool() {
 }
 
 export function QrCodeGeneratorTool() {
-  const [text, setText] = useState("https://sreefolio.vercel.app");
+  const [text, setText] = useState("https://www.sreekanth.pro");
   const [dataUrl, setDataUrl] = useState("");
 
   useEffect(() => {

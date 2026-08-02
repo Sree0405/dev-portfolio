@@ -8,6 +8,7 @@ import {
   KeyRound,
   LayoutDashboard,
   LayoutGrid,
+  MessageSquareQuote,
   PieChart,
   Settings2,
   TerminalSquare,
@@ -83,6 +84,13 @@ export const dashboardNavItems = [
     disabled: false,
     end: false,
   },
+  {
+    label: "Reviews",
+    to: "/dashboard/reviews",
+    icon: MessageSquareQuote,
+    disabled: false,
+    end: false,
+  },
 ] as const;
 
 export const accountNavItems = [
@@ -153,6 +161,13 @@ export const mobileMoreNavItems = [
     label: "Forms",
     to: "/dashboard/forms",
     icon: Inbox,
+    disabled: false,
+    end: false,
+  },
+  {
+    label: "Reviews",
+    to: "/dashboard/reviews",
+    icon: MessageSquareQuote,
     disabled: false,
     end: false,
   },

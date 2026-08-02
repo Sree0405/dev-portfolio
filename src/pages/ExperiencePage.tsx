@@ -1,16 +1,17 @@
 import Experience from "@/components/experience/Experience";
 import ExperienceHero from "@/components/experience/ExperienceHero";
 import Footer from "@/components/Footer";
+import { PageShell } from "@/components/portfolio";
 
 const ExperiencePage = () => {
   return (
-    <div className="relative min-h-screen w-full min-w-0 overflow-x-clip portfolio-text-muted">
-      <main>
+    <>
+      <PageShell>
         <ExperienceHero />
         <Experience />
-      </main>
+      </PageShell>
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -1,16 +1,19 @@
 import Projects from "@/components/projects/Projects";
 import Footer from "@/components/Footer";
 import ProjectsHero from "@/components/projects/ProjectsHero";
+import ProjectsProofLegend from "@/components/projects/ProjectsProofLegend";
+import { PageShell } from "@/components/portfolio";
 
 const ProjectsPage = () => {
   return (
-    <div className="relative min-h-screen overflow-x-hidden portfolio-text-muted">
-      <main>
+    <>
+      <PageShell>
         <ProjectsHero />
+        <ProjectsProofLegend />
         <Projects />
-      </main>
+      </PageShell>
       <Footer />
-    </div>
+    </>
   );
 };
 

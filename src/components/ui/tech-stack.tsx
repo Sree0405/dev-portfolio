@@ -15,14 +15,14 @@ export function TechStack({
     <div
       className={cn(
         "flex flex-wrap gap-1.5",
-        bordered && "border-t border-border/40 pt-4",
+        bordered && "border-t border-border pt-4",
         className,
       )}
     >
       {items.map((tech) => (
         <span
           key={tech}
-          className="rounded-md bg-muted/50 px-2 py-1 font-mono text-[11px] portfolio-text-muted sm:text-xs"
+          className="tech-pill rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1.5 font-mono text-xs portfolio-text-muted transition-colors duration-[var(--motion-fast,150ms)] hover:border-primary/45 hover:bg-primary/10 hover:text-primary"
         >
           {tech}
         </span>

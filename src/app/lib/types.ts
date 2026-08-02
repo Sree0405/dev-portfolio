@@ -104,6 +104,34 @@ export interface PaginatedFormSubmissions {
   pageSize: number;
 }
 
+export type ReviewRelationship =
+  | "colleague"
+  | "client"
+  | "manager"
+  | "mentor"
+  | "other";
+
+export interface PortfolioReview {
+  id: string;
+  name: string;
+  relationship: ReviewRelationship | string;
+  message: string;
+  visible: boolean;
+  source: string;
+  type: DataType;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedPortfolioReviews {
+  items: PortfolioReview[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export const DEMO_REVIEW_DELETE_MESSAGE = "Deleting demo reviews is disabled.";
+
 export interface PaymentMutationResult {
   payment?: Payment;
   project: Project | null;

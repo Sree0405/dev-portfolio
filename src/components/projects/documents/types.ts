@@ -72,6 +72,13 @@ export interface CodeExampleItem {
   code?: string;
 }
 
+export interface CaseStudyData {
+  problem: string;
+  constraints?: string;
+  approach: string;
+  results: string[];
+}
+
 export interface DocumentationData {
   slug?: string;
   projectName: string;
@@ -81,6 +88,7 @@ export interface DocumentationData {
   techStack?: string[];
   status?: string;
   demoUrl?: string;
+  caseStudy?: CaseStudyData;
   overview?: OverviewData;
   problem?: ProblemData;
   features?: FeatureItem[];

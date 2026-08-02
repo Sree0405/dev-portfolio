@@ -24,43 +24,49 @@ export default function ModuleDetailTab({ module, onBack, shouldLoadImages = fal
       <button
         type="button"
         onClick={onBack}
-        className="mb-6 inline-flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-purple-300"
+        className="mb-6 inline-flex items-center gap-2 text-sm portfolio-text-muted transition-colors hover:text-primary/80"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to all modules
       </button>
 
-      <div className="mb-8 rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 to-gray-900/50 p-6 sm:p-8">
+      <div className="mb-8 min-w-0 rounded-2xl border border-border bg-gradient-to-br from-primary/20 to-background/80 p-4 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-purple-500/15">
-            <Icon className="h-7 w-7 text-purple-400" />
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 sm:h-14 sm:w-14">
+            <Icon className="h-6 w-6 text-primary sm:h-7 sm:w-7" aria-hidden />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-2xl font-bold text-white sm:text-3xl">{module.name}</h1>
-              <span className="rounded-full border border-purple-500/30 px-2.5 py-0.5 text-xs text-purple-400">
+              <h1 className="text-lg font-bold text-foreground sm:text-2xl">{module.name}</h1>
+              <span className="rounded-full border border-primary/30 px-2.5 py-0.5 text-[10px] text-primary sm:text-xs">
                 {TYPE_LABELS[module.type]}
               </span>
             </div>
-            <p className="mt-1 text-purple-300">{module.tagline}</p>
-            <p className="mt-2 font-mono text-sm text-gray-500">{module.route}</p>
-            {module.apiBase && (
-              <p className="mt-1 font-mono text-xs text-gray-600">API: {module.apiBase}</p>
-            )}
+            <p className="mt-1 text-sm text-primary/80 sm:text-base">{module.tagline}</p>
+            <p className="mt-2 break-all font-mono text-xs portfolio-text-muted sm:text-sm">
+              {module.route}
+            </p>
+            {module.apiBase ? (
+              <p className="mt-1 break-all font-mono text-[11px] portfolio-text-muted sm:text-xs">
+                API: {module.apiBase}
+              </p>
+            ) : null}
           </div>
         </div>
-        <p className="mt-5 text-base leading-relaxed text-gray-300">{module.summary}</p>
+        <p className="mt-5 text-sm leading-relaxed text-foreground/80 sm:text-base">
+          {module.summary}
+        </p>
       </div>
 
       <DocSection icon={HelpCircle} title="Why This Module">
-        <p className="text-base leading-relaxed text-gray-300">{module.why}</p>
+        <p className="text-base leading-relaxed text-foreground/80">{module.why}</p>
       </DocSection>
 
       <DocSection icon={ListChecks} title="What It Does">
         <ul className="space-y-3">
           {module.what.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-sm text-gray-300 sm:text-base">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+            <li key={item} className="flex items-start gap-3 text-sm text-foreground/80 sm:text-base">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               {item}
             </li>
           ))}
@@ -70,8 +76,8 @@ export default function ModuleDetailTab({ module, onBack, shouldLoadImages = fal
       <DocSection icon={Code2} title="How It Works">
         <ul className="space-y-3">
           {module.how.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-sm text-gray-300 sm:text-base">
-              <span className="mt-1 font-mono text-xs text-purple-500">→</span>
+            <li key={item} className="flex items-start gap-3 text-sm text-foreground/80 sm:text-base">
+              <span className="mt-1 font-mono text-xs text-primary">→</span>
               {item}
             </li>
           ))}
@@ -83,7 +89,7 @@ export default function ModuleDetailTab({ module, onBack, shouldLoadImages = fal
           {module.features.map((feature) => (
             <div
               key={feature}
-              className="rounded-lg border border-purple-500/15 bg-purple-900/10 px-4 py-3 text-sm text-gray-300"
+              className="rounded-lg border border-primary/15 bg-primary/10 px-4 py-3 text-sm text-foreground/80"
             >
               {feature}
             </div>
@@ -97,11 +103,11 @@ export default function ModuleDetailTab({ module, onBack, shouldLoadImages = fal
             {module.subPages.map((page) => (
               <div
                 key={page.route}
-                className="rounded-lg border border-purple-500/15 bg-gray-950/40 px-4 py-3"
+                className="rounded-lg border border-primary/15 bg-background/40 px-4 py-3"
               >
-                <p className="font-medium text-white">{page.name}</p>
-                <p className="mt-0.5 font-mono text-xs text-gray-600">{page.route}</p>
-                <p className="mt-2 text-sm text-gray-400">{page.description}</p>
+                <p className="font-medium text-foreground">{page.name}</p>
+                <p className="mt-0.5 font-mono text-xs portfolio-text-muted">{page.route}</p>
+                <p className="mt-2 text-sm portfolio-text-muted">{page.description}</p>
               </div>
             ))}
           </div>
@@ -113,7 +119,7 @@ export default function ModuleDetailTab({ module, onBack, shouldLoadImages = fal
           {module.techStack.map((tech) => (
             <span
               key={tech}
-              className="rounded-full border border-purple-500/25 bg-purple-900/20 px-3 py-1 text-xs text-purple-300"
+              className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary/80"
             >
               {tech}
             </span>

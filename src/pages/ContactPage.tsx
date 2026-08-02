@@ -1,14 +1,15 @@
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { PageShell } from "@/components/portfolio";
 
 const ContactPage = () => {
   return (
-    <div className="relative min-h-screen overflow-x-hidden portfolio-text-muted">
-      <main>
+    <>
+      <PageShell>
         <Contact />
-      </main>
+      </PageShell>
       <Footer />
-    </div>
+    </>
   );
 };
 

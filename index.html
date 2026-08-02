@@ -3,21 +3,89 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sreekanth - Frontend Engineer</title>
-    <meta name="description" content="Frontend Developer specializing in modern web experiences, WordPress development, and 3D interfaces. Passionate about creating immersive digital ecosystems." />
+    <title>Sreekanth — Frontend-Focused Full-Stack Engineer</title>
+    <meta
+      name="description"
+      content="Frontend-focused full-stack engineer building production React, Next.js, and TypeScript applications with Node.js APIs and PostgreSQL. Available for full-time roles."
+    />
     <meta name="author" content="Sreekanth" />
-    <meta name="keywords" content="frontend developer, Backend developer, web developer, 3D web, three.js, react developer, india" />
+    <meta
+      name="keywords"
+      content="frontend engineer, full-stack engineer, React, Next.js, TypeScript, Node.js, PostgreSQL, portfolio, India"
+    />
+    <link rel="canonical" href="https://www.sreekanth.pro/" />
+
     <link rel="icon" type="image/png" sizes="32x32" href="/branding/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/branding/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="/branding/favicon-48.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/branding/favicon-180.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/branding/favicon-192.png" />
 
-    <meta property="og:title" content="Sreekanth - Frontend Developer Portfolio" />
-    <meta property="og:description" content="Frontend Developer creating modern, aesthetic web experiences with 3D interfaces and animations." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta property="og:title" content="Sreekanth — Frontend-Focused Full-Stack Engineer" />
+    <meta
+      property="og:description"
+      content="Production React & Next.js applications, Node.js APIs, and PostgreSQL — portfolio of shipped systems and client work."
+    />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sreekanth" />
+    <meta property="og:url" content="https://www.sreekanth.pro/" />
+    <meta property="og:image" content="https://www.sreekanth.pro/branding/sreefolio-siteIcon.png" />
+    <meta property="og:image:alt" content="Sreekanth portfolio brand mark" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sreekanth — Frontend-Focused Full-Stack Engineer" />
+    <meta
+      name="twitter:description"
+      content="Production React & Next.js applications, Node.js APIs, and PostgreSQL — portfolio of shipped systems and client work."
+    />
+    <meta name="twitter:image" content="https://www.sreekanth.pro/branding/sreefolio-siteIcon.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sreekanth",
+        "jobTitle": "Frontend-Focused Full-Stack Engineer",
+        "url": "https://www.sreekanth.pro/",
+        "sameAs": [
+          "https://github.com/Sree0405",
+          "https://linkedin.com/in/sreekanth04052005"
+        ],
+        "knowsAbout": ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var key = "portfolio-theme";
+          var stored = localStorage.getItem(key);
+          var preference =
+            stored === "light" || stored === "dark" || stored === "system"
+              ? stored
+              : "system";
+          var systemDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          var resolved =
+            preference === "system"
+              ? systemDark
+                ? "dark"
+                : "light"
+              : preference;
+          document.documentElement.dataset.theme = resolved;
+        } catch (e) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
   </head>
 
   <body>

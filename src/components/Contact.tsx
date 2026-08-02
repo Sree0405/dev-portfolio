@@ -1,13 +1,65 @@
-import { motion, useInView } from "framer-motion";
 import { PageTitle } from "@/components/ui/page-title";
-import { useRef, useState } from "react";
-import { ArrowUpRight, Mail, MapPin, Phone, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  Clock,
+  FileDown,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Send,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/app/lib/api";
 import { cn } from "@/lib/utils";
+import {
+  PortfolioButton,
+  PortfolioCard,
+  Reveal,
+  Stagger,
+  StaggerItem,
+} from "@/components/portfolio";
+
+const interviewPath = [
+  {
+    label: "Ownership",
+    detail: "Platform modules at EWall — UI through Linux release",
+    to: "/experience",
+  },
+  {
+    label: "Proof",
+    detail: "Case studies, demos, and public GitHub (My3DUI, Fieldstack)",
+    to: "/projects",
+  },
+  {
+    label: "Stack depth",
+    detail: "Daily / Production / Building — not a bingo card",
+    to: "/skills",
+  },
+] as const;
+
+type ContactPayload = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
 type ContactChannel = {
   icon: typeof Mail;
   label: string;
@@ -25,7 +77,7 @@ const contactChannels: ContactChannel[] = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+91-9363965927",
+    value: "+91 93639 65927",
     href: "tel:+919363965927",
   },
   {
@@ -36,16 +88,15 @@ const contactChannels: ContactChannel[] = [
 ];
 
 const fieldClass =
-  "h-12 min-h-[48px] rounded-xl border-border/60 bg-background/50 px-4 text-base backdrop-blur-sm transition-colors placeholder:text-white/70 focus-visible:border-primary/50 focus-visible:ring-primary/25 md:h-11 md:min-h-0 md:text-sm";
+  "h-11 min-h-[44px] rounded-lg border border-primary/25 bg-[hsl(var(--surface))] px-3.5 text-sm text-foreground shadow-[var(--shadow-glass)] transition-colors placeholder:portfolio-text-muted focus-visible:border-primary/55 focus-visible:ring-2 focus-visible:ring-primary/30 md:h-11 md:min-h-0";
 
 const textareaClass =
-  "min-h-[140px] rounded-xl border-border/60 bg-background/50 px-4 py-3 text-base backdrop-blur-sm transition-colors placeholder:text-white/70 focus-visible:border-primary/50 focus-visible:ring-primary/25 md:min-h-[120px] md:text-sm";
+  "min-h-[128px] rounded-lg border border-primary/25 bg-[hsl(var(--surface))] px-3.5 py-3 text-sm text-foreground shadow-[var(--shadow-glass)] transition-colors placeholder:portfolio-text-muted focus-visible:border-primary/55 focus-visible:ring-2 focus-visible:ring-primary/30 md:min-h-[128px]";
 
-/** WhatsApp wa.me expects country code + number, no + or spaces (+91 9363965927) */
+/** WhatsApp wa.me expects country code + number, no + or spaces */
 const WHATSAPP_WA_ME = "919363965927";
 
-const WHATSAPP_INTRO =
-  "Hey, I have seen your portfolio.";
+const WHATSAPP_INTRO = "Hey, I have seen your portfolio.";
 
 function buildWhatsAppBody(parts: {
   name: string;
@@ -64,33 +115,24 @@ function buildWhatsAppBody(parts: {
   ].join("\n");
 }
 
-function ChannelCard({
-  item,
-  index,
-  isInView,
-}: {
-  item: ContactChannel;
-  index: number;
-  isInView: boolean;
-}) {
+function ChannelCard({ item }: { item: ContactChannel }) {
   const inner = (
     <>
       <div
         className={cn(
-          "flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 transition-colors",
-          item.href &&
-            "group-hover:border-primary/40 group-hover:bg-primary/[0.15]",
+          "icon-well size-11 shrink-0 transition-colors",
+          item.href && "group-hover:border-primary/55 group-hover:bg-primary/18",
         )}
       >
-        <item.icon className="size-5 text-primary" aria-hidden />
+        <item.icon className="size-5" aria-hidden />
       </div>
       <div className="min-w-0 flex-1 text-left">
-        <p className="font-mono text-[10px] uppercase tracking-wider portfolio-text-muted sm:text-xs">
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] portfolio-text-muted">
           {item.label}
         </p>
         <p
           className={cn(
-            "mt-1 break-words font-semibold page-title-accent sm:text-base",
+            "mt-0.5 break-words text-sm font-semibold text-foreground",
             item.href && "transition-colors group-hover:text-primary",
           )}
         >
@@ -99,44 +141,50 @@ function ChannelCard({
       </div>
       {item.href ? (
         <ArrowUpRight
-          className="size-4 shrink-0 portfolio-text-muted opacity-0 transition group-hover:opacity-100 group-hover:text-primary"
+          className="size-4 shrink-0 text-primary/40 opacity-0 transition group-hover:opacity-100 group-hover:text-primary"
           aria-hidden
         />
       ) : null}
     </>
   );
 
-  const motionProps = {
-    initial: { opacity: 0, y: 16 },
-    animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
-    transition: { duration: 0.5, delay: 0.15 + index * 0.06 },
-  };
-
-  const className = cn(
-    "group flex w-full items-center gap-3 rounded-2xl border border-border/70 bg-background/30 p-4 shadow-[0_4px_24px_rgba(0,0,0,0.12)] backdrop-blur-md transition hover:border-primary/35 hover:shadow-[0_8px_32px_hsl(var(--primary)/0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:gap-4 sm:p-5",
-    item.href && "cursor-pointer active:scale-[0.99]",
-  );
-
   if (item.href) {
     return (
-      <motion.a href={item.href} className={className} {...motionProps}>
-        {inner}
-      </motion.a>
+      <a href={item.href} className="group block no-underline">
+        <PortfolioCard
+          interactive
+          className="flex w-full items-center gap-3 sm:gap-4"
+        >
+          {inner}
+        </PortfolioCard>
+      </a>
     );
   }
 
   return (
-    <motion.div className={className} {...motionProps}>
+    <PortfolioCard className="flex w-full items-center gap-3 sm:gap-4">
       {inner}
-    </motion.div>
+    </PortfolioCard>
   );
 }
 
+type FieldErrors = Partial<Record<keyof ContactPayload, string>>;
+
 export default function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [pendingPayload, setPendingPayload] = useState<ContactPayload | null>(
+    null,
+  );
+
+  const openWhatsApp = (payload: ContactPayload) => {
+    const text = buildWhatsAppBody(payload);
+    const url = `https://wa.me/${WHATSAPP_WA_ME}?text=${encodeURIComponent(text)}`;
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if (!win) window.location.href = url;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -147,246 +195,380 @@ export default function Contact() {
     const subject = String(fd.get("subject") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
 
-    if (!name || !email || !subject || !message) return;
+    const errors: FieldErrors = {};
+    if (!name) errors.name = "Name is required.";
+    if (!email) errors.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Enter a valid email address.";
+    }
+    if (!subject) errors.subject = "Subject is required.";
+    if (!message) errors.message = "Message is required.";
 
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
+    const payload: ContactPayload = { name, email, subject, message };
     setSubmitting(true);
 
     try {
-      await api.submitContactForm({ name, email, subject, message });
+      await api.submitContactForm(payload);
+      setPendingPayload(payload);
+      setConfirmOpen(true);
+      setFieldErrors({});
+      form.reset();
+      toast({
+        title: "Form submitted",
+        description: "Your message was saved successfully.",
+      });
     } catch {
       toast({
-        title: "Could not save submission",
-        description: "Your message will still open in WhatsApp, but it was not saved to the dashboard.",
+        title: "Submission failed",
+        description:
+          "Could not save your message. Please try again or reach out via email.",
         variant: "destructive",
       });
     } finally {
       setSubmitting(false);
     }
-
-    const text = buildWhatsAppBody({ name, email, subject, message });
-    const url = `https://wa.me/${WHATSAPP_WA_ME}?text=${encodeURIComponent(text)}`;
-
-    const win = window.open(url, "_blank", "noopener,noreferrer");
-    if (!win) window.location.href = url;
-
-    toast({
-      title: "Opening WhatsApp",
-      description: "Your message was saved and WhatsApp is opening with your details prefilled.",
-    });
-
-    form.reset();
   };
+
+  const handleQuickChat = () => {
+    if (pendingPayload) openWhatsApp(pendingPayload);
+    setConfirmOpen(false);
+    setPendingPayload(null);
+  };
+
+  const handleSkipChat = () => {
+    setConfirmOpen(false);
+    setPendingPayload(null);
+  };
+
   return (
     <section
       id="contact"
-      ref={ref}
-      className="page-hero-pt relative overflow-hidden border-t border-border/30 bg-transparent pb-16 text-center sm:pb-20 md:pb-28 lg:pb-32"
+      className="page-hero-pt relative overflow-hidden border-t border-border/30 bg-transparent pb-16 sm:pb-20 md:pb-28"
     >
-      <div className="pointer-events-none absolute inset-0 opacity-40">
-        <div className="particle-bg absolute inset-0" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.12),transparent_55%)]" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-50"
+        aria-hidden
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_50%_-15%,hsl(var(--primary)/0.14),transparent_55%)]" />
       </div>
 
       <div className="page-container-x relative">
         <div className="mx-auto max-w-6xl">
-          <motion.header
-            initial={{ opacity: 0, y: 24 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="mb-12 text-center sm:mb-14 md:mb-16 lg:mb-20"
-          >
+          <Reveal as="header" className="mb-10 text-center sm:mb-12 md:mb-14">
             <PageTitle
               eyebrow="Contact"
-              accent="Let's connect"
-              titleClassName="mb-4 sm:mb-5"
+              accent="Hiring"
+              rest="or collaboration"
+              titleClassName="mb-4"
             />
-            <p className="mx-auto max-w-2xl px-1 text-base leading-relaxed portfolio-text-muted sm:text-lg">
-              Whether you&apos;re building a product, exploring an idea, or
-              looking for engineering collaboration—I&apos;m open to thoughtful
-              conversations.
+            <p className="mx-auto max-w-2xl text-sm leading-relaxed portfolio-text-muted">
+              Open to full-time frontend / full-stack roles and focused
+              collaboration. Best path: a short note on role, stack, and why my
+              EWall platform or open-source work is relevant — I reply within a day.
             </p>
-          </motion.header>
+          </Reveal>
 
-          <div className="grid grid-cols-1 gap-8 text-left lg:grid-cols-2 lg:gap-10 lg:items-center xl:gap-14">
-            {/* Form first on mobile for quicker reach */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.08 }}
-              className="order-1 lg:order-2"
-            >
-              <form
-                onSubmit={handleSubmit}
-                className="glass-panel rounded-2xl border border-border/60 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.2)] sm:p-7 md:p-8"
-              >
-                <div className="mb-6 border-b border-border/50 pb-5 sm:mb-8 sm:pb-6">
-                  <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
-                    Send a message
+          <div className="grid grid-cols-1 items-stretch gap-8 text-left lg:grid-cols-2 lg:gap-10 xl:gap-12">
+            {/* Left — channels + interview path */}
+            <div className="flex h-full flex-col gap-6 sm:gap-7">
+              <Reveal delay={0.08} className="min-h-0">
+                <PortfolioCard className="p-5 sm:p-6 md:p-7">
+                  <h2 className="mb-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                    Direct channels
                   </h2>
-                  <p className="mt-2 text-sm portfolio-text-muted">
-                    Submit opens WhatsApp to{" "}
-                    <span className="font-mono page-title-accent">
-                      +91 9363965927
-                    </span>{" "}
-                    with an intro line and your details filled in.
+                  <p className="mb-5 text-sm leading-relaxed portfolio-text-muted sm:mb-6">
+                    Prefer email or a quick call? Tap a row below. For roles:
+                    mention stack + why EWall, My3DUI, or Fieldstack is
+                    relevant.
                   </p>
-                  <p className="mt-2 rounded-lg border border-border/50 bg-background/40 px-3 py-2 font-mono text-[11px] leading-relaxed portfolio-text-muted sm:text-xs">
-                    <span className="page-title-accent">Template:</span>{" "}
-                    &quot;{WHATSAPP_INTRO}&quot; — then your name, email,
-                    subject, and message.
-                  </p>
-                </div>
 
-                <div className="space-y-5 sm:space-y-6">
-                  <div className="grid gap-5 sm:grid-cols-2 sm:gap-4">
-                    <div className="space-y-2">
+                  <Stagger className="flex flex-col gap-3">
+                    {contactChannels.map((item) => (
+                      <StaggerItem key={item.label}>
+                        <ChannelCard item={item} />
+                      </StaggerItem>
+                    ))}
+                  </Stagger>
+                </PortfolioCard>
+              </Reveal>
+
+              <Reveal delay={0.14} className="min-h-0 flex-1">
+                <PortfolioCard className="flex h-full flex-col p-5 sm:p-6">
+                  <h2 className="mb-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                    Before we talk
+                  </h2>
+                  <p className="mb-4 text-sm leading-relaxed portfolio-text-muted">
+                    Three links that match what I will walk through in an
+                    interview — plus the resume download.
+                  </p>
+                  <ul className="space-y-3">
+                    {interviewPath.map((item) => (
+                      <li key={item.label}>
+                        <Link
+                          to={item.to}
+                          className="group flex items-start justify-between gap-3 rounded-lg border border-border/50 bg-[hsl(var(--surface-2)/0.5)] px-3.5 py-3 transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          <span>
+                            <span className="text-sm font-semibold text-foreground">
+                              {item.label}
+                            </span>
+                            <span className="mt-0.5 block text-xs leading-relaxed portfolio-text-muted">
+                              {item.detail}
+                            </span>
+                          </span>
+                          <ArrowUpRight
+                            className="mt-0.5 size-4 shrink-0 text-primary/50 transition group-hover:text-primary"
+                            aria-hidden
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="/resume/Sreekanth_SDE.pdf"
+                    download="Sreekanth_SDE.pdf"
+                    className="mt-auto inline-flex min-h-[44px] items-center gap-2 pt-4 text-sm font-semibold text-primary transition-colors hover:text-[hsl(var(--primary-light))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <FileDown className="size-4" aria-hidden />
+                    Download resume
+                  </a>
+                </PortfolioCard>
+              </Reveal>
+            </div>
+
+            {/* Right — form + availability (fills column height) */}
+            <Reveal delay={0.12} className="flex h-full min-h-0 flex-col">
+              <PortfolioCard className="flex h-full min-h-0 flex-col overflow-hidden p-0">
+                <form
+                  onSubmit={handleSubmit}
+                  noValidate
+                  className="flex min-h-0 flex-1 flex-col p-5 sm:p-6 md:p-8"
+                >
+                  <div className="mb-6 shrink-0 border-b border-border/50 pb-5">
+                    <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                      Send a message
+                    </h2>
+                    <p className="mt-2 text-sm portfolio-text-muted">
+                      Include role, location/timezone, and a link if useful.
+                      After submit you can continue on WhatsApp for a quick chat.
+                    </p>
+                  </div>
+
+                  <div className="flex min-h-0 flex-1 flex-col space-y-4 sm:space-y-5">
+                    <div className="grid shrink-0 gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <label
+                          htmlFor="contact-name"
+                          className="font-mono text-[0.65rem] font-medium uppercase tracking-wide text-foreground"
+                        >
+                          Name <span className="text-primary">*</span>
+                        </label>
+                        <Input
+                          id="contact-name"
+                          name="name"
+                          type="text"
+                          autoComplete="name"
+                          placeholder="Your name"
+                          aria-invalid={Boolean(fieldErrors.name)}
+                          aria-describedby={
+                            fieldErrors.name ? "contact-name-error" : undefined
+                          }
+                          className={fieldClass}
+                        />
+                        {fieldErrors.name ? (
+                          <p
+                            id="contact-name-error"
+                            role="alert"
+                            className="text-xs text-destructive"
+                          >
+                            {fieldErrors.name}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div className="space-y-1.5">
+                        <label
+                          htmlFor="contact-email"
+                          className="font-mono text-[0.65rem] font-medium uppercase tracking-wide text-foreground"
+                        >
+                          Email <span className="text-primary">*</span>
+                        </label>
+                        <Input
+                          id="contact-email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          inputMode="email"
+                          placeholder="you@company.com"
+                          aria-invalid={Boolean(fieldErrors.email)}
+                          aria-describedby={
+                            fieldErrors.email ? "contact-email-error" : undefined
+                          }
+                          className={fieldClass}
+                        />
+                        {fieldErrors.email ? (
+                          <p
+                            id="contact-email-error"
+                            role="alert"
+                            className="text-xs text-destructive"
+                          >
+                            {fieldErrors.email}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 space-y-1.5">
                       <label
-                        htmlFor="contact-name"
-                        className="font-mono text-xs font-medium uppercase tracking-wide portfolio-text-muted"
+                        htmlFor="contact-subject"
+                        className="font-mono text-[0.65rem] font-medium uppercase tracking-wide text-foreground"
                       >
-                        Name
+                        Subject <span className="text-primary">*</span>
                       </label>
                       <Input
-                        id="contact-name"
-                        name="name"
+                        id="contact-subject"
+                        name="subject"
                         type="text"
-                        required
-                        autoComplete="name"
-                        placeholder="Your name"
+                        placeholder="What's this about?"
+                        aria-invalid={Boolean(fieldErrors.subject)}
+                        aria-describedby={
+                          fieldErrors.subject
+                            ? "contact-subject-error"
+                            : undefined
+                        }
                         className={fieldClass}
                       />
+                      {fieldErrors.subject ? (
+                        <p
+                          id="contact-subject-error"
+                          role="alert"
+                          className="text-xs text-destructive"
+                        >
+                          {fieldErrors.subject}
+                        </p>
+                      ) : null}
                     </div>
-                    <div className="space-y-2">
+
+                    <div className="flex min-h-0 flex-1 flex-col space-y-1.5">
                       <label
-                        htmlFor="contact-email"
-                        className="font-mono text-xs font-medium uppercase tracking-wide portfolio-text-muted"
+                        htmlFor="contact-message"
+                        className="font-mono text-[0.65rem] font-medium uppercase tracking-wide text-foreground"
                       >
-                        Email
+                        Message <span className="text-primary">*</span>
                       </label>
-                      <Input
-                        id="contact-email"
-                        name="email"
-                        type="email"
-                        required
-                        autoComplete="email"
-                        inputMode="email"
-                        placeholder="you@company.com"
-                        className={fieldClass}
+                      <Textarea
+                        id="contact-message"
+                        name="message"
+                        rows={6}
+                        placeholder="Tell me about your project, timeline, and stack…"
+                        aria-invalid={Boolean(fieldErrors.message)}
+                        aria-describedby={
+                          fieldErrors.message
+                            ? "contact-message-error"
+                            : undefined
+                        }
+                        className={cn(
+                          textareaClass,
+                          "min-h-[140px] flex-1 resize-y lg:min-h-[180px]",
+                        )}
                       />
+                      {fieldErrors.message ? (
+                        <p
+                          id="contact-message-error"
+                          role="alert"
+                          className="text-xs text-destructive"
+                        >
+                          {fieldErrors.message}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    <PortfolioButton
+                      type="submit"
+                      variant="primary"
+                      fullWidth
+                      disabled={submitting}
+                      className="mt-auto shrink-0 font-mono text-xs uppercase tracking-wider"
+                    >
+                      <Send className="size-4" />
+                      {submitting ? "Submitting..." : "Send message"}
+                    </PortfolioButton>
+                  </div>
+                </form>
+
+                <div className="shrink-0 border-t border-border/50">
+                  <div className="flex items-center gap-2 border-b border-border/40 bg-[hsl(var(--surface-2))] px-4 py-3 sm:px-5">
+                    <span className="size-2.5 rounded-full bg-destructive/90" />
+                    <span className="size-2.5 rounded-full bg-amber-400/90" />
+                    <span className="size-2.5 rounded-full bg-emerald-500/90" />
+                    <span className="ml-2 font-mono text-[10px] portfolio-text-muted sm:text-xs">
+                      availability.sh
+                    </span>
+                  </div>
+                  <div className="grid gap-4 p-4 font-mono text-xs sm:grid-cols-2 sm:gap-6 sm:p-5 sm:text-sm">
+                    <div>
+                      <p className="portfolio-text-muted">
+                        <span className="text-primary">$</span> location
+                        --current
+                      </p>
+                      <p className="mt-1 font-semibold text-foreground">India</p>
+                    </div>
+                    <div>
+                      <p className="portfolio-text-muted">
+                        <span className="text-primary">$</span> response --sla
+                      </p>
+                      <p className="mt-1 inline-flex items-center gap-2 font-semibold text-foreground">
+                        <Clock className="size-3.5 text-primary" aria-hidden />
+                        Typically within 24 hours
+                      </p>
                     </div>
                   </div>
-
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="contact-subject"
-                      className="font-mono text-xs font-medium uppercase tracking-wide portfolio-text-muted"
-                    >
-                      Subject
-                    </label>
-                    <Input
-                      id="contact-subject"
-                      name="subject"
-                      type="text"
-                      required
-                      placeholder="What’s this about?"
-                      className={fieldClass}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="contact-message"
-                      className="font-mono text-xs font-medium uppercase tracking-wide portfolio-text-muted"
-                    >
-                      Message
-                    </label>
-                    <Textarea
-                      id="contact-message"
-                      name="message"
-                      required
-                      rows={5}
-                      placeholder="Tell me about your project, timeline, and stack…"
-                      className={cn(textareaClass, "resize-y")}
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="btn-portfolio-submit"
-                    disabled={submitting}
-                  >                    <>
-                      <Send className="size-5" />
-                      {submitting ? "Saving..." : "Continue in WhatsApp"}                    </>
-                  </Button>
                 </div>
-              </form>
-            </motion.div>
-
-            {/* Channels + terminal */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.15 }}
-              className="order-2 flex flex-col gap-6 sm:gap-8 lg:order-1"
-            >
-              <div className="glass-panel rounded-2xl border border-border/60 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.2)] sm:p-7 md:p-8">
-                <h2 className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
-                  Direct channels
-                </h2>
-                <p className="mb-6 text-sm leading-relaxed portfolio-text-muted sm:mb-8">
-                  Prefer email or a quick call? Tap a row below—everything is
-                  sized for thumbs on mobile.
-                </p>
-
-                <div className="flex flex-col gap-3 sm:gap-4">
-                  {contactChannels.map((item, index) => (
-                    <ChannelCard
-                      key={item.label}
-                      item={item}
-                      index={index}
-                      isInView={isInView}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="glass-panel overflow-hidden rounded-2xl border border-border/60 font-mono text-xs shadow-[0_8px_40px_rgba(0,0,0,0.2)] sm:text-sm"
-              >
-                <div className="flex items-center gap-2 border-b border-border/50 bg-background/40 px-4 py-3 sm:px-5">
-                  <span className="size-2.5 rounded-full bg-destructive/90 ring-2 ring-background" />
-                  <span className="size-2.5 rounded-full bg-amber-400/90 ring-2 ring-background" />
-                  <span className="size-2.5 rounded-full bg-emerald-500/90 ring-2 ring-background" />
-                  <span className="ml-2 truncate text-[10px] portfolio-text-muted sm:text-xs">
-                    availability.sh
-                  </span>
-                </div>
-                <div className="overflow-x-auto p-4 text-primary sm:p-5">
-                  <div className="min-w-0 space-y-2 whitespace-pre-wrap text-[11px] leading-relaxed sm:text-sm sm:leading-relaxed">
-                    <p>
-                      <span className="portfolio-text-muted">$</span> location
-                      --current
-                    </p>
-                    <p className="page-title-accent">India</p>
-                    <p>
-                      <span className="portfolio-text-muted">$</span>{" "}
-                      response --sla
-                    </p>
-                    <p className="page-title-accent">
-                      Typically within 24 hours
-                    </p>
-                    <p className="animate-pulse portfolio-text-muted">▌</p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
+              </PortfolioCard>
+            </Reveal>
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        open={confirmOpen}
+        onOpenChange={(open) => {
+          setConfirmOpen(open);
+          if (!open) setPendingPayload(null);
+        }}
+      >
+        <AlertDialogContent className="portfolio-theme-scope border-primary/25 bg-[hsl(var(--surface))] text-foreground sm:rounded-2xl">
+          <AlertDialogHeader>
+            <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary sm:mx-0">
+              <CheckCircle2 className="size-6" aria-hidden />
+            </div>
+            <AlertDialogTitle className="font-display text-xl tracking-tight">
+              Form submitted
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-sm leading-relaxed portfolio-text-muted">
+              Thanks—your message was saved successfully. Do you need a quick
+              chat? I can open WhatsApp with your details prefilled.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-2 sm:gap-2">
+            <AlertDialogCancel
+              onClick={handleSkipChat}
+              className="rounded-xl border-border bg-transparent"
+            >
+              No, thanks
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleQuickChat}
+              className="rounded-xl bg-primary text-primary-foreground hover:bg-[hsl(var(--primary-light))]"
+            >
+              <MessageCircle className="mr-2 size-4" aria-hidden />
+              Yes, open WhatsApp
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   );
 }
