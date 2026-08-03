@@ -59,8 +59,9 @@ export default function ExperienceHero() {
             <div className="flex items-center gap-2">
               <Rocket className="h-4 w-4 text-primary" />
               <span>
-                <span className="page-title-accent font-semibold">2</span> named
-                client sites live
+                <span className="page-title-accent font-semibold">2</span> live
+                clients ·{" "}
+                <span className="page-title-accent font-semibold">1</span> WIP
               </span>
             </div>
             <div className="flex items-center gap-2">

@@ -47,10 +47,11 @@ Frontend-focused full-stack engineer. Junior Full-Stack Engineer at EWall on a ~
 \item Contributed to React platform work under review while ramping toward Junior ownership
 \end{itemize}
 
-\textbf{Full Stack Developer (Part-time)} \hfill Nov 2024 – May 2025
+\textbf{Full Stack Developer (Part-time)} \hfill Nov 2024 – Present
 \begin{itemize}[leftmargin=*, itemsep=1pt]
 \item Delivered two named production sites — Sri Thanigai Garments (CMS-backed company site) and GB Fitness (Vercel deploy)
-\item Owned discovery through deploy and post-launch fixes for both clients
+\item Building Fahis Brownie Bee (in progress, free portfolio engagement) — product/combo storefront, WhatsApp order handoff, admin Order IDs + address forms + parcel PDFs
+\item Owned discovery through deploy and post-launch fixes for completed clients
 \end{itemize}
 
 %================ PROJECTS =================
@@ -78,6 +79,21 @@ Frontend-focused full-stack engineer. Junior Full-Stack Engineer at EWall on a ~
 \href{https://github.com/Sree0405/fieldstack}{GitHub}
 \begin{itemize}[leftmargin=*, itemsep=1pt]
 \item NestJS + Prisma with JWT/RBAC and collection-driven REST; early-stage open source, honest demo scale
+\end{itemize}
+
+\textbf{Fahis Brownie Bee — Cloud kitchen storefront (WIP)} \hfill
+\href{https://fahis-brownie-bee-eta.vercel.app/}{Live}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+\item Free portfolio engagement — brownie/combo listings and WhatsApp order redirect with selected item
+\item Admin Order module in progress: Order ID + customer address form + today's/selected/date parcel PDFs vs chat/sheet/screenshot matching
+\end{itemize}
+
+\textbf{SkillCamp — Bootcamp platform (exploratory)} \hfill
+\href{https://bootcamp-platform-seven.vercel.app/}{Live} |
+\href{https://github.com/Sree0405/bootcamp-platform}{GitHub}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+\item Upcoming bootcamp listings with online/offline apply flows, image URLs, and admin CRUD (static-password login)
+\item Enrollments linked per camp — Razorpay payments, SMTP completion mail, and WhatsApp API; exploratory after venture handoff
 \end{itemize}
 
 %================ EDUCATION =================

@@ -35,7 +35,7 @@ export default function PrimaryStack() {
         >
           {primaryStack.map((group) => (
             <StaggerItem key={group.label} className="h-full">
-              <PortfolioCard spacious className="flex h-full flex-col text-left">
+              <PortfolioCard spacious className="flex h-full flex-col text-center">
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary">
                   {group.label}
                 </p>
@@ -44,9 +44,9 @@ export default function PrimaryStack() {
                   {group.items.map((item) => (
                     <li
                       key={item.name}
-                      className="flex items-center justify-between gap-3 border-b border-border/40 pb-3 last:border-0 last:pb-0"
+                      className="flex flex-col items-center gap-1.5 border-b border-border/40 pb-3 last:border-0 last:pb-0"
                     >
-                      <span className="flex items-center gap-3">
+                      <span className="flex items-center justify-center gap-2">
                         <span
                           className="size-1.5 shrink-0 rounded-full bg-primary"
                           aria-hidden

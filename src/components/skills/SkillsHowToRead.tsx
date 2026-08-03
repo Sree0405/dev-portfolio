@@ -73,7 +73,7 @@ export default function SkillsHowToRead() {
         >
           {depthLegend.map((item) => (
             <StaggerItem key={item.label}>
-              <PortfolioCard className="px-4 py-3 text-left">
+              <PortfolioCard className="px-4 py-3 text-center">
                 <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary">
                   {item.label}
                 </p>
@@ -93,11 +93,11 @@ export default function SkillsHowToRead() {
           {paths.map((item) => {
             const Icon = item.icon;
             const className =
-              "group flex h-full flex-col text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+              "group flex h-full flex-col text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
             const body = (
-              <PortfolioCard className="flex h-full flex-col p-5 sm:p-6">
-                <div className="mb-4 flex items-center justify-between gap-3">
+              <PortfolioCard className="flex h-full flex-col items-center p-5 text-center sm:p-6">
+                <div className="mb-4 flex items-center justify-center">
                   <div className="icon-well size-10 shrink-0">
                     <Icon className="size-5" aria-hidden />
                   </div>
@@ -108,7 +108,7 @@ export default function SkillsHowToRead() {
                 <p className="mt-2 flex-1 text-sm leading-relaxed portfolio-text-muted">
                   {item.description}
                 </p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-colors group-hover:text-[hsl(var(--primary-light))]">
+                <span className="mt-5 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-primary transition-colors group-hover:text-[hsl(var(--primary-light))]">
                   {item.cta}
                   <ArrowUpRight
                     className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

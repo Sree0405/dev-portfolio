@@ -126,13 +126,13 @@ const freelanceChapter: Chapter = {
   eyebrow: "Chapter · Client work",
   title: "Full Stack Developer",
   tagline:
-    "Owned client delivery from discovery to deploy — Sri Thanigai Garments and GB Fitness live in production.",
-  duration: "Nov 2024 — May 2025",
+    "Owned client delivery from discovery to deploy — Sri Thanigai Garments and GB Fitness live; Fahis Brownie Bee in progress as a free portfolio engagement.",
+  duration: "Nov 2024 — Present",
   location: "Remote · Part-time",
   icon: Rocket,
   accent: "amber",
   stats: [
-    { label: "Live clients", value: "2 named sites" },
+    { label: "Clients", value: "2 live · 1 WIP" },
     { label: "Ownership", value: "Brief → deploy" },
     { label: "Stack", value: "React · Node · PG" },
   ],
@@ -148,15 +148,16 @@ const freelanceChapter: Chapter = {
         "Delivered program/membership marketing site for Avadi gym — production Vercel deploy",
     },
     {
-      title: "Additional MVPs",
+      title: "Fahis Brownie Bee",
       examples:
-        "Built auth-aware dashboards and API-backed admin pieces where briefs required full stack",
+        "In-progress free portfolio build — brownie/combo storefront, WhatsApp order handoff, admin Order IDs + address forms + parcel PDFs (not finished)",
     },
   ],
   impacts: [
     "Delivered Sri Thanigai Garments to a production company domain — CMS-backed pages so marketing updates content without an engineering ticket per change",
     "Delivered GB Fitness to a public Vercel URL with program/membership paths the gym can share with customers",
-    "Owned discovery → scope → deploy → post-launch fixes for both clients — single owner from first call to live site",
+    "Building Fahis Brownie Bee free for portfolio weightage — storefront live; Order module (Order ID + customer address form + today’s/selected/date parcel PDFs) shipping to replace WhatsApp/Instagram → Sheets → screenshot matching at 100+ orders/day",
+    "Owned discovery → scope → deploy → post-launch fixes for completed clients — single owner from first call to live site",
     "Integrated Node/Express and PostgreSQL only where the brief needed server-backed content — not bolted on for resume keywords",
   ],
   technologies: [

@@ -15,6 +15,7 @@ const bioLinks = [
   { label: "For reviewers", to: "/#for-reviewers" },
   { label: "Experience", to: "/experience" },
   { label: "Projects", to: "/projects" },
+  { label: "Reviews", to: "/reviews" },
   { label: "Skills", to: "/skills" },
   { label: "Contact", to: "/contact" },
   { label: "GitHub", href: "https://github.com/Sree0405" },

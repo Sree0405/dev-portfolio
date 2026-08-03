@@ -521,6 +521,8 @@ model PortfolioReview {
 
   name         String
 
+  role         String?
+
   relationship String
 
   message      String   @db.Text

@@ -8,6 +8,10 @@ import LifeAdminImage from "@/assets/LifeAdminMain.png";
 import GBFitnessVideo from "@/assets/videos/gbFitness.mp4";
 import GBFitnessImage from "@/assets/gbFitnessimage.png";
 import SriThanigaiImage from "@/assets/srithanigaiGarments.png";
+import FahisBrownieImage from "@/assets/FahisBrownie.jpg";
+import FahisBrownieVideo from "@/assets/videos/FaahisBrownie.mp4";
+import BootCampImage from "@/assets/BootCamp.jpg";
+import BootCampVideo from "@/assets/videos/BootCamp.mp4";
 
 const SREE_DEV_TOOL_POSTER = "/devtool/dashboard-overview.png";
 const SREE_DEV_TOOL_VIDEO = "/videos/SreeDevToolPortfolio.mp4";
@@ -233,6 +237,42 @@ export const projects: Project[] = [
     live: "https://gbfitness-eta.vercel.app/",
   },
   {
+    id: "fahis-brownie-bee",
+    title: "Fahis Brownie Bee",
+    subtitle: "Cloud kitchen storefront · in progress",
+    type: "Client Production Site",
+    summary:
+      "In-progress free portfolio engagement for a brownie cloud kitchen (~20-person team) — product and combo listings, WhatsApp order handoff, and an admin Order module aimed at 100+/day chat-and-sheet chaos. Live storefront; ops tooling still shipping.",
+    highlights: [
+      "Free portfolio build — honest WIP, not a finished product claim",
+      "WhatsApp redirect carries the selected brownie or combo",
+      "Admin Order IDs + address forms + parcel PDFs vs chat screenshots",
+    ],
+    caseStudy: {
+      problem:
+        "Orders arrived on WhatsApp and Instagram. Staff logged chat IDs into Google Sheets, asked customers to paste name/address in a template, and kept screenshots of threads — hard to match parcels when volume hit 100+ orders a day.",
+      solution:
+        "A public storefront for brownies and sized combo boxes with pricing, plus WhatsApp deep-links that carry the selected item. In admin: create order → Order ID + address-form URL (ID goes in the sheet; form goes to the customer); search by Order ID; print today’s / selected / date-filtered parcel PDFs.",
+      role:
+        "Sole builder for this free portfolio engagement — storefront, combo listing, WhatsApp handoff, and the Order module while the product is still in progress.",
+      challenges:
+        "Fitting a real Order ID workflow into a team that still lives in Sheets; keeping parcel print templates usable on a packing line; shipping storefront and ops tooling without pretending the engagement is finished.",
+      decisions:
+        "Keep Sheets in the loop via Order ID so packing habits do not break overnight; give customers a dedicated address form instead of chat templates; generate printable parcel PDFs keyed to Order ID for the box.",
+      architecture:
+        "Marketing/storefront surfaces for products and combos; WhatsApp as the order channel with item context; admin Order create/search plus PDF export for today, manual selection, or a chosen date.",
+      tradeoffs:
+        "Sheets stay as the packing source of truth for now — Order ID bridges systems instead of a full POS replacement. Free WIP scope prioritizes listing + order identity over a complete commerce stack.",
+      outcome:
+        "Live Vercel storefront for browsing and WhatsApp ordering; Order module in progress to cut screenshot/ID ambiguity — still shipping, not a completed delivery claim.",
+    },
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+    image: FahisBrownieImage,
+    video: FahisBrownieVideo,
+    live: "https://fahis-brownie-bee-eta.vercel.app/",
+    sourcePolicy: "private",
+  },
+  {
     id: "lifeadmin",
     title: "LifeAdmin Pro",
     subtitle: "Finance & renewal tracker",
@@ -310,6 +350,42 @@ export const projects: Project[] = [
     video: EVPortalVideo,
     live: "https://ev-portal.vercel.app/",
     github: "https://github.com/Sree0405/ev-portal",
+  },
+  {
+    id: "bootcamp",
+    title: "SkillCamp",
+    subtitle: "Bootcamp platform · exploratory",
+    type: "Full-Stack Web Application",
+    summary:
+      "Exploratory full-stack bootcamp platform — upcoming listings, online/offline apply flows, admin CRUD, enrollments with Razorpay, SMTP mail, and WhatsApp. Built for a planned venture that moved on after handoff; public demo and source for review.",
+    highlights: [
+      "Online vs offline bootcamps with mode-specific fields and trainer details",
+      "Admin CRUD (static-password login) plus enrollments linked per bootcamp",
+      "Razorpay payments, SMTP completion mail, and WhatsApp API wired",
+    ],
+    caseStudy: {
+      problem:
+        "A planned bootcamp product needed public listings and applications, different data for online vs offline (venue, trainer, and related fields), admin management of camps and pricing, and a way to see who enrolled — with payment and notification paths.",
+      solution:
+        "Public upcoming-bootcamp list and apply flow; backend fields that change by online/offline mode; image URLs instead of uploads; admin login with a static password to create/edit/delete camps and pricing; enrollments related to each bootcamp; Razorpay on enrollment; SMTP for notification and enrollment-completed mail; WhatsApp API configured.",
+      role:
+        "Sole full-stack builder — then the venture held the project and moved to the next idea. I keep the exploratory build public for demo and code review.",
+      challenges:
+        "Modeling online vs offline field sets cleanly; tying enrollments to camps for an admin view; wiring payment plus email and WhatsApp without overbuilding a product that would be handed off.",
+      decisions:
+        "Image URLs over upload infrastructure; static-password admin for a small ops surface; Razorpay for enrollment payment; SMTP and WhatsApp for completion/notification paths.",
+      architecture:
+        "Public listing/apply surfaces; mode-aware bootcamp records (online fields vs offline venue/trainer); admin CRUD; enrollment records related to bootcamps; Razorpay + SMTP + WhatsApp on the enrollment path.",
+      tradeoffs:
+        "Static admin password favors a simple ops surface over production-grade auth. URL-based images skip media hosting complexity. After handoff this is exploratory portfolio work — not an active commercial product claim.",
+      outcome:
+        "Live demo and public GitHub — an exploratory full-stack bootcamp platform reviewers can open.",
+    },
+    tech: ["React", "Node.js", "Razorpay", "SMTP", "WhatsApp API"],
+    image: BootCampImage,
+    video: BootCampVideo,
+    live: "https://bootcamp-platform-seven.vercel.app/",
+    github: "https://github.com/Sree0405/bootcamp-platform",
   },
 ];
 

@@ -114,6 +114,7 @@ export type ReviewRelationship =
 export interface PortfolioReview {
   id: string;
   name: string;
+  role: string | null;
   relationship: ReviewRelationship | string;
   message: string;
   visible: boolean;

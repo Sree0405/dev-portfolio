@@ -151,10 +151,11 @@ export const productsIBuild = [
   },
   {
     title: "Client Marketing Sites",
-    description: "Production business sites with clear hierarchy and CMS updates.",
+    description:
+      "Production business sites plus an in-progress cloud-kitchen storefront with WhatsApp order handoff.",
     proof: {
-      label: "Sri Thanigai",
-      href: "https://www.srithanigaigarments.com/",
+      label: "Fahis Brownie Bee",
+      href: "https://fahis-brownie-bee-eta.vercel.app/",
     },
   },
   {

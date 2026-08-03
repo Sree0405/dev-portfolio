@@ -63,10 +63,11 @@ export const publicResume = {
     {
       title: "Full Stack Developer (Part-time)",
       company: "Client work",
-      dates: "Nov 2024 – May 2025",
+      dates: "Nov 2024 – Present",
       bullets: [
         "Delivered two named production sites — Sri Thanigai Garments (CMS-backed company site) and GB Fitness (Vercel deploy)",
-        "Owned discovery through deploy and post-launch fixes for both clients",
+        "Building Fahis Brownie Bee (in progress, free portfolio engagement) — product/combo storefront, WhatsApp order handoff, admin Order IDs + address forms + parcel PDFs",
+        "Owned discovery through deploy and post-launch fixes for completed clients",
       ],
     },
   ],
@@ -114,6 +115,36 @@ export const publicResume = {
       ],
       bullets: [
         "NestJS + Prisma with JWT/RBAC and collection-driven REST; early-stage open source, honest demo scale",
+      ],
+    },
+    {
+      title: "Fahis Brownie Bee — Cloud kitchen storefront (WIP)",
+      links: [
+        {
+          label: "Live",
+          href: "https://fahis-brownie-bee-eta.vercel.app/",
+        },
+      ],
+      bullets: [
+        "Free portfolio engagement — brownie/combo listings and WhatsApp order redirect with selected item",
+        "Admin Order module in progress: Order ID + customer address form + today’s/selected/date parcel PDFs vs chat/sheet/screenshot matching",
+      ],
+    },
+    {
+      title: "SkillCamp — Bootcamp platform (exploratory)",
+      links: [
+        {
+          label: "Live",
+          href: "https://bootcamp-platform-seven.vercel.app/",
+        },
+        {
+          label: "GitHub",
+          href: "https://github.com/Sree0405/bootcamp-platform",
+        },
+      ],
+      bullets: [
+        "Upcoming bootcamp listings with online/offline apply flows, image URLs, and admin CRUD (static-password login)",
+        "Enrollments linked per camp — Razorpay payments, SMTP completion mail, and WhatsApp API; exploratory after venture handoff",
       ],
     },
   ],

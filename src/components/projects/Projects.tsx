@@ -330,17 +330,6 @@ function BentoCard({
         </div>
       </div>
 
-      <AnimatePresence initial={false}>
-        {open ? (
-          <div className="border-t border-primary/10 px-4 pb-5 pt-1 sm:px-5">
-            <CaseStudyPanel
-              project={project}
-              onClose={() => setExpandedId(null)}
-              className="mt-4 border-0 bg-background/40 shadow-none"
-            />
-          </div>
-        ) : null}
-      </AnimatePresence>
     </article>
   );
 }
@@ -358,6 +347,8 @@ function SystemsBento({
   setExpandedId: (id: string | null) => void;
   onNavigate: (p: string) => void;
 }) {
+  const expanded = items.find((p) => p.id === expandedId) ?? null;
+
   return (
     <section id="showcase-systems" className="relative scroll-mt-28">
       <Reveal>
@@ -372,26 +363,34 @@ function SystemsBento({
         </div>
       </Reveal>
 
-      <div className="grid gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-5">
-        <Reveal className="h-full" delay={0.05}>
-          <BentoCard
-            project={items[0]}
-            index={startIndex}
-            expandedId={expandedId}
-            setExpandedId={setExpandedId}
-            onNavigate={onNavigate}
-          />
-        </Reveal>
-        <Reveal className="h-full" delay={0.1}>
-          <BentoCard
-            project={items[1]}
-            index={startIndex + 1}
-            expandedId={expandedId}
-            setExpandedId={setExpandedId}
-            onNavigate={onNavigate}
-          />
-        </Reveal>
+      <div
+        className={`grid gap-4 sm:gap-5 ${
+          items.length >= 3 ? "lg:grid-cols-3" : "lg:grid-cols-2"
+        } lg:gap-5`}
+      >
+        {items.map((project, i) => (
+          <Reveal key={project.id} className="h-full" delay={0.05 + i * 0.05}>
+            <BentoCard
+              project={project}
+              index={startIndex + i}
+              expandedId={expandedId}
+              setExpandedId={setExpandedId}
+              onNavigate={onNavigate}
+            />
+          </Reveal>
+        ))}
       </div>
+
+      <AnimatePresence initial={false}>
+        {expanded ? (
+          <div className="mt-5 w-full">
+            <CaseStudyPanel
+              project={expanded}
+              onClose={() => setExpandedId(null)}
+            />
+          </div>
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 }
@@ -492,8 +491,8 @@ function ArchiveCard({
   const n = String(index).padStart(2, "0");
 
   return (
-    <article className="group relative">
-      <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-[hsl(var(--surface)/0.4)] transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[0_28px_70px_-40px_hsl(var(--primary)/0.45)]">
+    <article className="group relative h-full">
+      <div className="relative h-full overflow-hidden rounded-2xl border border-primary/15 bg-[hsl(var(--surface)/0.4)] transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[0_28px_70px_-40px_hsl(var(--primary)/0.45)]">
         <div className="relative aspect-[16/11] overflow-hidden">
           <ProjectPreview project={project} frame="bleed" className="h-full" />
           <div className="absolute inset-0 flex items-end bg-gradient-to-t from-background via-background/20 to-transparent p-5 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
@@ -521,14 +520,6 @@ function ArchiveCard({
           </div>
         </div>
       </div>
-
-      <AnimatePresence initial={false}>
-        {open ? (
-          <div className="mt-3">
-            <CaseStudyPanel project={project} onClose={() => setExpandedId(null)} />
-          </div>
-        ) : null}
-      </AnimatePresence>
     </article>
   );
 }
@@ -579,10 +570,24 @@ export default function Projects({ homepage = false }: { homepage?: boolean }) {
   const navigate = useNavigate();
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const [flagship, systemsA, systemsB, clientA, clientB, archiveA, archiveB] = projects;
+  const [
+    flagship,
+    systemsA,
+    systemsB,
+    clientA,
+    clientB,
+    clientC,
+    archiveA,
+    archiveB,
+    archiveC,
+  ] = projects;
+
+  const experimentItems = [archiveA, archiveB, archiveC];
+  const expandedExperiment =
+    experimentItems.find((p) => p.id === expandedId) ?? null;
 
   if (homepage) {
-    const homeItems = [flagship, clientA, clientB];
+    const homeItems = [flagship, clientA, clientC];
     return (
       <section
         id="projects"
@@ -629,7 +634,7 @@ export default function Projects({ homepage = false }: { homepage?: boolean }) {
               <div>
                 <p className="section-eyebrow">Client delivery</p>
                 <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                  Live in production
+                  Live clients & one WIP
                 </h2>
               </div>
               <div className="hidden h-px flex-1 max-w-md bg-gradient-to-r from-primary/35 to-transparent md:block" aria-hidden />
@@ -654,12 +659,21 @@ export default function Projects({ homepage = false }: { homepage?: boolean }) {
               setExpandedId={setExpandedId}
               onNavigate={navigate}
             />
+            <div className="mx-auto h-px max-w-3xl bg-gradient-to-r from-transparent via-primary/25 to-transparent" aria-hidden />
+            <CinematicStrip
+              project={clientC}
+              index={4}
+              align="left"
+              expandedId={expandedId}
+              setExpandedId={setExpandedId}
+              onNavigate={navigate}
+            />
           </div>
         </section>
 
         <SystemsBento
           items={[systemsA, systemsB]}
-          startIndex={4}
+          startIndex={5}
           expandedId={expandedId}
           setExpandedId={setExpandedId}
           onNavigate={navigate}
@@ -678,25 +692,29 @@ export default function Projects({ homepage = false }: { homepage?: boolean }) {
           </Reveal>
 
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-            <Reveal delay={0.04}>
-              <ArchiveCard
-                project={archiveA}
-                index={6}
-                expandedId={expandedId}
-                setExpandedId={setExpandedId}
-                onNavigate={navigate}
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <ArchiveCard
-                project={archiveB}
-                index={7}
-                expandedId={expandedId}
-                setExpandedId={setExpandedId}
-                onNavigate={navigate}
-              />
-            </Reveal>
+            {experimentItems.map((project, i) => (
+              <Reveal key={project.id} delay={0.04 + i * 0.04}>
+                <ArchiveCard
+                  project={project}
+                  index={7 + i}
+                  expandedId={expandedId}
+                  setExpandedId={setExpandedId}
+                  onNavigate={navigate}
+                />
+              </Reveal>
+            ))}
           </div>
+
+          <AnimatePresence initial={false}>
+            {expandedExperiment ? (
+              <div className="mt-5 w-full">
+                <CaseStudyPanel
+                  project={expandedExperiment}
+                  onClose={() => setExpandedId(null)}
+                />
+              </div>
+            ) : null}
+          </AnimatePresence>
         </section>
       </div>
     </div>

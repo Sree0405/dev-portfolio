@@ -35,9 +35,9 @@ export default function ProjectsHero() {
 
           <Reveal delay={0.1} className="lg:pb-1">
             <p className="max-w-sm text-sm leading-relaxed portfolio-text-muted sm:text-[15px] lg:ml-auto lg:text-right">
-              Flagship first, then live clients and systems. Expand a case study
-              for tradeoffs — labels below explain Live, Docs, Code, and Private
-              source.
+              Flagship first, then live clients (including one honest WIP), then
+              systems. Expand a case study for tradeoffs — labels below explain
+              Live, Docs, Code, and Private source.
             </p>
             <nav
               aria-label="Showcase sections"

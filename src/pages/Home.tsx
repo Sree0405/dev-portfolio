@@ -13,7 +13,7 @@ const Home = () => {
         <Hero />
         <About />
         <ReviewerPath />
-        <Reviews />
+        <Reviews homepage />
         <Projects homepage={true} />
       </PageShell>
       <Footer />

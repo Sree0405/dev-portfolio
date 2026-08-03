@@ -18,7 +18,7 @@ export const heroIdentity = {
 
 /** Honest signals only — counts match Projects.tsx / real stack. */
 export const heroMeta = [
-  { label: "Selected work", value: "7 projects" },
+  { label: "Selected work", value: "9 projects" },
   { label: "Proof", value: "Demo · Docs · GitHub" },
   { label: "Based in", value: "India" },
 ] as const;

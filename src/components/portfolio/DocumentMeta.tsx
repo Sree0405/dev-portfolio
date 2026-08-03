@@ -40,6 +40,11 @@ const ROUTE_META: Record<string, MetaEntry> = {
     description:
       "Printable resume for Sreekanth — EWall feature ownership, React + Directus, collaborative deadline delivery, and open-source projects.",
   },
+  "/reviews": {
+    title: "Reviews — Sreekanth",
+    description:
+      "Public reviews from people who've worked with Sreekanth — colleagues, clients, and collaborators.",
+  },
   "/project/sree-dev-tool": {
     title: "Sree Dev Tool Case Study — Sreekanth",
     description:

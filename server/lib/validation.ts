@@ -252,6 +252,7 @@ export const REVIEW_RELATIONSHIPS = [
 
 export const publicReviewSchema = z.object({
   name: z.string().max(120).optional().default(""),
+  role: z.string().max(120).optional().default(""),
   relationship: z.enum(REVIEW_RELATIONSHIPS),
   message: z.string().min(1, "Review is required").max(800),
 });
@@ -259,6 +260,7 @@ export const publicReviewSchema = z.object({
 export const updateReviewSchema = z.object({
   visible: z.boolean().optional(),
   name: z.string().max(120).optional(),
+  role: z.string().max(120).nullable().optional(),
   relationship: z.enum(REVIEW_RELATIONSHIPS).optional(),
   message: z.string().min(1).max(800).optional(),
 });

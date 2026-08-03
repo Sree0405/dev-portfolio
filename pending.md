@@ -60,10 +60,15 @@ See prior sections / Experience page. Public metrics only: ~80% deploy/backup; ~
 
 ---
 
-## 6. Freelance clients (optional)
+## 6. Freelance clients
+
+- Sri Thanigai Garments — live production
+- GB Fitness — live production
+- Fahis Brownie Bee — **in progress**, free portfolio engagement ([live](https://fahis-brownie-bee-eta.vercel.app/)); Order module still shipping
 
 ```
-Answer:
+Answer (optional polish):
 - Sri Thanigai — live since: 
 - GB Fitness — live since: 
+- Fahis — started / expected complete: 
 ```
